@@ -1,0 +1,66 @@
+﻿<Window x:Class="tourCenter.RowHike"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+		xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+		xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
+        xmlns:local="clr-namespace:tourCenter"
+        mc:Ignorable="d"
+		x:Name="winRowHike"
+		MinHeight="600" MaxHeight="600"
+		MinWidth="1060" MaxWidth="1060"
+        Title="{Binding}" FontSize="16" Height="600" Width="1060" Icon="/icon.ico" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" >
+    <Grid Background="#ffdadada">
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition/>
+			<ColumnDefinition/>
+			<ColumnDefinition/>
+			<ColumnDefinition/>
+			<ColumnDefinition/>
+			<ColumnDefinition/>
+			<ColumnDefinition/>
+			<ColumnDefinition/>
+			<ColumnDefinition/>
+			<ColumnDefinition/>
+		</Grid.ColumnDefinitions>
+		<Grid.RowDefinitions>
+			<RowDefinition/>
+			<RowDefinition/>
+			<RowDefinition/>
+			<RowDefinition/>
+			<RowDefinition/>
+			<RowDefinition/>
+			<RowDefinition/>
+			<RowDefinition/>
+			<RowDefinition/>
+			<RowDefinition/>
+			<RowDefinition/>
+			<RowDefinition/>
+			<RowDefinition/>
+			<RowDefinition/>
+		</Grid.RowDefinitions>
+		<Label Grid.Row="1" Grid.Column="8" Content="Статус: " Margin="40 0 0 0" Padding="0 10 0 0 "/>
+		<ComboBox Grid.Row="1" Grid.Column="9" x:Name="cmbBoxStatus" HorizontalAlignment="Center"  BorderThickness="1" BorderBrush="{Binding}" MaxHeight="25" Padding="5 0 5 2" Margin="0 5 0 3" IsReadOnly="True" Cursor="IBeam"/>
+		<Label Grid.Column="0" Grid.Row="1" Content="Maршрут:" Padding="10 10 0 0 "/>
+		<ComboBox Grid.Row="1" Grid.Column="1" x:Name="cmbBoxRoute" HorizontalAlignment="Center"  Grid.ColumnSpan="2" Padding="0 10 0 0" Margin="0 0 0 3" IsReadOnly="True" Cursor="IBeam"/>
+		<Label Grid.Column="3" Grid.Row="1" Margin="0 8 0 0" Grid.ColumnSpan="2"  Content="Способ передвижения:"/>
+		<ComboBox Grid.Row="1" Grid.Column="5"  x:Name="cmbBoxWayToTravel" HorizontalAlignment="Center"  Padding="5 0 5 0" Margin="0 5 0 0" MaxHeight="25" IsReadOnly="True" Cursor="IBeam"/>
+		<Label Content="Кол-во человек:" Grid.Column="6" Grid.Row="1"  Grid.ColumnSpan="2" Margin="20 8 0 0"  FontSize="16" />
+		<TextBox Grid.Row="1" Grid.Column="7" x:Name="txtBoxPeopleAmount" HorizontalAlignment="Center" Margin="20 5 0 0" BorderThickness="1" Padding="2 0 2 0" MaxHeight="25" IsReadOnly="True" Cursor="IBeam"/>
+		<Label Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="3" Margin="10 0 0 0" Content="Группа Инструкторов:"/>
+		<ListBox x:Name="listInstructors" ItemsSource="{Binding}" Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="4"  Grid.RowSpan="7"  Margin="10 0 0 20"/>
+		<Label Grid.Row="3" Grid.Column="4"  Content="Транспорт:"/>
+		<Label Grid.Row="3" Grid.Column="5"  Content="до т. старта:"/>
+		<Label Grid.Row="4" Grid.Column="5"  Content="от т. финиша:"/>
+		<TextBox Grid.Row="3" Grid.Column="6"  x:Name="cmbBoxCarNumberStart" HorizontalAlignment="Center" Text="у 356 ра" Padding="0 0 5 0" Margin="0 0 0 10" MaxHeight="25" IsReadOnly="True" Cursor="IBeam"/>
+		<TextBox Grid.Row="4" Grid.Column="6"  x:Name="cmbBoxCarNumberFinish" HorizontalAlignment="Center" Text="у 356 ра" Padding="0 0 5 0" Margin="0 0 0 10" MaxHeight="25" IsReadOnly="True" Cursor="IBeam"/>
+		<Label Content="Кол-во мест:" Grid.Column="7" Grid.Row="3"  Grid.ColumnSpan="2" Margin="20 0 0 0"  FontSize="16" />
+		<Label Content="Кол-во мест:" Grid.Column="7" Grid.Row="4"  Grid.ColumnSpan="2" Margin="20 0 0 0"  FontSize="16" />
+		<TextBox Grid.Row="3" Grid.Column="8" x:Name="txtBoxSeatsOfAmountStart" HorizontalAlignment="Center" Margin="20 0 0 10" Text="40" BorderThickness="1" Padding="2 0 2 0" MaxHeight="25" IsReadOnly="True" Cursor="IBeam"/>
+		<TextBox Grid.Row="4" Grid.Column="8" x:Name="txtBoxSeatsOfAmountFinish" HorizontalAlignment="Center" Margin="20 0 0 10" Text="40" BorderThickness="1" Padding="2 0 2 0" MaxHeight="25" IsReadOnly="True" Cursor="IBeam"/>
+		<Button x:Name="changeInstructorsBtn" Click="changeInstructorsBtn_Click" Grid.Column="0" Grid.Row="12" Margin="100 0 30 0 " Grid.ColumnSpan="3" Background="Teal" Content="Изменить состав" Cursor="Hand"/>
+		<Button Grid.Column="6" Grid.Row="12" Grid.ColumnSpan="2" Background="Teal" Margin="5 0 5 0" Content="Изменить данные"/>
+		<Button Grid.Column="8" Grid.Row="12" Grid.ColumnSpan="2" Background="Teal" Margin="5 0 5 0" Content="Изменить Статус"/>
+	</Grid>
+</Window>

@@ -1,0 +1,96 @@
+﻿<Page x:Class="tourCenter.Hikes"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:tourCenter"
+	  xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="Hikes">
+
+	<Grid Background="#ffdadada">
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition/>
+			<ColumnDefinition/>
+			<ColumnDefinition/>
+			<ColumnDefinition/>
+			<ColumnDefinition/>
+			<ColumnDefinition/>
+			<ColumnDefinition />
+		</Grid.ColumnDefinitions>
+		<Grid.RowDefinitions>
+			<RowDefinition/>
+			<RowDefinition/>
+			<RowDefinition/>
+			<RowDefinition/>
+			<RowDefinition/>
+			<RowDefinition/>
+			<RowDefinition/>
+			<RowDefinition/>
+			<RowDefinition/>
+			<RowDefinition/>
+			<RowDefinition/>
+			<RowDefinition/>
+			<RowDefinition/>
+			<RowDefinition/>
+			<RowDefinition/>
+		</Grid.RowDefinitions>
+		<Button Grid.Column="6" Grid.Row="0" Margin="2 0 10 0" Content="Найти" Background="Teal" Foreground ="White" Cursor="Hand"/>
+		<ComboBox  materialDesign:HintAssist.Hint="Выберите Маршрут" x:Name="CmBoxRoutes" Grid.Row="0" Grid.Column="1" 
+				  Background="#ffdadada" Margin="15 0 3 0" MaxHeight="27" LostMouseCapture="CmBoxRoutes_LostMouseCapture"/>
+		<TextBox Grid.Row="0" Grid.Column="5" Background="#ffdadada" materialDesign:HintAssist.Hint="Поиск"
+				 MaxHeight="33" Cursor="IBeam" Margin="0 3 10 3" FontSize="14"/>
+
+		<Border Background="Teal" Grid.Column="4" Grid.Row="0" Margin="10 3 10 2" MaxHeight="27">
+			<CheckBox x:Name="CheckInAssembly" Foreground ="White" Background="White" FontFamily="Segoe UI"
+					  Margin="15,0,0,0" FontWeight="DemiBold" FontSize="14" Checked="CheckInAssembly_Checked"> В сборке</CheckBox>
+		</Border>
+		<Border Background="Teal" Grid.Column="3" Grid.Row="0" Margin="15 3 10 2" MaxHeight="27">
+			<CheckBox x:Name="CheckActive" Foreground ="White" Background="White" FontFamily="Segoe UI"
+					  Margin="15,0,0,0" FontWeight="DemiBold" FontSize="14" Checked="CheckActive_Checked">Активен</CheckBox>
+		</Border>
+		<ComboBox  materialDesign:HintAssist.Hint="Способ передвижения" x:Name="CmBoxWayToTravel" Grid.Row="0" Grid.Column="2" 
+				  Background="#ffdadada" Margin="15 0 3 0" MaxHeight="27" LostMouseCapture="CmBoxWayToTravel_LostMouseCapture">
+			<ComboBoxItem Content="Байдарки"/>
+			<ComboBoxItem Content="Рафты"/>
+			<ComboBoxItem Content="Способ передвижения"/>
+		</ComboBox>
+
+		<DatePicker materialDesign:HintAssist.Hint="Выберете дату" Grid.Row="0" Grid.Column="0" Margin="20 0 0 0" SelectedDateFormat="Short"/>
+		<Button Grid.Column="6" Grid.Row="13" Margin="2 0 10 0" Content="Добавить" Background="Teal" Foreground ="White" Cursor="Hand"/>
+		<Button Grid.Column="6" Grid.Row="1" Grid.RowSpan="2" Margin="2 0 10 50" Content="Обновить" Background="Teal" Cursor="Hand"/>
+		<DataGrid x:Name="dgHike" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="6" Grid.RowSpan="14" AutoGenerateColumns="False" ItemsSource="{Binding}"
+				  Margin="0,0,2,0" FontSize="20" BorderThickness="1" FontFamily="Times New Roman" IsReadOnly="True" SelectionMode="Single" SelectionUnit="FullRow">
+
+			<DataGrid.CellStyle>
+				<Style TargetType="DataGridCell">
+					<Setter Property="BorderThickness" Value="0"/>
+					<Style.Triggers>
+						<Trigger Property="DataGridCell.IsSelected" Value="True">
+							<Setter Property="Background" Value="#ffdadada" />
+							<Setter Property="Foreground" Value="Black" />
+						</Trigger>
+					</Style.Triggers>
+				</Style>
+			</DataGrid.CellStyle>
+
+			<DataGrid.Columns>
+				<DataGridTextColumn  Header="Дата" Width="125" Binding="{Binding Path=DateTime }" />
+				<DataGridTextColumn Header="Маршрут" Width="*" Binding="{Binding Path=RouteName }" />
+				<DataGridTextColumn Header="Способ Передвижения" Width="*" Binding="{Binding Path=WayToTravel }" />
+				<DataGridTextColumn Header="Клиент" Width="*" Binding="{Binding Path=CompanyName }" />
+				<DataGridTextColumn Header="Кол-во человек" Width="165" Binding="{Binding Path=PeopleAmount }" />
+				<DataGridTextColumn Header="Статус" Width="130" Binding="{Binding Path=Status }" />
+			</DataGrid.Columns>
+			<DataGrid.ItemContainerStyle>
+				<Style TargetType="DataGridRow">
+					<EventSetter Event="MouseDoubleClick" Handler="Row_DoubleClick"/>
+				</Style>
+			</DataGrid.ItemContainerStyle>
+			
+			
+		</DataGrid>
+
+	</Grid>
+</Page>
