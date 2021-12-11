@@ -41,7 +41,6 @@
 				  Background="#ffdadada" Margin="15 0 3 0" MaxHeight="27" LostMouseCapture="CmBoxRoutes_LostMouseCapture"/>
 		<TextBox Grid.Row="0" Grid.Column="5" Background="#ffdadada" materialDesign:HintAssist.Hint="Поиск"
 				 MaxHeight="33" Cursor="IBeam" Margin="0 3 10 3" FontSize="14"/>
-
 		<Border Background="Teal" Grid.Column="4" Grid.Row="0" Margin="10 3 10 2" MaxHeight="27">
 			<CheckBox x:Name="CheckInAssembly" Foreground ="White" Background="White" FontFamily="Segoe UI"
 					  Margin="15,0,0,0" FontWeight="DemiBold" FontSize="14" Checked="CheckInAssembly_Checked"> В сборке</CheckBox>
