@@ -21,6 +21,7 @@ namespace tourCenter
     {
         public Hikes()
         {
+
             InitializeComponent();
             AddDataGrid();
             GetRouteName();
