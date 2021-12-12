@@ -1,0 +1,50 @@
+﻿<Window x:Name="winRowOrder"
+	    x:Class="tourCenter.RowOrder"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:tourCenter"
+        mc:Ignorable="d"
+        MinHeight="600" MaxHeight="600"
+		MinWidth="1060" MaxWidth="1060"
+        Title="{Binding}" FontSize="16" Height="600" Width="1060" Icon="/icon.ico" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
+    <Grid Background="#ffdadada">
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition/>
+			<ColumnDefinition/>
+			<ColumnDefinition/>
+			<ColumnDefinition/>
+			<ColumnDefinition/>
+			<ColumnDefinition/>
+			<ColumnDefinition/>
+			<ColumnDefinition/>
+			<ColumnDefinition/>
+			<ColumnDefinition/>
+		</Grid.ColumnDefinitions>
+		<Grid.RowDefinitions>
+			<RowDefinition/>
+			<RowDefinition/>
+			<RowDefinition/>
+			<RowDefinition/>
+			<RowDefinition/>
+			<RowDefinition/>
+			<RowDefinition/>
+			<RowDefinition/>
+			<RowDefinition/>
+			<RowDefinition/>
+			<RowDefinition/>
+			<RowDefinition/>
+			<RowDefinition/>
+			<RowDefinition/>
+		</Grid.RowDefinitions>
+		<Label Grid.Row="1" Grid.Column="8" Content="Статус: " Margin="40 0 0 0" Padding="0 10 0 0 "/>
+		<ComboBox Grid.Row="1" Grid.Column="9" x:Name="cmbBoxStatus" HorizontalAlignment="Center"  BorderThickness="1" BorderBrush="{Binding}" MaxHeight="25" Padding="5 0 5 2" Margin="0 5 0 3" IsReadOnly="True" Cursor="IBeam"/>
+		<Label Grid.Column="0" Grid.Row="1" Content="Maршрут:" Padding="10 10 0 0 "/>
+		<ComboBox Grid.Row="1" Grid.Column="1" x:Name="cmbBoxRoute" HorizontalAlignment="Center"  Grid.ColumnSpan="2" Padding="0 10 0 0" Margin="0 0 0 3" IsReadOnly="True" Cursor="IBeam"/>
+		<Label Grid.Column="3" Grid.Row="1" Margin="0 8 0 0" Grid.ColumnSpan="2"  Content="Способ передвижения:"/>
+		<ComboBox Grid.Row="1" Grid.Column="5"  x:Name="cmbBoxWayToTravel" HorizontalAlignment="Center"  Padding="5 0 5 0" Margin="0 5 0 0" MaxHeight="25" IsReadOnly="True" Cursor="IBeam"/>
+		<Label Content="Кол-во человек:" Grid.Column="6" Grid.Row="1"  Grid.ColumnSpan="2" Margin="20 8 0 0"  FontSize="16" />
+		<TextBox Grid.Row="1" Grid.Column="7" x:Name="txtBoxPeopleAmount" HorizontalAlignment="Center" Margin="20 5 0 0" BorderThickness="1" Padding="2 0 2 0" MaxHeight="25" IsReadOnly="True" Cursor="IBeam"/>
+	</Grid>
+</Window>

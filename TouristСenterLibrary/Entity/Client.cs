@@ -40,5 +40,15 @@ namespace TouristСenterLibrary.Entity
             return tmp;
             
         }
+        public int GetPeopleAmountOfHike(int hikeID)
+        {
+            int tmp = 0;
+            List<Hike.HikeViewAll> list = Hike.GetViewAll(hikeID);
+            foreach (Hike.HikeViewAll l in list)
+            {
+                tmp += l.PeopleAmount;
+            }
+            return tmp;
+        }
     }
 }

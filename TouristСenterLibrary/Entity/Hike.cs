@@ -19,7 +19,7 @@ namespace TouristСenterLibrary.Entity
                 return db.Hike.ToList();
             }
         }
-        public class HikeVeiw
+        public class HikeView
         {
             public int ID { get; set; }
             public string DateTime { get; set; }
@@ -29,26 +29,26 @@ namespace TouristСenterLibrary.Entity
             public int PeopleAmount { get; set; }
             public string Status { get; set; }
         }
-        public static List<HikeVeiw> GetView()// переделать на сворачивание заявок
+        public static List<HikeView> GetView()// переделать на сворачивание заявок
         {
             using (var db = new ApplicationContext())
             {
                 return (from h in db.Hike
                         join o in db.Order on h.ID equals o.Hike.ID
-                        select new HikeVeiw()
+                        select new HikeView()
                         {
                             ID = h.ID,
                             DateTime = o.StartTime.ToString("d"),
                             RouteName = h.Route.Name,
                             WayToTravel = o.WayToTravel,
                             CompanyName = o.Client.GetCompanyNameForHike(),
-                            PeopleAmount = o.Client.PeopleAmount,
+                            PeopleAmount = o.Client.GetPeopleAmountOfHike(h.ID),
                             Status = h.Status
                         }).ToList();
             }
         }
 
-        public class HikeVeiwAll
+        public class HikeViewAll
         {
             public int ID { get; set; }
             public string StartTime { get; set; }
@@ -60,7 +60,7 @@ namespace TouristСenterLibrary.Entity
             public string Status { get; set; }
         }
 
-        public static List<HikeVeiwAll> GetViewAll(int hikeID)
+        public static List<HikeViewAll> GetViewAll(int hikeID)
         {
             using (var db = new ApplicationContext())
             {
@@ -68,7 +68,7 @@ namespace TouristСenterLibrary.Entity
                         where h.ID == hikeID
                         join o in db.Order on h.ID equals o.Hike.ID
                         join c in db.Client on o.ID equals c.ID
-                        select new HikeVeiwAll()
+                        select new HikeViewAll()
                         {
                             ID = hikeID,
                             StartTime = o.StartTime.ToString("d"),
@@ -84,12 +84,13 @@ namespace TouristСenterLibrary.Entity
         public static int GetPeopleAmountOfHike(int hikeID)
         {
             int tmp = 0;
-            List<HikeVeiwAll> list = GetViewAll(hikeID);
-                foreach (HikeVeiwAll l in list)
+            List<HikeViewAll> list = GetViewAll(hikeID);
+                foreach (HikeViewAll l in list)
                 {
                     tmp += l.PeopleAmount;
                 }
             return tmp;
         }
+        
     }
 }

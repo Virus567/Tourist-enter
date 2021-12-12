@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:tourCenter"
         mc:Ignorable="d"
-        Title="Инструкторы:" Height="450" Width="350" MaxHeight="450" MaxWidth="350" MinWidth="350" MinHeight="450" WindowStartupLocation="CenterScreen" ResizeMode="NoResize" Icon="/Window/icon.ico">
+        Title="Инструкторы:" Height="450" Width="350" MaxHeight="450" MaxWidth="350" MinWidth="350" MinHeight="450" WindowStartupLocation="CenterScreen" ResizeMode="NoResize" Icon="/WindowPages/icon.ico">
     <Grid Background="#ffdadada">
 		<Grid.RowDefinitions>
 			<RowDefinition/>

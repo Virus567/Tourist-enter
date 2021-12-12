@@ -28,7 +28,7 @@ namespace tourCenter
         }
         public void AddDataGrid()
         {
-            dgOrder.ItemsSource = Order.GetVeiw();
+            dgOrder.ItemsSource = Order.GetView();
         }
         private void CheckActive_Checked(object sender, RoutedEventArgs e) => CheckInHike.IsChecked = false;
         private void CheckInAssembly_Checked(object sender, RoutedEventArgs e) => CheckActive.IsChecked = false;
@@ -50,10 +50,10 @@ namespace tourCenter
         }
         private void Row_DoubleClick(object sender, MouseButtonEventArgs e)
         {
-            //RowHike rowHike = new RowHike();
-            //Hike.HikeVeiw selectedHike = (Hike.HikeVeiw)dgHike.SelectedValue;
-            //rowHike.Show();
-            //rowHike.AddSelectedHike(selectedHike.ID.ToString());
+            RowOrder rowOrder = new RowOrder();
+            Order.OrderView selectedOrder = (Order.OrderView)dgOrder.SelectedValue;
+            rowOrder.Show();
+            rowOrder.AddSelectedOrder(selectedOrder.ID.ToString());
         }
     }
 }

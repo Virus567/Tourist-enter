@@ -29,20 +29,6 @@ namespace tourCenter
         public void GetViewInstrucors()
         {
             
-            var list= Instructor.GetViewInstrucors();
-            List<CheckBox> cb = new List<CheckBox>();
-            //for(int i=0; i < list.ToArray().Length; i++)
-            //{
-            //}
-            //cb[0].Content = $"{list[0]}";
-           //foreach(var l in list)
-           // {
-           //    foreach(var c in cb)
-           //     {
-
-           //             c.Content = l;
-           //     }
-           // }
             InstrucorsList.ItemsSource = Instructor.GetViewInstrucors();
         }
         public List<string> SetHikeInstructors(int hikeId)

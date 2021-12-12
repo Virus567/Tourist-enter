@@ -41,8 +41,6 @@ namespace TouristСenterLibrary
             modelBuilder.Entity<Employee>().HasIndex(s => s.PassportData).IsUnique();
             modelBuilder.Entity<Instructor>().HasIndex(s => s.InstructorTelefonNumber).IsUnique();
             modelBuilder.Entity<Instructor>().HasIndex(s => s.PassportData).IsUnique();
-            modelBuilder.Entity<Client>().HasIndex(s => s.ClientTelefonNumber).IsUnique();
-            modelBuilder.Entity<Participant>().HasIndex(s => s.ClientTelefonNumber).IsUnique();
             modelBuilder.Entity<Transport>().HasIndex(s => s.CarNumber).IsUnique();
             modelBuilder.Entity<TransportCompany>().HasIndex(s => s.CompanyTelefonNumber).IsUnique();
 

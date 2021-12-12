@@ -27,13 +27,13 @@ namespace tourCenter
         public void AddSelectedHike(string tmpHikeID)
         {
             int hikeID = int.Parse(tmpHikeID);
-            List<Hike.HikeVeiwAll> hikeVeiw = Hike.GetViewAll(hikeID);
+            List<Hike.HikeViewAll> hikeVeiw = Hike.GetViewAll(hikeID);
             
             AddHikeData(hikeVeiw[0], hikeID);
            
         }
 
-        public void AddHikeData(Hike.HikeVeiwAll hv,int hikeID)
+        public void AddHikeData(Hike.HikeViewAll hv,int hikeID)
         {
             hikeId = hikeID;
             int PeopleAmount = Hike.GetPeopleAmountOfHike(hikeID);

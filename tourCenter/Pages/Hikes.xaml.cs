@@ -23,10 +23,10 @@ namespace tourCenter
         {
 
             InitializeComponent();
-            AddDataGrid();
+            GetDataInGrid();
             GetRouteName();
         }
-        public void AddDataGrid()
+        public void GetDataInGrid()
         {
 
             dgHike.ItemsSource = Hike.GetView();
@@ -52,10 +52,15 @@ namespace tourCenter
         private void Row_DoubleClick(object sender, MouseButtonEventArgs e)
         {
             RowHike rowHike = new RowHike();
-            Hike.HikeVeiw selectedHike = (Hike.HikeVeiw) dgHike.SelectedValue;
+            Hike.HikeView selectedHike = (Hike.HikeView) dgHike.SelectedValue;
             rowHike.Show();
             rowHike.AddSelectedHike(selectedHike.ID.ToString());
         }
 
+        private void addBtn_Click(object sender, RoutedEventArgs e)
+        {
+            NewHike newHike = new NewHike();
+            newHike.Show();
+        }
     }
 }
