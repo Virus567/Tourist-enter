@@ -38,19 +38,19 @@
 				<RowDefinition/>
 				<RowDefinition/>
 			</Grid.RowDefinitions>
-			<Button Grid.Column="6" Grid.Row="0" Margin="2 0 10 0" Content="Найти" Background="Teal" Foreground ="White" Cursor="Hand"/>
+			<Button x:Name="FindBtn" Click="FindBtn_Click" Grid.Column="6" Grid.Row="0" Margin="2 0 10 0" Content="Найти" Background="Teal" Foreground ="White" Cursor="Hand"/>
 			<ComboBox  materialDesign:HintAssist.Hint="Выберите Маршрут" x:Name="CmBoxRoutes" Grid.Row="0" Grid.Column="1" 
 				  Background="#ffdadada" Margin="15 0 3 0" MaxHeight="27" LostMouseCapture="CmBoxRoutes_LostMouseCapture"></ComboBox>
-			<TextBox Grid.Row="0" Grid.Column="5" Background="#ffdadada" materialDesign:HintAssist.Hint="Поиск"
-				 MaxHeight="33" Cursor="IBeam" Margin="0 3 10 3" FontSize="14"/>
+			<TextBox x:Name="txtBoxSearch" Grid.Row="0" Grid.Column="5" Background="#ffdadada" materialDesign:HintAssist.Hint="Поиск"
+				 MaxHeight="33" Cursor="IBeam" Margin="0 3 10 3" FontSize="14" TextChanged="txtBoxSearch_TextChanged"/>
 
 			<Border Background="Teal" Grid.Column="4" Grid.Row="0" Margin="10 3 10 2" MaxHeight="27">
-				<CheckBox x:Name="CheckInHike" Foreground ="White" Background="White" FontFamily="Segoe UI"
-					  Margin="15,0,0,0" FontWeight="DemiBold" FontSize="14" Checked="CheckInAssembly_Checked">В походе</CheckBox>
+				<CheckBox x:Name="CheckInAssembly" Foreground ="White" Background="White" FontFamily="Segoe UI"
+					  Margin="15,0,0,0" FontWeight="DemiBold" FontSize="14" Checked="CheckInAssembly_Checked" Unchecked="CheckInAssembly_Unchecked">В сборке</CheckBox>
 			</Border>
 			<Border Background="Teal" Grid.Column="3" Grid.Row="0" Margin="15 3 10 2" MaxHeight="27">
 				<CheckBox x:Name="CheckActive" Foreground ="White" Background="White" FontFamily="Segoe UI"
-					  Margin="15,0,0,0" FontWeight="DemiBold" FontSize="14" Checked="CheckActive_Checked">Активная</CheckBox>
+					  Margin="15,0,0,0" FontWeight="DemiBold" FontSize="14" Checked="CheckActive_Checked" Unchecked="CheckActive_Unchecked">Активная</CheckBox>
 			</Border>
 			<ComboBox  materialDesign:HintAssist.Hint="Способ передвижения" x:Name="CmBoxWayToTravel" Grid.Row="0" Grid.Column="2" 
 				  Background="#ffdadada" Margin="15 0 3 0" MaxHeight="27" LostMouseCapture="CmBoxWayToTravel_LostMouseCapture">
@@ -58,9 +58,9 @@
 				<ComboBoxItem Content="Рафты"/>
 				<ComboBoxItem Content="Способ передвижения"/>
 			</ComboBox>
-			<DatePicker materialDesign:HintAssist.Hint="Выберете дату" Grid.Row="0" 
-						Grid.Column="0" Margin="20 0 0 0" SelectedDateFormat="Short" FlowDirection="LeftToRight"/>
-			<Button Grid.Column="6" Grid.Row="1" Grid.RowSpan="2" Margin="2 0 10 50" Content="Обновить" Background="Teal" Cursor="Hand"/>
+			<DatePicker x:Name="selectDate" materialDesign:HintAssist.Hint="Выберете дату" Grid.Row="0"
+						Grid.Column="0" Margin="20 0 0 0" SelectedDateFormat="Short" FlowDirection="LeftToRight" SelectedDateChanged="selectDate_SelectedDateChanged" KeyUp="selectDate_KeyUp"/>
+			<Button x:Name="UpdateBtn" Click="UpdateBtn_Click" Grid.Column="6" Grid.Row="1" Grid.RowSpan="2" Margin="2 0 10 50" Content="Обновить" Background="Teal" Cursor="Hand"/>
 			<DataGrid x:Name="dgOrder" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="6" Grid.RowSpan="14" IsReadOnly="True"
 				      Margin="0,0,2,0" FontSize="20" BorderThickness="1" FontFamily="Times New Roman"
 					  AutoGenerateColumns="False" SelectionMode="Single" SelectionUnit="FullRow" ItemsSource="{Binding}"
@@ -79,12 +79,12 @@
 				</DataGrid.CellStyle>
 				<DataGrid.Columns>
 					<DataGridTextColumn  Header="Дата" Width="125" Binding="{Binding Path=DateTime }" />
+					<DataGridTextColumn Header="Статус" Width="130" Binding="{Binding Path=Status }" />
+					<DataGridTextColumn Header="Кол-во человек" Width="165" Binding="{Binding Path=PeopleAmount }" />
 					<DataGridTextColumn Header="Маршрут" Width="*" Binding="{Binding Path=RouteName }" />
 					<DataGridTextColumn Header="Способ Передвижения" Width="*" Binding="{Binding Path=WayToTravel }" />
 					<DataGridTextColumn Header="Клиент" Width="*" Binding="{Binding Path=Client }" />
-					<DataGridTextColumn Header="Кол-во человек" Width="165" Binding="{Binding Path=PeopleAmount }" />
 					<DataGridTextColumn Header="Тип заявки" Width="*" Binding="{Binding Path=ApplicationTypeName }" />
-					<DataGridTextColumn Header="Статус" Width="130" Binding="{Binding Path=Status }" />
 				</DataGrid.Columns>
 				<DataGrid.ItemContainerStyle>
 					<Style TargetType="DataGridRow">

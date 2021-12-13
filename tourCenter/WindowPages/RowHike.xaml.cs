@@ -24,12 +24,11 @@ namespace tourCenter
             InitializeComponent();
             
         }
-        public void AddSelectedHike(string tmpHikeID)
+        public void AddSelectedHike(int hikeID)
         {
-            int hikeID = int.Parse(tmpHikeID);
-            List<Hike.HikeViewAll> hikeVeiw = Hike.GetViewAll(hikeID);
+            Hike.HikeViewAll hikeVeiw = Hike.GetViewAll(hikeID)[0];
             
-            AddHikeData(hikeVeiw[0], hikeID);
+            AddHikeData(hikeVeiw, hikeID);
            
         }
 

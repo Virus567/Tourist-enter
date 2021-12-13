@@ -15,6 +15,7 @@ namespace TouristСenterLibrary.Entity
         [MaxLength(15)]
         [Required] public string ClientTelefonNumber { get; set; }
         [Required] public Client Client { get; set; }
+        
 
         public static List<Participant> GetParticipant()
         {

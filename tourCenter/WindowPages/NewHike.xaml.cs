@@ -54,39 +54,33 @@ namespace tourCenter
             rowOrder.AddSelectedOrder(selectedOrder.ID.ToString());
         }
 
-        private void addOrderBtn_Click(object sender, RoutedEventArgs e)
+        private void addOrderBtn_Click(object sender, RoutedEventArgs e) //заявки могут быть объеденены только если все заявки семейные
         {
             Order.OrderView selectedOrder = (Order.OrderView)dgOrders.SelectedValue;
             if (txtBoxStartDate.Text == "")
                 GetOrderData(selectedOrder);         
 
-            if (!dgOrdersForHike.Items.Contains(selectedOrder) && IsСorrectOrder(selectedOrder)) //|| !IsTeamOrder(selectedOrder)
+            if (!dgOrdersForHike.Items.Contains(selectedOrder) && IsСorrectOrder(selectedOrder) && !IsTeamOrder(selectedOrder))
             {
                 dgOrdersForHike.Items.Add(selectedOrder);
-                if (txtBoxPeopleAmount.Text == "0")
-                    txtBoxPeopleAmount.Text = selectedOrder.PeopleAmount.ToString();
-                else
-                {
-                    int tmp = int.Parse(txtBoxPeopleAmount.Text);
-                    tmp += selectedOrder.PeopleAmount;
-                    txtBoxPeopleAmount.Text = tmp.ToString();
-                }
-            }
-            //else if (IsTeamOrder(selectedOrder))
-            //{
-            //    dgOrdersForHike.Items.Add(selectedOrder);
-            //    txtBoxPeopleAmount.Text = selectedOrder.PeopleAmount.ToString();
-            //    addOrderBtn.IsEnabled = true;
-            //}
-               
-       }
+                int tmp = int.Parse(txtBoxPeopleAmount.Text);
+                tmp += selectedOrder.PeopleAmount;
+                txtBoxPeopleAmount.Text = tmp.ToString();
 
-        //private bool IsTeamOrder(Order.OrderView order)
-        //{
-        //    int orderId = order.ID;
-        //    Order tmpOrder = Order.GetOrderByID(orderId);
-        //    return tmpOrder.Client.NameOfCompany != null;
-        //}
+            }
+            else if (IsTeamOrder(selectedOrder) && txtBoxPeopleAmount.Text == "0") 
+            {
+                dgOrdersForHike.Items.Add(selectedOrder);
+                txtBoxPeopleAmount.Text = selectedOrder.PeopleAmount.ToString();
+                addOrderBtn.IsEnabled = false;
+            }
+
+        }
+
+        private bool IsTeamOrder(Order.OrderView order)
+        {
+            return order.ApplicationTypeName == "Корпоративная";
+        }
 
         private bool IsСorrectOrder(Order.OrderView order)
         {

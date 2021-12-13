@@ -14,7 +14,6 @@ namespace TouristСenterLibrary.Entity
         [Required] public Route Route { get; set; }
         [Required] public Employee Employee { get; set; }
         [Required] public Client Client { get; set; }
-        //[Required] public int ClientId { get; set; }
         [Required] public string WayToTravel { get; set; }
         public string FoodlFeatures { get; set; }
         public string EquipmentFeatures { get; set; }
@@ -22,7 +21,6 @@ namespace TouristСenterLibrary.Entity
         [Required] public DateTime FinishTime { get; set; }
         [Required] public string Status { get; set; }
         public Hike Hike { get; set; }
-
         public class OrderView 
         {
             public int ID { get; set; }

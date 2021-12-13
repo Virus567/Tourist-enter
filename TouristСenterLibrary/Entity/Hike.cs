@@ -29,22 +29,32 @@ namespace TouristСenterLibrary.Entity
             public int PeopleAmount { get; set; }
             public string Status { get; set; }
         }
-        public static List<HikeView> GetView()// переделать на сворачивание заявок
+        public static List<HikeView> GetView()
         {
             using (var db = new ApplicationContext())
             {
-                return (from h in db.Hike
-                        join o in db.Order on h.ID equals o.Hike.ID
-                        select new HikeView()
-                        {
-                            ID = h.ID,
-                            DateTime = o.StartTime.ToString("d"),
-                            RouteName = h.Route.Name,
-                            WayToTravel = o.WayToTravel,
-                            CompanyName = o.Client.GetCompanyNameForHike(),
-                            PeopleAmount = o.Client.GetPeopleAmountOfHike(h.ID),
-                            Status = h.Status
-                        }).ToList();
+                //return (from h in db.Hike
+                //        join o in db.Order on h.ID equals o.Hike.ID
+                //        select new HikeView()
+                //        {
+                //            ID = h.ID,
+                //            DateTime = o.StartTime.ToString("d"),
+                //            RouteName = h.Route.Name,
+                //            WayToTravel = o.WayToTravel,
+                //            CompanyName = o.Client.GetCompanyNameForHike(),
+                //            PeopleAmount = o.Client.GetPeopleAmountOfHike(h.ID),
+                //            Status = h.Status
+                //        }).ToList();
+                return db.Hike.Join(db.Order, h => h.ID, o => o.ID, (h, o) => new HikeView()
+                {
+                    ID = h.ID,
+                    DateTime = o.StartTime.ToString("d"),
+                    RouteName = h.Route.Name,
+                    WayToTravel = o.WayToTravel,
+                    CompanyName = o.Client.GetCompanyNameForHike(),
+                    PeopleAmount = o.Client.GetPeopleAmountOfHike(h.ID),
+                    Status = h.Status
+                }).ToList();
             }
         }
 
@@ -76,9 +86,20 @@ namespace TouristСenterLibrary.Entity
                             RouteName = h.Route.Name,
                             WayToTravel = o.WayToTravel,
                             CompanyName = o.Client.GetCompanyNameForHike(),
-                            PeopleAmount = o.Client.PeopleAmount,
+                            PeopleAmount = c.PeopleAmount,
                             Status = h.Status
                         }).ToList();
+                //return db.Hike.Join(db.Order, h => h.ID, o => o.ID, (h, o) => new HikeViewAll()
+                //{
+                //    ID = hikeID,
+                //    StartTime = o.StartTime.ToString("d"),
+                //    FinishTime = o.FinishTime.ToString("d"),
+                //    RouteName = h.Route.Name,
+                //    WayToTravel = o.WayToTravel,
+                //    CompanyName = o.Client.GetCompanyNameForHike(),
+                //    PeopleAmount = o.Client.PeopleAmount,
+                //    Status = h.Status
+                //}).ToList(); 
             }
         }
         public static int GetPeopleAmountOfHike(int hikeID)

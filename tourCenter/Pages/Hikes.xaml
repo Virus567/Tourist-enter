@@ -36,18 +36,18 @@
 			<RowDefinition/>
 			<RowDefinition/>
 		</Grid.RowDefinitions>
-		<Button Grid.Column="6" Grid.Row="0" Margin="2 0 10 0" Content="Найти" Background="Teal" Foreground ="White" Cursor="Hand"/>
+		<Button x:Name="FindBtn" Click="FindBtn_Click" Grid.Column="6" Grid.Row="0" Margin="2 0 10 0" Content="Найти" Background="Teal" Foreground ="White" Cursor="Hand"/>
 		<ComboBox  materialDesign:HintAssist.Hint="Выберите Маршрут" x:Name="CmBoxRoutes" Grid.Row="0" Grid.Column="1" 
 				  Background="#ffdadada" Margin="15 0 3 0" MaxHeight="27" LostMouseCapture="CmBoxRoutes_LostMouseCapture"/>
-		<TextBox Grid.Row="0" Grid.Column="5" Background="#ffdadada" materialDesign:HintAssist.Hint="Поиск"
-				 MaxHeight="33" Cursor="IBeam" Margin="0 3 10 3" FontSize="14"/>
+		<TextBox x:Name="txtBoxSearch" Grid.Row="0" Grid.Column="5" Background="#ffdadada" materialDesign:HintAssist.Hint="Поиск"
+				 MaxHeight="33" Cursor="IBeam" Margin="0 3 10 3" FontSize="14" TextChanged="txtBoxSearch_TextChanged"/>
 		<Border Background="Teal" Grid.Column="4" Grid.Row="0" Margin="10 3 10 2" MaxHeight="27">
-			<CheckBox x:Name="CheckInAssembly" Foreground ="White" Background="White" FontFamily="Segoe UI"
-					  Margin="15,0,0,0" FontWeight="DemiBold" FontSize="14" Checked="CheckInAssembly_Checked">На маршруте</CheckBox>
+			<CheckBox x:Name="CheckOnRoute" Foreground ="White" Background="White" FontFamily="Segoe UI"
+					  Margin="15,0,0,0" FontWeight="DemiBold" FontSize="14" Checked="CheckOnRoute_Checked" Unchecked="CheckOnRoute_Unchecked">На маршруте</CheckBox>
 		</Border>
 		<Border Background="Teal" Grid.Column="3" Grid.Row="0" Margin="15 3 10 2" MaxHeight="27">
-			<CheckBox x:Name="CheckActive" Foreground ="White" Background="White" FontFamily="Segoe UI"
-					  Margin="15,0,0,0" FontWeight="DemiBold" FontSize="14" Checked="CheckActive_Checked">В сборке</CheckBox>
+			<CheckBox x:Name="CheckInAssembly" Foreground ="White" Background="White" FontFamily="Segoe UI"
+					  Margin="15,0,0,0" FontWeight="DemiBold" FontSize="14" Checked="CheckInAssembly_Checked" Unchecked="CheckInAssembly_Unchecked">В сборке</CheckBox>
 		</Border>
 		<ComboBox  materialDesign:HintAssist.Hint="Способ передвижения" x:Name="CmBoxWayToTravel" Grid.Row="0" Grid.Column="2" 
 				  Background="#ffdadada" Margin="15 0 3 0" MaxHeight="27" LostMouseCapture="CmBoxWayToTravel_LostMouseCapture">
@@ -56,9 +56,10 @@
 			<ComboBoxItem Content="Способ передвижения"/>
 		</ComboBox>
 
-		<DatePicker materialDesign:HintAssist.Hint="Выберете дату" Grid.Row="0" Grid.Column="0" Margin="20 0 0 0" SelectedDateFormat="Short"/>
+		<DatePicker x:Name="selectDate" materialDesign:HintAssist.Hint="Выберете дату" SelectedDateChanged="selectDate_SelectedDateChanged" 
+					KeyUp="selectDate_KeyUp" Grid.Row="0" Grid.Column="0" Margin="20 0 0 0" SelectedDateFormat="Short"/>
 		<Button x:Name="addBtn" Grid.Column="6" Grid.Row="13" Margin="2 0 10 0" Content="Добавить" Click="addBtn_Click" Background="Teal" Foreground ="White" Cursor="Hand"/>
-		<Button Grid.Column="6" Grid.Row="1" Grid.RowSpan="2" Margin="2 0 10 50" Content="Обновить" Background="Teal" Cursor="Hand"/>
+		<Button x:Name="UpdateBtn" Click="UpdateBtn_Click" Grid.Column="6" Grid.Row="1" Grid.RowSpan="2" Margin="2 0 10 50" Content="Обновить" Background="Teal" Cursor="Hand"/>
 		<DataGrid x:Name="dgHike" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="6" Grid.RowSpan="14" AutoGenerateColumns="False" ItemsSource="{Binding}"
 				  Margin="0,0,2,0" FontSize="20" BorderThickness="1" FontFamily="Times New Roman" IsReadOnly="True" SelectionMode="Single" 
 				  SelectionUnit="FullRow" CanUserResizeColumns="False" CanUserReorderColumns="False">
