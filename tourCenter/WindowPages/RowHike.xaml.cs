@@ -45,7 +45,7 @@ namespace tourCenter
             cmbBoxWayToTravel.SelectedItem = hv.WayToTravel;
             txtBoxPeopleAmount.Text = $"{PeopleAmount}";
             List<Participant> tmp = Participant.GetParticipantHike(hikeID);
-            listInstructors.ItemsSource = Instructor.GetHikeInstructor(hikeID);
+            listInstructors.ItemsSource = Instructor.GetViewHikeInstructor(hikeID);
             List<string> participants = Participant.GetAllName(tmp);
             foreach (string str in participants)
             {
@@ -55,9 +55,8 @@ namespace tourCenter
 
         private void changeInstructorsBtn_Click(object sender, RoutedEventArgs e)
         {
-            Instrucors instrucors = new Instrucors();
+            Instrucors instrucors = new Instrucors(hikeId);
             instrucors.Show();
-            instrucors.SetHikeInstructors(hikeId);
         }
     }
 }

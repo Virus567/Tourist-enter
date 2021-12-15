@@ -89,17 +89,6 @@ namespace TouristСenterLibrary.Entity
                             PeopleAmount = c.PeopleAmount,
                             Status = h.Status
                         }).ToList();
-                //return db.Hike.Join(db.Order, h => h.ID, o => o.ID, (h, o) => new HikeViewAll()
-                //{
-                //    ID = hikeID,
-                //    StartTime = o.StartTime.ToString("d"),
-                //    FinishTime = o.FinishTime.ToString("d"),
-                //    RouteName = h.Route.Name,
-                //    WayToTravel = o.WayToTravel,
-                //    CompanyName = o.Client.GetCompanyNameForHike(),
-                //    PeopleAmount = o.Client.PeopleAmount,
-                //    Status = h.Status
-                //}).ToList(); 
             }
         }
         public static int GetPeopleAmountOfHike(int hikeID)

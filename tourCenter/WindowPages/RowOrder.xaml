@@ -46,5 +46,8 @@
 		<ComboBox Grid.Row="1" Grid.Column="5"  x:Name="cmbBoxWayToTravel" HorizontalAlignment="Center"  Padding="5 0 5 0" Margin="0 5 0 0" MaxHeight="25" IsReadOnly="True" Cursor="IBeam"/>
 		<Label Content="Кол-во человек:" Grid.Column="6" Grid.Row="1"  Grid.ColumnSpan="2" Margin="20 8 0 0"  FontSize="16" />
 		<TextBox Grid.Row="1" Grid.Column="7" x:Name="txtBoxPeopleAmount" HorizontalAlignment="Center" Margin="20 5 0 0" BorderThickness="1" Padding="2 0 2 0" MaxHeight="25" IsReadOnly="True" Cursor="IBeam"/>
+		<Label Content="Кол-во детей:" Grid.Column="6" Grid.Row="2"  Grid.ColumnSpan="2" Margin="20 8 0 0"  FontSize="16" />
+		<TextBox Grid.Row="2" Grid.Column="7" Text="2" x:Name="txtBoxChildrenAmount" HorizontalAlignment="Center" Margin="20 5 0 0" BorderThickness="1" Padding="2 0 2 0" MaxHeight="25" IsReadOnly="True" Cursor="IBeam"/>
+		<Button Grid.Column="8" Grid.Row="12" Grid.ColumnSpan="2" Background="Teal" Margin="5 0 5 0" Content="Изменить данные" Cursor="Hand"/>
 	</Grid>
 </Window>

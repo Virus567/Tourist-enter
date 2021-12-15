@@ -20,10 +20,12 @@ namespace TouristСenterLibrary.Entity
 
         public class InstructorView
         {
+            public int ID { get; set; }
             public string Surname { get; set; }
             public string Name { get; set; }
             public string Middlename { get; set; }
             public string InstructorTelefonNumber { get; set; }
+            public bool InHike { get; set; }
         }
         public static List<InstructorView> GetInstructors()
         {
@@ -32,46 +34,47 @@ namespace TouristСenterLibrary.Entity
                 return (from i in db.Instructor
                         select new InstructorView()
                         {
+                            ID = i.ID,
                             Surname = i.Surname,
                             Name = i.Name,
                             Middlename = i.Middlename,
-                            InstructorTelefonNumber = i.InstructorTelefonNumber
-
+                            InstructorTelefonNumber = i.InstructorTelefonNumber,
+                            InHike = false
                         }).ToList();
             }
-        }
+        }        
         
-        public static List<string> GetViewInstrucors()
-        {
-            List<InstructorView> instructors = Instructor.GetInstructors();
-            string str;
-            List<string> list = new List<string>();
-            foreach(InstructorView instructor in instructors)
-            {
-                str = $"{instructor.Surname} {instructor.Name} ";
-                if (instructor.Middlename != null)
-                    str += $"{instructor.Middlename} ";
-                str += $"{instructor.InstructorTelefonNumber}";
-                list.Add(str);
-            }
-            return list;
-        }
-        
-        public static List<string> GetHikeInstructor(int hikeId)
+        public static List<InstructorView> GetHikeInstructor(int hikeId)
         {
             List<int> intList = new List<int>();
             List<InstructorGroup> listInstructorGroup =InstructorGroup.GetInstructorGroup(hikeId);
             foreach (InstructorGroup ig in listInstructorGroup)
                 intList.Add(ig.Instructor.ID);
-            List<string> strList = Instructor.GetViewInstrucorsByID(intList);  
-            return strList;
+            List<InstructorView> list = Instructor.GetInstructorsByID(intList);
+            return list;
         }
 
-        public static List<List<InstructorView>> GetInstructorsByID(List<int> instructorsID)
+        public static List<string> GetViewHikeInstructor(int hikeId)
+        {
+            List<InstructorView>list = Instructor.GetHikeInstructor(hikeId);
+            string str;
+            List<string> strlist = new List<string>();
+            foreach(InstructorView i in list)
+            {
+                str = $"{i.Surname} {i.Name} ";
+                if (i.Middlename != null)
+                    str += $"{i.Middlename} ";
+                str += $"{i.InstructorTelefonNumber}";
+                strlist.Add(str);
+            }
+            return strlist;
+        }
+
+        public static List<InstructorView> GetInstructorsByID(List<int> instructorsID)
         {
             using (var db = new ApplicationContext())
             {
-                List<List<InstructorView>> instructors= new List<List<InstructorView>>();
+                List<InstructorView> instructors= new List<InstructorView>();
                 foreach(int instructorId in instructorsID)
                 {
                     instructors.Add((from i in db.Instructor
@@ -83,31 +86,10 @@ namespace TouristСenterLibrary.Entity
                          Middlename = i.Middlename,
                          InstructorTelefonNumber = i.InstructorTelefonNumber
 
-                     }).ToList());
+                     }).ToList()[0]);
                 }
                 return instructors;
-                
             }
         }
-        public static List<string> GetViewInstrucorsByID(List<int> instructorsID)
-        {
-            List<List<InstructorView>> instructors = Instructor.GetInstructorsByID(instructorsID);
-            string str;
-            List<string> list = new List<string>();
-                foreach (List<InstructorView> instructor in instructors)
-            {
-                for(int j = 0; j < instructor.ToArray().Length; j++)
-                {
-                    str = $"{instructor[j].Surname} {instructor[j].Name} ";
-                    if (instructor[j].Middlename != null)
-                        str += $"{instructor[j].Middlename} ";
-                    str += $"{instructor[j].InstructorTelefonNumber}";
-                    list.Add(str);
-                }
-            }
-            return list;
-        }
-
-
     }
 }

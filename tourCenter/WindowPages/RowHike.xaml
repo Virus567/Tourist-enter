@@ -40,8 +40,8 @@
 			<RowDefinition/>
 			<RowDefinition/>
 		</Grid.RowDefinitions>
-		<Label Grid.Row="1" Grid.Column="8" Content="Статус: " Margin="40 0 0 0" Padding="0 10 0 0 "/>
-		<ComboBox Grid.Row="1" Grid.Column="9" x:Name="cmbBoxStatus" HorizontalAlignment="Center"  BorderThickness="1" BorderBrush="{Binding}" MaxHeight="25" Padding="5 0 5 2" Margin="0 5 0 3" IsReadOnly="True" Cursor="IBeam"/>
+		<Label Grid.Row="1" Grid.Column="8" Content="Статус: " Margin="0 0 0 0" Padding="0 10 0 0 "/>
+		<ComboBox Grid.Row="1" Grid.Column="8" Grid.ColumnSpan="2" x:Name="cmbBoxStatus" HorizontalAlignment="Center"  BorderThickness="1" BorderBrush="{Binding}" MaxHeight="25" Padding="5 0 5 2" Margin="15 5 0 3" IsReadOnly="True" Cursor="IBeam"/>
 		<Label Grid.Column="0" Grid.Row="1" Content="Maршрут:" Padding="10 10 0 0 "/>
 		<ComboBox Grid.Row="1" Grid.Column="1" x:Name="cmbBoxRoute" HorizontalAlignment="Center"  Grid.ColumnSpan="2" Padding="0 10 0 0" Margin="0 0 0 3" IsReadOnly="True" Cursor="IBeam"/>
 		<Label Grid.Column="3" Grid.Row="1" Margin="0 8 0 0" Grid.ColumnSpan="2"  Content="Способ передвижения:"/>

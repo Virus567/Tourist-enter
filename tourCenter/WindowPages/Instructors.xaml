@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:tourCenter"
         mc:Ignorable="d"
-        Title="Инструкторы:" Height="450" Width="350" MaxHeight="450" MaxWidth="350" MinWidth="350" MinHeight="450" WindowStartupLocation="CenterScreen" ResizeMode="NoResize" Icon="/WindowPages/icon.ico">
+        Title="Инструкторы:" Height="450" Width="500" MaxHeight="450" MaxWidth="500" MinWidth="500" MinHeight="450" WindowStartupLocation="CenterScreen" ResizeMode="NoResize" Icon="/WindowPages/icon.ico">
     <Grid Background="#ffdadada">
 		<Grid.RowDefinitions>
 			<RowDefinition/>
@@ -23,9 +23,28 @@
 			<RowDefinition/>
 		</Grid.RowDefinitions>
 		<TextBlock x:Name="tb1"  Text="Выберите инструкторов для этого похода:" FontSize="16"/>
-		<ListBox x:Name="InstrucorsList" Grid.Row="1" Grid.RowSpan="10" ItemsSource="{Binding Collection}" SelectionMode="Single" BorderBrush="Transparent">
-			
-		</ListBox>
+		<DataGrid x:Name="InstrucorsList" Grid.Row="1" Grid.RowSpan="10" ItemsSource="{Binding Collection}" 
+				  SelectionMode="Single" BorderBrush="Transparent" FontFamily="Times New Roman" Background="#ffdadada"
+				  AutoGenerateColumns="False" SelectionUnit="FullRow" CanUserResizeColumns="False" CanUserReorderColumns="False">
+			<DataGrid.CellStyle>
+				<Style TargetType="DataGridCell">
+					<Setter Property="BorderThickness" Value="0"/>
+					<Style.Triggers>
+						<Trigger Property="DataGridCell.IsSelected" Value="True">
+							<Setter Property="Background" Value="#ffdadada" />
+							<Setter Property="Foreground" Value="Black" />
+						</Trigger>
+					</Style.Triggers>
+				</Style>
+			</DataGrid.CellStyle>
+			<DataGrid.Columns>
+				<DataGridCheckBoxColumn x:Name="checkInstructor" Header="В походе" Width="*" Binding="{Binding Path=InHike}"/>
+				<DataGridTextColumn  Header="Фамилия" Width="*" Binding="{Binding Path=Surname }" />
+				<DataGridTextColumn Header="Имя" Width="*" Binding="{Binding Path=Name }" />
+				<DataGridTextColumn Header="Отчество" Width="*" Binding="{Binding Path=Middlename}" />
+				<DataGridTextColumn Header="Телефон" Width="*" Binding="{Binding Path=InstructorTelefonNumber}" />
+			</DataGrid.Columns>
+		</DataGrid>
 		<Button x:Name="SaveChangesBtn" Grid.Row="11" Grid.RowSpan="2" Content="Сохранить изменения" Margin="10 2 10 2" Cursor="Hand" Click="SaveChangesBtn_Click"/>
 	</Grid>
 </Window>

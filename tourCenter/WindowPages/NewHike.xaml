@@ -38,14 +38,15 @@
 		</Grid.RowDefinitions>
 		<ComboBox  materialDesign:HintAssist.Hint="Выберите Маршрут" x:Name="CmBoxRoutes" Grid.Row="0" Grid.Column="1" 
 				  Background="#ffdadada" Margin="15 0 3 0" MaxHeight="27" FontSize="12" LostMouseCapture="CmBoxRoutes_LostMouseCapture"></ComboBox>
-		<ComboBox  materialDesign:HintAssist.Hint="Способ передвижения" x:Name="CmBoxWayToTravel" Grid.Row="0" Grid.Column="2" 
-				  Background="#ffdadada" Margin="15 0 3 0" MaxHeight="27" FontSize="12" LostMouseCapture="CmBoxWayToTravel_LostMouseCapture">
+		<ComboBox  materialDesign:HintAssist.Hint="Способ передвижения" x:Name="CmBoxWayToTravel" Grid.Row="0" Grid.Column="2" Grid.ColumnSpan="2"
+				  Background="#ffdadada" Margin="15 0 120 0" MaxHeight="27" FontSize="12" LostMouseCapture="CmBoxWayToTravel_LostMouseCapture">
 			<ComboBoxItem Content="Байдарки"/>
 			<ComboBoxItem Content="Рафты"/>
 			<ComboBoxItem Content="Способ передвижения"/>
 		</ComboBox>
-		<DatePicker materialDesign:HintAssist.Hint="Выберете дату" Grid.Row="0" FontSize="12"
-						Grid.Column="0" Margin="20 0 0 0" SelectedDateFormat="Short" FlowDirection="LeftToRight"/>
+		<DatePicker x:Name="selectDate" materialDesign:HintAssist.Hint="Выберете дату" Grid.Row="0" FontSize="12" 
+					SelectedDateChanged="selectDate_SelectedDateChanged" Grid.Column="0" Margin="20 0 0 0" SelectedDateFormat="Short" 
+					FlowDirection="LeftToRight" KeyUp="selectDate_KeyUp"  />
 		<DataGrid x:Name="dgOrders" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="5" Grid.RowSpan="14" IsReadOnly="True"
 				      Margin="0,0,2,0" FontSize="18" BorderThickness="1" FontFamily="Times New Roman"
 					  AutoGenerateColumns="False" SelectionMode="Single" SelectionUnit="FullRow" 
@@ -73,15 +74,15 @@
 		</DataGrid>
 		<Label Grid.Row="0" Grid.Column="5" Grid.ColumnSpan="2" Margin="10 0 0 0" Content="Создание похода:"/>
 		<Label Grid.Row="1" Grid.Column="5" Margin="10 0 0 0" Content="Даты:"/>
-		<TextBox x:Name="txtBoxStartDate" Grid.Row="1" Grid.Column="4" Grid.ColumnSpan="2" HorizontalAlignment="Center" IsReadOnly="True" Margin="200 0 0 10" Text=""/>
-		<Label Grid.Row="1" Grid.Column="5" Grid.ColumnSpan="2" Margin="140 0 0 0" Content="—"/>
+		<TextBox x:Name="txtBoxStartDate" Grid.Row="1" Grid.Column="4" Grid.ColumnSpan="2" HorizontalAlignment="Center"  IsReadOnly="True" Margin="200 0 0 10" Text=""/>
+		<Label x:Name="label_" Grid.Row="1" Grid.Column="5" Grid.ColumnSpan="2" Margin="140 0 0 0" Content="—"/>
 		<TextBox x:Name="txtBoxFinishDate" Grid.Row="1" Grid.Column="5" Grid.ColumnSpan="2" HorizontalAlignment="Center" IsReadOnly="True" Margin="110 0 0 10" Text=""/>
 		<Label Grid.Row="2" Grid.Column="5" Content="Маршрут:" Margin="10 0 0 0"/>
-		<TextBox x:Name="txtBoxRoute" Grid.Row="2" Grid.Column="5" Grid.ColumnSpan="2" HorizontalAlignment="Center" IsReadOnly="True" Margin="0 0 0 10" Text=""/>
+		<TextBox x:Name="txtBoxRoute" Grid.Row="2" Grid.Column="5" Grid.ColumnSpan="2" HorizontalAlignment="Center" IsReadOnly="True" Padding="0 5 0 0" Margin="20 0 0 7" Text=""/>
 		<Label Grid.Row="3" Grid.Column="5" Margin="10 0 0 0" Content="Кол-во человек:"/>
-		<TextBox x:Name="txtBoxPeopleAmount" Grid.Row="3" Grid.Column="5" Grid.ColumnSpan="2" HorizontalAlignment="Center" Margin="0 0 0 5" Text="0" BorderThickness="1" Padding="2 0 2 0" MaxHeight="25" IsReadOnly="True" Cursor="IBeam"/>
+		<TextBox x:Name="txtBoxPeopleAmount" Grid.Row="3" Grid.Column="5" Grid.ColumnSpan="2" HorizontalAlignment="Center" Margin="10 0 0 5" Text="0" BorderThickness="1" Padding="2 0 2 0" MaxHeight="25" IsReadOnly="True" Cursor="IBeam"/>
 		<Label Grid.Row="4" Grid.Column="5" Grid.ColumnSpan="2" Margin="10 0 0 0" Content="Способ Передвижения:"/>
-		<TextBox x:Name="txtBoxWayToTravel" Grid.Row="4" Grid.Column="6" IsReadOnly="True" Margin="10 0 0 10" HorizontalAlignment="Center" Text=""/>
+		<TextBox x:Name="txtBoxWayToTravel" Grid.Row="4" Grid.Column="6" IsReadOnly="True" Margin="10 0 0 7" Padding="0 5 0 0" HorizontalAlignment="Center" Text="" Cursor="IBeam"/>
 		<Label Grid.Row="5" Grid.Column="5" Margin="10 0 0 0" Content="Заявки:"/>
 		<DataGrid x:Name="dgOrdersForHike" Grid.Row="6" Grid.Column="5" Grid.ColumnSpan="2" Grid.RowSpan="6" Margin="5 0 8 10" Background="#ffdadada"
 				  AutoGenerateColumns="False" SelectionMode="Single" SelectionUnit="FullRow" ItemsSource="{Binding}"
