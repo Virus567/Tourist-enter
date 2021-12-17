@@ -50,5 +50,10 @@ namespace tourCenter
             //rowHikeParticipant.Content += $"{str}\n";
             //}
         }
+
+        private void ExcelLink_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("Тут будет Excel!");
+        }
     }
 }

@@ -9,6 +9,7 @@ namespace TouristСenterLibrary.Entity
 {
     public class Instructor
     {
+        private static ApplicationContext db = ContextManager.db;
         public int ID { get; set; }
         [Required] public string Surname { get; set; }
         [Required] public string Name { get; set; }
@@ -29,19 +30,17 @@ namespace TouristСenterLibrary.Entity
         }
         public static List<InstructorView> GetInstructors()
         {
-            using (var db = new ApplicationContext())
-            {
-                return (from i in db.Instructor
-                        select new InstructorView()
-                        {
-                            ID = i.ID,
-                            Surname = i.Surname,
-                            Name = i.Name,
-                            Middlename = i.Middlename,
-                            InstructorTelefonNumber = i.InstructorTelefonNumber,
-                            InHike = false
-                        }).ToList();
-            }
+            return (from i in db.Instructor
+                    select new InstructorView()
+                    {
+                        ID = i.ID,
+                        Surname = i.Surname,
+                        Name = i.Name,
+                        Middlename = i.Middlename,
+                        InstructorTelefonNumber = i.InstructorTelefonNumber,
+                        InHike = false
+                    }).ToList();
+
         }        
         
         public static List<InstructorView> GetHikeInstructor(int hikeId)
@@ -72,24 +71,21 @@ namespace TouristСenterLibrary.Entity
 
         public static List<InstructorView> GetInstructorsByID(List<int> instructorsID)
         {
-            using (var db = new ApplicationContext())
+            List<InstructorView> instructors= new List<InstructorView>();
+            foreach(int instructorId in instructorsID)
             {
-                List<InstructorView> instructors= new List<InstructorView>();
-                foreach(int instructorId in instructorsID)
-                {
-                    instructors.Add((from i in db.Instructor
-                     where i.ID == instructorId
-                     select new InstructorView()
-                     {
-                         Surname = i.Surname,
-                         Name = i.Name,
-                         Middlename = i.Middlename,
-                         InstructorTelefonNumber = i.InstructorTelefonNumber
+                instructors.Add((from i in db.Instructor
+                    where i.ID == instructorId
+                    select new InstructorView()
+                    {
+                        Surname = i.Surname,
+                        Name = i.Name,
+                        Middlename = i.Middlename,
+                        InstructorTelefonNumber = i.InstructorTelefonNumber
 
-                     }).ToList()[0]);
-                }
-                return instructors;
+                    }).ToList()[0]);
             }
+            return instructors;
         }
     }
 }

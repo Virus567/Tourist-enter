@@ -9,7 +9,7 @@
         MinHeight="600" MaxHeight="600"
 		MinWidth="1060" MaxWidth="1060"
         Title="{Binding}" FontSize="16" Height="600" Width="1060" Icon="/icon.ico" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
-    <Grid Background="#ffdadada">
+	<Grid Background="#ffdadada">
 		<Grid.ColumnDefinitions>
 			<ColumnDefinition/>
 			<ColumnDefinition/>
@@ -49,5 +49,8 @@
 		<Label Content="Кол-во детей:" Grid.Column="6" Grid.Row="2"  Grid.ColumnSpan="2" Margin="20 8 0 0"  FontSize="16" />
 		<TextBox Grid.Row="2" Grid.Column="7" Text="2" x:Name="txtBoxChildrenAmount" HorizontalAlignment="Center" Margin="20 5 0 0" BorderThickness="1" Padding="2 0 2 0" MaxHeight="25" IsReadOnly="True" Cursor="IBeam"/>
 		<Button Grid.Column="8" Grid.Row="12" Grid.ColumnSpan="2" Background="Teal" Margin="5 0 5 0" Content="Изменить данные" Cursor="Hand"/>
+		<TextBlock Grid.Row="12" Grid.Column="6" Grid.ColumnSpan="2">
+		<Hyperlink  x:Name="ExcelLink" Click="ExcelLink_Click" >Участники похода</Hyperlink>
+		</TextBlock>
 	</Grid>
 </Window>

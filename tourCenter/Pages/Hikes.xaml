@@ -77,7 +77,7 @@
 			</DataGrid.CellStyle>
 
 			<DataGrid.Columns>
-				<DataGridTextColumn  Header="Дата" Width="125" Binding="{Binding Path=DateTime }" />
+				<DataGridTextColumn  Header="Дата" Width="125" Binding="{Binding Path=StartTime }" />
 				<DataGridTextColumn Header="Статус" Width="130" Binding="{Binding Path=Status }" />
 				<DataGridTextColumn Header="Кол-во человек" Width="165" Binding="{Binding Path=PeopleAmount }" />
 				<DataGridTextColumn Header="Маршрут" Width="*" Binding="{Binding Path=RouteName }" />

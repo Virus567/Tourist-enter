@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
@@ -8,8 +9,9 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 using TouristСenterLibrary.Entity;
+using TouristСenterLibrary;
+
 
 namespace tourCenter
 {
@@ -18,7 +20,9 @@ namespace tourCenter
     /// </summary>
     public partial class RowHike : Window
     {
-        private int hikeId;
+        private int _hikeId;
+        private List<Participant> _participants;
+        private Hike.HikeViewAll _hikeView;
         public RowHike()
         {
             InitializeComponent();
@@ -26,7 +30,7 @@ namespace tourCenter
         }
         public void AddSelectedHike(int hikeID)
         {
-            Hike.HikeViewAll hikeVeiw = Hike.GetViewAll(hikeID)[0];
+            Hike.HikeViewAll hikeVeiw = Hike.GetViewByID(hikeID)[0];
             
             AddHikeData(hikeVeiw, hikeID);
            
@@ -34,7 +38,8 @@ namespace tourCenter
 
         public void AddHikeData(Hike.HikeViewAll hv,int hikeID)
         {
-            hikeId = hikeID;
+            _hikeView = hv;
+            _hikeId = hikeID;
             int PeopleAmount = Hike.GetPeopleAmountOfHike(hikeID);
             winRowHike.Title = $" {hv.CompanyName} {hv.StartTime}  — {hv.FinishTime}";
             cmbBoxStatus.Items.Add(hv.Status);
@@ -44,19 +49,30 @@ namespace tourCenter
             cmbBoxWayToTravel.Items.Add(hv.WayToTravel);
             cmbBoxWayToTravel.SelectedItem = hv.WayToTravel;
             txtBoxPeopleAmount.Text = $"{PeopleAmount}";
-            List<Participant> tmp = Participant.GetParticipantHike(hikeID);
+            _participants = Participant.GetParticipantHike(hikeID);
             listInstructors.ItemsSource = Instructor.GetViewHikeInstructor(hikeID);
-            List<string> participants = Participant.GetAllName(tmp);
-            foreach (string str in participants)
-            {
-                //rowHikeParticipant.Content += $"{str}\n";
-            }
         }
 
         private void changeInstructorsBtn_Click(object sender, RoutedEventArgs e)
         {
-            Instrucors instrucors = new Instrucors(hikeId);
+            Instrucors instrucors = new Instrucors(_hikeId);
             instrucors.Show();
+        }
+
+        private void ExcelLink_Click(object sender, RoutedEventArgs e)
+        {
+            using (var excel = new ExcelHelper())
+            {
+                try
+                {
+                    if (excel.Open(filePath: Path.Combine(Environment.CurrentDirectory, $"{_hikeView.CompanyName}{_hikeView.StartTime}-{_hikeView.FinishTime}.xlsx")))
+                    {
+                        excel.SetParticipant(_participants);
+                        excel.Save();
+                    }
+                }
+                catch (Exception ex) { MessageBox.Show(ex.Message); }
+            }
         }
     }
 }

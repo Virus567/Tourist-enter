@@ -8,6 +8,7 @@ namespace TouristСenterLibrary.Entity
 {
     public class Transport
     {
+        private static ApplicationContext db = ContextManager.db;
         public int ID { get; set; }
         [MaxLength(6)]
         [Required] public string CarNumber { get; set; }
@@ -22,17 +23,14 @@ namespace TouristСenterLibrary.Entity
         }
         public static List<TransportView> GetTransport()
         {
-            using (var db = new ApplicationContext())
-            {
-                return (from t in db.Transport
-                        join tc in db.TransportCompany on t.TransportCompany.ID equals tc.ID
-                        select new TransportView()
-                        {
-                            CarNumber = t.CarNumber,
-                            SeatCount = t.SeatCount,
-                            TransportCompanyName = tc.Name
-                        }).ToList();
-            }
+            return (from t in db.Transport
+                    join tc in db.TransportCompany on t.TransportCompany.ID equals tc.ID
+                    select new TransportView()
+                    {
+                        CarNumber = t.CarNumber,
+                        SeatCount = t.SeatCount,
+                        TransportCompanyName = tc.Name
+                    }).ToList();
         }
 
     }

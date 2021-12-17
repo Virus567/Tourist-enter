@@ -2,11 +2,13 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
+using System.Linq;
 
 namespace TouristСenterLibrary.Entity
 {
     public class Client 
     {
+        private static ApplicationContext db = ContextManager.db;
         public int ID { get; set; }
         public string NameOfCompany { get; set; }
         [Required] public string Surname { get; set; }
@@ -40,15 +42,23 @@ namespace TouristСenterLibrary.Entity
             return tmp;
             
         }
-        public int GetPeopleAmountOfHike(int hikeID)
+        
+        public static List<Client> GetClientsByHikeID(int hikeId)
         {
-            int tmp = 0;
-            List<Hike.HikeViewAll> list = Hike.GetViewAll(hikeID);
-            foreach (Hike.HikeViewAll l in list)
+            return(from c in db.Client
+                   join o in db.Order on c.ID equals o.Client.ID
+                   where o.Hike.ID == hikeId
+                   select c).ToList();
+            
+        }
+        public int GetPeopleAmountOfHike(List<Order> list)
+        {
+            int count = 0;
+            foreach (var l in list)
             {
-                tmp += l.PeopleAmount;
+                count += l.Client.PeopleAmount;
             }
-            return tmp;
+            return count;
         }
     }
 }

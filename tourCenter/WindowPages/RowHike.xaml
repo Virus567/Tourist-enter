@@ -62,5 +62,8 @@
 		<Button x:Name="changeInstructorsBtn" Click="changeInstructorsBtn_Click" Grid.Column="0" Grid.Row="12" Margin="100 0 30 0 " Grid.ColumnSpan="3" Background="Teal" Content="Изменить состав" Cursor="Hand"/>
 		<Button Grid.Column="6" Grid.Row="12" Grid.ColumnSpan="2" Background="Teal" Margin="5 0 5 0" Content="Изменить данные"/>
 		<Button Grid.Column="8" Grid.Row="12" Grid.ColumnSpan="2" Background="Teal" Margin="5 0 5 0" Content="Изменить Статус"/>
+		<TextBlock Grid.Row="12" Margin="0 7" Grid.Column="4" Grid.ColumnSpan="2">
+		<Hyperlink  x:Name="ExcelLink" Click="ExcelLink_Click" >Подробности о походе</Hyperlink>
+		</TextBlock>
 	</Grid>
 </Window>

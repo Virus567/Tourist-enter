@@ -51,7 +51,7 @@ namespace tourCenter
             if (selectDate.Text != "")
             {
                 DateTime dt = selectDate.SelectedDate.Value;
-                list = list.Where(l => l.DateTime == dt.ToString("d")).ToList();
+                list = list.Where(l => l.StartTime == dt.ToString("d")).ToList();
             }
             if (CmBoxRoutes.Text != "")
             {

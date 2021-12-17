@@ -9,6 +9,7 @@ namespace TouristСenterLibrary.Entity
 {
     public class Order 
     {
+        private static ApplicationContext db = ContextManager.db;
         public int ID { get; set; }
         [Required] public  ApplicationType ApplicationType { get; set; }
         [Required] public Route Route { get; set; }
@@ -32,23 +33,25 @@ namespace TouristСenterLibrary.Entity
             public string ApplicationTypeName { get; set; }
             public string Status { get; set; }
         }
+        public static List<Order> GetOrders()
+        {
+            return (from o in db.Order select o).ToList();
+        }
+        
         public static List<OrderView> GetView()
         {
-            using(var db = new ApplicationContext())
-            {
-                return (from o in db.Order
-                        select new OrderView()
-                        {
-                            ID = o.ID,
-                            DateTime = o.StartTime.ToString("d"),
-                            RouteName = o.Route.Name,
-                            WayToTravel = o.WayToTravel,
-                            Client = o.Client.GetCompanyNameForOrder(),
-                            PeopleAmount = o.Client.PeopleAmount,
-                            ApplicationTypeName = o.ApplicationType.Name,
-                            Status = o.Status
-                        }).ToList();
-            }
+            return (from o in db.Order
+                    select new OrderView()
+                    {
+                        ID = o.ID,
+                        DateTime = o.StartTime.ToString("d"),
+                        RouteName = o.Route.Name,
+                        WayToTravel = o.WayToTravel,
+                        Client = o.Client.GetCompanyNameForOrder(),
+                        PeopleAmount = o.Client.PeopleAmount,
+                        ApplicationTypeName = o.ApplicationType.Name,
+                        Status = o.Status
+                    }).ToList();
         }
         public class OrderViewAll
         {
@@ -63,25 +66,24 @@ namespace TouristСenterLibrary.Entity
             public string Status { get; set; }
         }
 
+        
+
         public static List<OrderViewAll> GetViewAll(int orderID)
         {
-            using (var db = new ApplicationContext())
-            {
-                return (from o in db.Order
-                        where o.ID == orderID                    
-                        select new OrderViewAll()
-                        {
-                            ID = orderID,
-                            StartTime = o.StartTime.ToString("d"),
-                            FinishTime = o.FinishTime.ToString("d"),
-                            RouteName = o.Route.Name,
-                            WayToTravel = o.WayToTravel,
-                            Client = o.Client.GetCompanyNameForOrder(),
-                            PeopleAmount = o.Client.PeopleAmount,
-                            ApplicationType = o.ApplicationType.Name,
-                            Status = o.Status
-                        }).ToList();
-            }
+            return (from o in db.Order
+                    where o.ID == orderID                    
+                    select new OrderViewAll()
+                    {
+                        ID = orderID,
+                        StartTime = o.StartTime.ToString("d"),
+                        FinishTime = o.FinishTime.ToString("d"),
+                        RouteName = o.Route.Name,
+                        WayToTravel = o.WayToTravel,
+                        Client = o.Client.GetCompanyNameForOrder(),
+                        PeopleAmount = o.Client.PeopleAmount,
+                        ApplicationType = o.ApplicationType.Name,
+                        Status = o.Status
+                    }).ToList();
         }
         public static Order GetOrderByID(int orderID)
         {
@@ -92,5 +94,7 @@ namespace TouristСenterLibrary.Entity
             }
             
         }
+
+
     }
 }

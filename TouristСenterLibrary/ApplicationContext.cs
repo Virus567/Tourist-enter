@@ -30,6 +30,11 @@ namespace TouristСenterLibrary
         public ApplicationContext()
         {
             Database.EnsureCreated();
+            new ContextManager(this);
+        }
+        public static void InitDb()
+        {
+            new ApplicationContext();
         }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
