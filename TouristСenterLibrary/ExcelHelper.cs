@@ -26,12 +26,14 @@ namespace tourCenter
                 if (File.Exists(filePath))
                 {
                     _workbook = _excel.Workbooks.Open(filePath);
+                    _excel.Visible = true;
                 }
                 else
                 {
                     _workbook = _excel.Workbooks.Add();
                     _filePath = filePath;
-                    
+                    _excel.Visible = true;
+
                 }
 
                 return true;
@@ -43,15 +45,16 @@ namespace tourCenter
         {
             try
             {
+                
                 for (int i = 0; i < participants.Count; i++)
                 {
-                    ((Excel.Worksheet)_excel.ActiveSheet).Cells[i + 1, "A"].Value = participants[i].Surname;
-                    ((Excel.Worksheet)_excel.ActiveSheet).Cells[i + 1, "B"].Value = participants[i].Name;
-                    if(participants[i].Middlename !=null)
-                        ((Excel.Worksheet)_excel.ActiveSheet).Cells[i + 1, "C"].Value = participants[i].Middlename;
-                    ((Excel.Worksheet)_excel.ActiveSheet).Cells[i + 1, "D"].Value = participants[i].ClientTelefonNumber;
+                    //_excel.ActiveSheet.Cells[i + 1, "A"] = participants[i].Surname;
+                    //_excel.ActiveSheet.Cells[i + 1, "B"]= participants[i].Name;
+                    //if(participants[i].Middlename !=null)
+                    //   _excel.ActiveSheet.Cells[i + 1, "C"] = participants[i].Middlename;
+                    //_excel.ActiveSheet.Cells[i + 1, "D"]= participants[i].ClientTelefonNumber;
                 }
-               
+                
                 return true;
             }
             catch (Exception ex) { /*MessageBox.Show(ex.Message); */}
@@ -63,7 +66,7 @@ namespace tourCenter
         {
             try
             {
-                _workbook.Close();
+              //  _workbook.Close();
             } 
             catch(Exception ex) { /*MessageBox.Show(ex.Message);*/ }
         }

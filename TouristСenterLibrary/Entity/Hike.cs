@@ -31,7 +31,7 @@ namespace TouristСenterLibrary.Entity
         }
         public static List<HikeView> GetView()
         {   // Исправить этот метод !!!
-            List<Order> orders = Order.GetOrders();
+            //List<Order> orders = Order.GetOrders();
             return db.Hike.Join(db.Order, h => h.ID, o => o.ID, (h, o) => new HikeView()
             {
                 ID = h.ID,               
@@ -42,6 +42,7 @@ namespace TouristСenterLibrary.Entity
                 CompanyName = o.Client.GetCompanyNameForHike(),
                 //PeopleAmount = o.Client.GetPeopleAmountOfHike(orders.Where(or => or.Hike.ID ==h.ID).ToList()),
                 PeopleAmount = o.Client.PeopleAmount,
+               // PeopleAmount = o.GetPeopleAmountOfHike(h.ID),
                 Status = h.Status
             }).ToList();
         }

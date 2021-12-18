@@ -8,6 +8,7 @@ namespace TouristСenterLibrary.Entity
 {
     public class Client 
     {
+        
         private static ApplicationContext db = ContextManager.db;
         public int ID { get; set; }
         public string NameOfCompany { get; set; }
@@ -51,7 +52,7 @@ namespace TouristСenterLibrary.Entity
                    select c).ToList();
             
         }
-        public int GetPeopleAmountOfHike(List<Order> list)
+        public static int GetPeopleAmountOfHike(List<Order> list)
         {
             int count = 0;
             foreach (var l in list)
@@ -60,5 +61,7 @@ namespace TouristСenterLibrary.Entity
             }
             return count;
         }
+
+        
     }
 }
