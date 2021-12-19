@@ -19,7 +19,7 @@ namespace TouristСenterLibrary.Entity
         [Required] public Client Client { get; set; }
         
 
-        public static List<Participant> GetParticipant()
+        public static List<Participant> GetParticipants()
         {
              return db.Participant.ToList();
         }

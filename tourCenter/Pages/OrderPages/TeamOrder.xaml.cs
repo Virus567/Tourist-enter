@@ -21,7 +21,7 @@ namespace tourCenter
     /// </summary>
     public partial class TeamOrder : Page
     {
-        private string[,] values;
+        private object[,] values;
         public TeamOrder()
         {
             InitializeComponent();
@@ -57,24 +57,24 @@ namespace tourCenter
                 txtBoxFileName.Text = filename;
                 txtBoxFileName.FontSize = 12;
 
-                //using (var excel = new ExcelHelper())
-                //{
-                //    try
-                //    {
-                //        if (excel.Open(filename))
-                //        {
-                //          values = excel.GetParticipant();
-                //        }
-                //    }
-                //    catch (Exception ex) { MessageBox.Show(ex.Message); }
-                //}
-                //for (int i = 0; i < 2; i++)
-                //{
-                //    for (int j = 0; j < 4; j++)
-                //    {
-                //        txtBoxFood.Text += values[i, j];
-                //    }
-                //}
+                using (var excel = new ExcelHelper())
+                {
+                    try
+                    {
+                        if (excel.Open(filename))
+                        {
+                            values = excel.GetParticipants();
+                        }
+                    }
+                    catch (Exception ex) { MessageBox.Show(ex.Message); }
+                }
+                for (int i = 0; i < 1; i++)
+                {
+                    for (int j = 0; j < 1; j++)
+                    {
+                        txtBoxFood.Text += values[i, j].ToString();
+                    }
+                }
 
             }
         }

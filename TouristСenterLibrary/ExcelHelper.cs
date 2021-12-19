@@ -74,18 +74,19 @@ namespace tourCenter
             return false;
         }
 
-        public string[,] GetParticipant()
+        public object[,] GetParticipants()
         {
-            _excelRange = _worksheet.get_Range("A1", Missing.Value);       
-            _excelRange = _excelRange.get_End(XlDirection.xlToRight);           
-            _excelRange = _excelRange.get_End(XlDirection.xlDown);
+            _worksheet = (Excel.Worksheet)_workbook.Worksheets.get_Item(1);
+            Excel.Range _excelRange1 = _worksheet.get_Range("A1", Missing.Value);       
+            _excelRange1 = _excelRange1.get_End(XlDirection.xlToRight);           
+            _excelRange1 = _excelRange1.get_End(XlDirection.xlDown);
          
-            string downAddress = _excelRange.get_Address(
+            string downAddress = _excelRange1.get_Address(
                 false, false, XlReferenceStyle.xlA1,
                 Type.Missing, Type.Missing);
 
-            _excelRange = _excelRange.get_Range("A1", downAddress);
-            string[,] values = (string[,])_excelRange.Value2;
+            _excelRange1 = _excelRange1.get_Range("A1", downAddress);
+            object[,] values = (object[,])_excelRange1.Value2;
             return values;
         }
 
