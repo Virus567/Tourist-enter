@@ -9,7 +9,6 @@ namespace TouristСenterLibrary.Entity
 {
     public class Order 
     {
-        //private static List<Order> _orders = Order.GetOrders();
         private static ApplicationContext db = ContextManager.db;
         public int ID { get; set; }
         [Required] public  ApplicationType ApplicationType { get; set; }
@@ -35,29 +34,6 @@ namespace TouristСenterLibrary.Entity
             public string ApplicationTypeName { get; set; }
             public string Status { get; set; }
         }
-        public static List<Order> GetOrders()
-        {
-            return (from o in db.Order select new Order() 
-            {
-                ID =o.ID,
-                ApplicationType = o.ApplicationType,
-                Route = o.Route,
-                Employee = o.Employee,
-                Client =o.Client,
-                WayToTravel = o.WayToTravel,
-                FoodlFeatures = o.FoodlFeatures,
-                EquipmentFeatures = o.EquipmentFeatures,
-                StartTime = o.StartTime,
-                FinishTime = o.FinishTime,
-                Status = o.Status,
-                Hike = o.Hike
-            }).ToList();
-        }
-        //public int GetPeopleAmountOfHike(int hikeID)
-        //{
-        //    return Client.GetPeopleAmountOfHike(_orders.Where(o => o.Hike.ID == hikeID).ToList());           
-        //}
-
 
         public static List<OrderView> GetView()
         {

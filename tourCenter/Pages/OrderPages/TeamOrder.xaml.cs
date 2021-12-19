@@ -11,6 +11,8 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using TouristСenterLibrary.Entity;
+using TouristСenterLibrary;
+using System.IO;
 
 namespace tourCenter
 {
@@ -19,6 +21,7 @@ namespace tourCenter
     /// </summary>
     public partial class TeamOrder : Page
     {
+        private string[,] values;
         public TeamOrder()
         {
             InitializeComponent();
@@ -38,6 +41,42 @@ namespace tourCenter
         {
             if (CmBoxWayToTravel.Text == "Способ передвижения") CmBoxWayToTravel.Text = "";
 
+        }
+
+        private void BrowseBtn_Click(object sender, RoutedEventArgs e)
+        {
+            Microsoft.Win32.OpenFileDialog dlg = new Microsoft.Win32.OpenFileDialog();
+            dlg.DefaultExt = ".xlsx";
+            dlg.Filter = "Text documents (.xlsx)|*.xlsx";
+            Nullable<bool> result = dlg.ShowDialog();
+
+            
+            if (result == true)
+            {             
+                string filename = dlg.FileName;
+                txtBoxFileName.Text = filename;
+                txtBoxFileName.FontSize = 12;
+
+                //using (var excel = new ExcelHelper())
+                //{
+                //    try
+                //    {
+                //        if (excel.Open(filename))
+                //        {
+                //          values = excel.GetParticipant();
+                //        }
+                //    }
+                //    catch (Exception ex) { MessageBox.Show(ex.Message); }
+                //}
+                //for (int i = 0; i < 2; i++)
+                //{
+                //    for (int j = 0; j < 4; j++)
+                //    {
+                //        txtBoxFood.Text += values[i, j];
+                //    }
+                //}
+
+            }
         }
     }
 }

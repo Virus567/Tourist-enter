@@ -52,16 +52,6 @@ namespace TouristСenterLibrary.Entity
                    select c).ToList();
             
         }
-        public static int GetPeopleAmountOfHike(List<Order> list)
-        {
-            int count = 0;
-            foreach (var l in list)
-            {
-                count += l.Client.PeopleAmount;
-            }
-            return count;
-        }
-
-        
+    
     }
 }

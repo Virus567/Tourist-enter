@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Text;
 using Excel = Microsoft.Office.Interop.Excel;
 using TouristСenterLibrary.Entity;
-
+using System.Reflection;
 
 namespace tourCenter
 {
@@ -13,6 +13,8 @@ namespace tourCenter
     {
         private Application _excel;
         private Workbook _workbook;
+        private _Worksheet _worksheet;
+        private Excel.Range _excelRange;
         private string _filePath;
 
         public ExcelHelper()
@@ -26,49 +28,75 @@ namespace tourCenter
                 if (File.Exists(filePath))
                 {
                     _workbook = _excel.Workbooks.Open(filePath);
-                    _excel.Visible = true;
                 }
                 else
                 {
                     _workbook = _excel.Workbooks.Add();
                     _filePath = filePath;
-                    _excel.Visible = true;
 
                 }
 
                 return true;
             }
-            catch (Exception ex) {/* MessageBox.Show(ex.Message);*/ }          
+            catch (Exception ex) { Console.WriteLine(ex.Message); }          
             return false;
         }
+
         public bool SetParticipant(List<Participant> participants)
         {
             try
             {
-                
+                _worksheet = (Excel.Worksheet)_workbook.Worksheets.get_Item(1);
+                _worksheet.Name = "Участники";
+                _worksheet.PageSetup.Orientation = Excel.XlPageOrientation.xlLandscape;
+
+                object[,] participantsExport = new object[participants.Count, 4];
+
                 for (int i = 0; i < participants.Count; i++)
                 {
-                    //_excel.ActiveSheet.Cells[i + 1, "A"] = participants[i].Surname;
-                    //_excel.ActiveSheet.Cells[i + 1, "B"]= participants[i].Name;
-                    //if(participants[i].Middlename !=null)
-                    //   _excel.ActiveSheet.Cells[i + 1, "C"] = participants[i].Middlename;
-                    //_excel.ActiveSheet.Cells[i + 1, "D"]= participants[i].ClientTelefonNumber;
+                    participantsExport[i, 0] = participants[i].Surname;
+                    participantsExport[i, 1] = participants[i].Name;
+                    participantsExport[i, 2] = participants[i].Middlename;
+                    participantsExport[i, 3] = $"'{participants[i].ClientTelefonNumber}";
                 }
-                
+
+                _excelRange = _worksheet.get_Range("A2", Missing.Value);
+                _excelRange = _excelRange.get_Resize(participants.Count, 4);
+                _excelRange.set_Value(Missing.Value, participantsExport);
+                _excelRange.Columns.AutoFit();
+                _worksheet.Cells[1, 1] = "Фамилия";
+                _worksheet.Cells[1, 2] = "Имя";
+                _worksheet.Cells[1, 3] = "Отчество";
+                _worksheet.Cells[1, 4] = "Телефон";
                 return true;
             }
-            catch (Exception ex) { /*MessageBox.Show(ex.Message); */}
+            catch (Exception ex) { Console.WriteLine(ex.Message); }
             return false;
-
         }
+
+        public string[,] GetParticipant()
+        {
+            _excelRange = _worksheet.get_Range("A1", Missing.Value);       
+            _excelRange = _excelRange.get_End(XlDirection.xlToRight);           
+            _excelRange = _excelRange.get_End(XlDirection.xlDown);
+         
+            string downAddress = _excelRange.get_Address(
+                false, false, XlReferenceStyle.xlA1,
+                Type.Missing, Type.Missing);
+
+            _excelRange = _excelRange.get_Range("A1", downAddress);
+            string[,] values = (string[,])_excelRange.Value2;
+            return values;
+        }
+
 
         public void Dispose()
         {
             try
             {
-              //  _workbook.Close();
+                _workbook.Close();
             } 
-            catch(Exception ex) { /*MessageBox.Show(ex.Message);*/ }
+            catch(Exception ex) { Console.WriteLine(ex.Message); }
         }
 
         public void Save()
@@ -77,6 +105,7 @@ namespace tourCenter
             {
                 _workbook.SaveAs(_filePath);
                 _filePath = null;
+
             }
             else
             {

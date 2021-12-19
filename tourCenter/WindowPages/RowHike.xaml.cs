@@ -65,11 +65,12 @@ namespace tourCenter
             {
                 try
                 {
-                    if (excel.Open(filePath: Path.Combine(Environment.CurrentDirectory, $"{_hikeView.CompanyName}{_hikeView.StartTime}-{_hikeView.FinishTime}.xlsx")))
+                    if (excel.Open(filePath: Path.Combine("D:\\Hike", $"{_hikeView.CompanyName}{_hikeView.StartTime}-{_hikeView.FinishTime}.xlsx")))
                     {
                         excel.SetParticipant(_participants);
                         excel.Save();
                     }
+
                 }
                 catch (Exception ex) { MessageBox.Show(ex.Message); }
             }

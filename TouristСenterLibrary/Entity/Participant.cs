@@ -25,20 +25,21 @@ namespace TouristСenterLibrary.Entity
         }
         public static List<Participant> GetParticipantHike(int hikeID)
         {
-            return (from p in db.Participant
+            return (from p in db.Participant                   
                     join c in db.Client on p.Client.ID equals c.ID
                     join o in db.Order on  c.ID equals o.Client.ID
                     join h in db.Hike on o.Hike.ID equals h.ID
                     where h.ID == hikeID
-                    select new Participant()
-                    {
-                        ID = p.ID,
-                        Surname = p.Surname,
-                        Name = p.Name,
-                        Middlename = p.Middlename,
-                        ClientTelefonNumber = p.ClientTelefonNumber,
-                        Client = p.Client
-                    }).ToList();
+                    select p).ToList();
+
+        }
+        public static List<Participant> GetParticipantOrder(int orderId)
+        {
+            return (from p in db.Participant
+                    join c in db.Client on p.Client.ID equals c.ID
+                    join o in db.Order on c.ID equals o.Client.ID
+                    where o.ID == orderId
+                    select p).ToList();
 
         }
         public static List<string> GetAllName(List<Participant> participants)

@@ -11,6 +11,8 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using TouristСenterLibrary.Entity;
+using TouristСenterLibrary;
+using System.IO;
 
 namespace tourCenter
 {
@@ -55,6 +57,21 @@ namespace tourCenter
             //{
             //    numberPhone.Text = numberPhone.Text.Substring(0, numberPhone.Text.Length - 1);
             //}
+        }
+        private void BrowseBtn_Click(object sender, RoutedEventArgs e)
+        {
+            Microsoft.Win32.OpenFileDialog dlg = new Microsoft.Win32.OpenFileDialog();
+            dlg.DefaultExt = ".xlsx";
+            dlg.Filter = "Text documents (.xlsx)|*.xlsx";
+            Nullable<bool> result = dlg.ShowDialog();
+
+
+            if (result == true)
+            {
+                string filename = dlg.FileName;
+                txtBoxFileName.Text = filename;
+                txtBoxFileName.FontSize = 12;
+            }
         }
     }
 }

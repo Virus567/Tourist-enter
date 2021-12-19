@@ -8,8 +8,10 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 using TouristСenterLibrary.Entity;
+using System.IO;
+using TouristСenterLibrary;
+
 
 namespace tourCenter
 {
@@ -18,7 +20,9 @@ namespace tourCenter
     /// </summary>
     public partial class RowOrder : Window
     {
-        private int orderId;
+        private int _orderId;
+        private List<Participant> _participants;
+        private Order.OrderViewAll _orderView;
         public RowOrder()
         {
             InitializeComponent();
@@ -33,7 +37,8 @@ namespace tourCenter
         }
         public void AddOrderData(Order.OrderViewAll ov, int orderID)
         {
-            orderId = orderID;
+            _orderId = orderID;
+            _orderView = ov;
             winRowOrder.Title = $"{ov.ApplicationType} заявка: {ov.Client} {ov.StartTime}  — {ov.FinishTime}";
             cmbBoxStatus.Items.Add(ov.Status);
             cmbBoxStatus.SelectedItem = ov.Status;
@@ -42,18 +47,25 @@ namespace tourCenter
             cmbBoxWayToTravel.Items.Add(ov.WayToTravel);
             cmbBoxWayToTravel.SelectedItem = ov.WayToTravel;
             txtBoxPeopleAmount.Text = $"{ov.PeopleAmount}";
-            //List<Participant> tmp = Participant.GetParticipantHike(hikeID);
-            //listInstructors.ItemsSource = Instructor.GetHikeInstructor(hikeID);
-            //List<string> participants = Participant.GetAllName(tmp);
-            //foreach (string str in participants)
-            //{
-            //rowHikeParticipant.Content += $"{str}\n";
-            //}
+            _participants = Participant.GetParticipantOrder(_orderId);
+            
         }
 
         private void ExcelLink_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("Тут будет Excel!");
+            using (var excel = new ExcelHelper())
+            {
+                try
+                {
+                    if (excel.Open(filePath: Path.Combine("D:\\Order", $"{_orderView.Client}{_orderView.StartTime}-{_orderView.FinishTime}.xlsx")))
+                    {
+                        excel.SetParticipant(_participants);
+                        excel.Save();
+                    }
+
+                }
+                catch (Exception ex) { MessageBox.Show(ex.Message); }
+            }
         }
     }
 }
