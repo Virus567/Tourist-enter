@@ -23,6 +23,7 @@ namespace tourCenter
         private int _orderId;
         private List<Participant> _participants;
         private Order.OrderViewAll _orderView;
+        private object[,] _newParticipantsObj;
         public RowOrder()
         {
             InitializeComponent();
@@ -66,6 +67,33 @@ namespace tourCenter
                 }
                 catch (Exception ex) { MessageBox.Show(ex.Message); }
             }
+        }
+        private void BrowseBtn_Click(object sender, RoutedEventArgs e)
+        {
+            Microsoft.Win32.OpenFileDialog dlg = new Microsoft.Win32.OpenFileDialog();
+            dlg.DefaultExt = ".xlsx";
+            dlg.Filter = "Text documents (.xlsx)|*.xlsx";
+            Nullable<bool> result = dlg.ShowDialog();
+
+
+            if (result == true)
+            {
+                string filename = dlg.FileName;
+                txtBoxFileName.Text = filename;
+                txtBoxFileName.FontSize = 12;
+                using (var excel = new ExcelHelper())
+                {
+                    try
+                    {
+                        if (excel.OpenNewExcel(filename))
+                        {
+                            _newParticipantsObj = excel.GetParticipants();
+                        }
+                    }
+                    catch (Exception ex) { MessageBox.Show(ex.Message); }
+                }
+            }
+            ChengeBtn.Content = "Сохранить изменения";
         }
     }
 }

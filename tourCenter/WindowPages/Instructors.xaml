@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:tourCenter"
         mc:Ignorable="d"
-        Title="Инструкторы:" Height="450" Width="500" MaxHeight="450" MaxWidth="500" MinWidth="500" MinHeight="450" WindowStartupLocation="CenterScreen" ResizeMode="NoResize" Icon="/WindowPages/icon.ico">
+        Title="Инструкторы:" Height="450" Width="700" MaxHeight="450" MaxWidth="700" MinWidth="700" MinHeight="450" WindowStartupLocation="CenterScreen" ResizeMode="NoResize" Icon="/WindowPages/icon.ico">
     <Grid Background="#ffdadada">
 		<Grid.RowDefinitions>
 			<RowDefinition/>
@@ -23,9 +23,9 @@
 			<RowDefinition/>
 		</Grid.RowDefinitions>
 		<TextBlock x:Name="tb1"  Text="Выберите инструкторов для этого похода:" FontSize="16"/>
-		<DataGrid x:Name="InstrucorsList" Grid.Row="1" Grid.RowSpan="10" ItemsSource="{Binding Collection}" 
+		<DataGrid x:Name="InstrucorsList" Grid.Row="1" Grid.RowSpan="10" ItemsSource="{Binding Collection}" IsReadOnly="True"
 				  SelectionMode="Single" BorderBrush="Transparent" FontFamily="Times New Roman" Background="#ffdadada"
-				  AutoGenerateColumns="False" SelectionUnit="FullRow" CanUserResizeColumns="False" CanUserReorderColumns="False">
+				  AutoGenerateColumns="False" SelectionUnit="FullRow" FontSize="16" CanUserResizeColumns="False" CanUserReorderColumns="False">
 			<DataGrid.CellStyle>
 				<Style TargetType="DataGridCell">
 					<Setter Property="BorderThickness" Value="0"/>
@@ -38,7 +38,7 @@
 				</Style>
 			</DataGrid.CellStyle>
 			<DataGrid.Columns>
-				<DataGridCheckBoxColumn x:Name="checkInstructor" Header="В походе" Width="*" Binding="{Binding Path=InHike}"/>
+				<DataGridCheckBoxColumn x:Name="checkInstructor" Header="В походе" Width="*" IsReadOnly="False" Binding="{Binding Path=InHike}"/>
 				<DataGridTextColumn  Header="Фамилия" Width="*" Binding="{Binding Path=Surname }" />
 				<DataGridTextColumn Header="Имя" Width="*" Binding="{Binding Path=Name }" />
 				<DataGridTextColumn Header="Отчество" Width="*" Binding="{Binding Path=Middlename}" />

@@ -10,8 +10,8 @@
       d:DesignHeight="450" d:DesignWidth="800"
       Title="FamilyApp">
 
-    <Grid Background="#ffdadada">
-		
+	<Grid Background="#ffdadada">
+
 		<Grid.ColumnDefinitions>
 			<ColumnDefinition/>
 			<ColumnDefinition/>
@@ -65,7 +65,7 @@
 		<Label  Margin="0 8 0 0" Grid.Column="7" Grid.Row="1" Grid.ColumnSpan="3" Content="Номер телефона:"  Foreground="Gray" FontSize="16" />
 		<Border  Background="Gray" Margin="5 8 0 0" Grid.Column="10" Grid.ColumnSpan="3" Grid.Row="1" MaxHeight="30">
 			<TextBox x:Name="numberPhone" materialDesign:HintAssist.Hint="+7" Background="#ffdadada" Padding="0 0 0 5" FontSize="16" Margin="0 0.5 0.5 0"
-							    TextAlignment="Left" Cursor="IBeam" MaxLength="12" GotFocus="numberPhone_GotFocus" TextChanged="numberPhone_TextChanged" />
+				PreviewTextInput="numberPhone_PreviewTextInput" PreviewKeyDown="numberPhone_PreviewKeyDown"  TextAlignment="Left" Cursor="IBeam" GotFocus="numberPhone_GotFocus"/>
 		</Border>
 		<Label Content="Кол-во человек:" Grid.Column="13" Grid.Row="1" Grid.ColumnSpan="3" Margin="30 8 0 0" Foreground="Gray" FontSize="16" />
 		<Border Background="Gray" Grid.Column="16" Grid.Row="1" MaxHeight="30"  Margin="0 5 0 0" >
@@ -80,13 +80,13 @@
 		<ComboBox x:Name="CmBoxRoutes"  materialDesign:HintAssist.Hint="Выберите Маршрут" Grid.Column="1" Grid.Row="5" Grid.ColumnSpan="5"  
 				   Background="#ffdadada" MaxHeight="27" FontSize="16" Padding="0 0 3 0" LostMouseCapture="CmBoxRoutes_LostMouseCapture"/>
 		<Label Grid.Row="5" Grid.Column="7" Content="Даты:" Margin="0 5 0 0" Foreground="Gray" FontSize="16" />
-		
-		<DatePicker Grid.Row="5" Grid.Column="8" Grid.ColumnSpan="3" materialDesign:HintAssist.Hint="Дата начала" 
-					Margin="5 0 0 2" FontSize="16" SelectedDateFormat="Short"/>
-		
+
+		<DatePicker x:Name="StartDate" Grid.Row="5" Grid.Column="8" Grid.ColumnSpan="3" materialDesign:HintAssist.Hint="Дата начала" 
+					CalendarClosed="StartDate_CalendarClosed" Margin="5 0 0 2" FontSize="16" SelectedDateFormat="Short"/>
+
 		<Label   Grid.Row="5" Grid.Column="11" Content="—"  Foreground="Gray" FontSize="16" Margin="15 5 0 0" />
-		
-		<DatePicker Grid.Row="5" Grid.Column="12" Grid.ColumnSpan="3" Margin="0 0 0 2" materialDesign:HintAssist.Hint="Дата окончания"  
+
+		<DatePicker x:Name="FinishDate" Grid.Row="5" Grid.Column="12" Grid.ColumnSpan="3" Margin="0 0 0 2" materialDesign:HintAssist.Hint="Дата окончания"  
 					FontSize="16" SelectedDateFormat="Short"/>
 
 		<ComboBox Grid.Row="5" Grid.Column="16" Grid.ColumnSpan="5" Padding="0 0 3 0" materialDesign:HintAssist.Hint="Cпособ передвижения" 
@@ -95,19 +95,19 @@
 			<ComboBoxItem Content="Рафты"/>
 			<ComboBoxItem Content="Способ передвижения"/>
 		</ComboBox>
-		
+
 		<Label Grid.Row="9" Grid.Column="1" Grid.ColumnSpan="5" Content="Особенности питания:" FontSize="16" Foreground="DimGray"/>
-		
+
 		<CheckBox Grid.Row="10" Grid.Column="1" Grid.ColumnSpan="3" x:Name="CheckMeat" Foreground ="DimGray"  
 				  Background="Teal" FontFamily="Segoe UI" FontSize="16" >Вегетарианцы</CheckBox>
-		
+
 		<CheckBox Grid.Row="11" Grid.Column="1" Grid.ColumnSpan="3" x:Name="CheckSugar" Foreground ="DimGray" 
 				  Background="Teal" FontFamily="Segoe UI" FontSize="16" >Диабетики</CheckBox>
-		
+
 		<TextBox  AcceptsReturn="True" Grid.Row="14" Grid.Column="1" Grid.ColumnSpan="5" BorderThickness="1" 
 				  BorderBrush="DimGray" Padding="2" TextWrapping ="Wrap"  Grid.RowSpan="4"  
 				  materialDesign:HintAssist.Hint="Аллергии и т.п." FontSize="16"/>
-		
+
 		<Label Grid.Row="9" Grid.Column="7" Grid.ColumnSpan="5"  Content="Особенности снаряжения:" 
 			   FontSize="16" Foreground="DimGray"/>
 
@@ -117,14 +117,14 @@
 			<mah:NumericUpDown x:Name="persTentAmount"  Background="#ffdadada" FontSize="16" Margin="0 1 1 0"
 							   UpDownButtonsWidth="0" ButtonsAlignment="Left" TextAlignment="Left" />
 		</Border>
-		
+
 		<Label Content="Кол-во индивидуальных гермомешоков:" Grid.Column="7" Grid.Row="10" Grid.ColumnSpan="6"
 			   Margin="0 8 0 0" Foreground="DimGray" FontSize="16" />
 		<Border Background="Gray" Grid.Column="14" Grid.Row="10"  MaxHeight="30"  Margin="0 5 0 0" >
 			<mah:NumericUpDown x:Name="persHermeticBagAmount"  Background="#ffdadada" FontSize="16" Margin="0 1 1 0"
 							   UpDownButtonsWidth="0" ButtonsAlignment="Left" TextAlignment="Left" />
 		</Border>
-		
+
 		<TextBox  AcceptsReturn="True" Grid.Row="14" Grid.Column="7" Grid.ColumnSpan="8" 
 				  BorderThickness="1" BorderBrush="DimGray" Padding="2" TextWrapping ="Wrap"  Grid.RowSpan="4"  
 				  materialDesign:HintAssist.Hint="Примечание" FontSize="16"/>

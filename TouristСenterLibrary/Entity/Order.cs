@@ -33,6 +33,7 @@ namespace TouristСenterLibrary.Entity
             public int PeopleAmount { get; set; }
             public string ApplicationTypeName { get; set; }
             public string Status { get; set; }
+            public bool IsListParticipants { get; set; }
         }
 
         public static List<OrderView> GetView()
@@ -47,7 +48,8 @@ namespace TouristСenterLibrary.Entity
                         Client = o.Client.GetCompanyNameForOrder(),
                         PeopleAmount = o.Client.PeopleAmount,
                         ApplicationTypeName = o.ApplicationType.Name,
-                        Status = o.Status
+                        Status = o.Status,
+                        IsListParticipants = Participant.IsParticipantForOrder(o.Client.ID)
                     }).ToList();
         }
         public class OrderViewAll
@@ -86,8 +88,7 @@ namespace TouristСenterLibrary.Entity
         {
             using (var db = new ApplicationContext())
             {
-               List<Order> list = db.Order.Where(o => o.ID == orderID).ToList();
-               return list[0];
+                return db.Order.Where(o => o.ID == orderID).ToList()[0];                
             }
             
         }

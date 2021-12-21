@@ -21,7 +21,7 @@ namespace tourCenter
     /// </summary>
     public partial class TeamOrder : Page
     {
-        private object[,] values;
+        private object[,] _newParticipantsObj;
         public TeamOrder()
         {
             InitializeComponent();
@@ -36,6 +36,13 @@ namespace tourCenter
         private void CmBoxRoutes_LostMouseCapture(object sender, MouseEventArgs e)
         {
             if (CmBoxRoutes.Text == "Выберите Маршрут") CmBoxRoutes.Text = "";
+
+            if (StartDate.Text != "" && CmBoxRoutes.Text != "")
+            {
+                int days = int.Parse(StartDate.Text.Substring(0, 2));
+                string monthAndYear = StartDate.Text.Substring(2, 8);
+                FinishDate.Text = (days + Route.GetDaysAmountByRouteName(CmBoxRoutes.Text) - 1).ToString() + monthAndYear;
+            }
         }
         private void CmBoxWayToTravel_LostMouseCapture(object sender, MouseEventArgs e)
         {
@@ -61,22 +68,66 @@ namespace tourCenter
                 {
                     try
                     {
-                        if (excel.Open(filename))
+                        if (excel.OpenNewExcel(filename))
                         {
-                            values = excel.GetParticipants();
+                            _newParticipantsObj = excel.GetParticipants();
                         }
+                        for(int i =1;i <=_newParticipantsObj.GetLength(0); i++)
+                        {
+                            for (int j = 1; j <= _newParticipantsObj.GetLength(1); j++)
+                            {
+                                
+                            }
+                        }                      
                     }
                     catch (Exception ex) { MessageBox.Show(ex.Message); }
                 }
-                for (int i = 0; i < 1; i++)
-                {
-                    for (int j = 0; j < 1; j++)
-                    {
-                        txtBoxFood.Text += values[i, j].ToString();
-                    }
-                }
 
             }
+        }
+
+        private void numberPhone_GotFocus(object sender, RoutedEventArgs e)
+        {
+            if (numberPhone.Text.Length == 0)
+            {
+                numberPhone.Text = "+7";
+            }
+
+        }
+
+        private void numberPhone_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            string t = numberPhone.Text;
+            if (t.Length == 0)
+            {
+                numberPhone.SelectionStart = numberPhone.Text.Length;
+            }
+            if (t.Length >= 12)
+            {
+                e.Handled = true;
+            }
+            int val;
+            if (!Int32.TryParse(e.Text, out val))
+            {
+                e.Handled = true;
+            }
+        }
+        private void numberPhone_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Space)
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void StartDate_CalendarClosed(object sender, RoutedEventArgs e)
+        {
+            if(StartDate.Text!="" && CmBoxRoutes.Text != "")
+            {
+                int days = int.Parse(StartDate.Text.Substring(0, 2));
+                string monthAndYear = StartDate.Text.Substring(2, 8);
+                FinishDate.Text = (days + Route.GetDaysAmountByRouteName(CmBoxRoutes.Text) - 1).ToString() + monthAndYear;
+            }           
         }
     }
 }

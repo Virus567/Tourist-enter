@@ -33,6 +33,19 @@ namespace TouristСenterLibrary.Entity
                     select p).ToList();
 
         }
+        public static bool IsParticipantForOrder(int clientId)
+        {
+            try
+            {
+                List<Participant> participants = db.Participant.Where(p => p.Client.ID == clientId).ToList();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+            
+        }
         public static List<Participant> GetParticipantOrder(int orderId)
         {
             return (from p in db.Participant

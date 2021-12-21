@@ -43,6 +43,23 @@ namespace TouristСenterLibrary.Entity
             return tmp;
             
         }
+        public string GetFullNameOrCompanyName()
+        {
+
+            string tmp;
+            if (NameOfCompany != null)
+                tmp = $"{NameOfCompany}";
+            else
+            {
+                tmp = $"{Surname} {Name}";
+                if (Middlename != null) tmp += $" {Middlename}";
+            }
+            return tmp;
+        }
+        public static Client GetClientByID( int clientId)
+        {
+            return db.Client.Where(c => c.ID == clientId).ToList()[0];
+        }
         
         public static List<Client> GetClientsByHikeID(int hikeId)
         {

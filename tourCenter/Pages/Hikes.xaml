@@ -39,7 +39,7 @@
 		<Button x:Name="FindBtn" Click="FindBtn_Click" Grid.Column="6" Grid.Row="0" Margin="2 0 10 0" Content="Найти" Background="Teal" Foreground ="White" Cursor="Hand"/>
 		<ComboBox  materialDesign:HintAssist.Hint="Выберите Маршрут" x:Name="CmBoxRoutes" Grid.Row="0" Grid.Column="1" 
 				  Background="#ffdadada" Margin="15 0 3 0" MaxHeight="27" LostMouseCapture="CmBoxRoutes_LostMouseCapture"/>
-		<TextBox x:Name="txtBoxSearch" Grid.Row="0" Grid.Column="5" Background="#ffdadada" materialDesign:HintAssist.Hint="Поиск"
+		<TextBox x:Name="txtBoxSearch" Grid.Row="0" Grid.Column="5" Background="#ffdadada" materialDesign:HintAssist.Hint="Поиск по клиенту"
 				 MaxHeight="33" Cursor="IBeam" Margin="0 3 10 3" FontSize="14" TextChanged="txtBoxSearch_TextChanged"/>
 		<Border Background="Teal" Grid.Column="4" Grid.Row="0" Margin="10 3 10 2" MaxHeight="27">
 			<CheckBox x:Name="CheckOnRoute" Foreground ="White" Background="White" FontFamily="Segoe UI"

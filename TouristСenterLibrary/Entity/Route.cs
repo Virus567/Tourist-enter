@@ -17,5 +17,10 @@ namespace TouristСenterLibrary.Entity
         {
              return db.Route.Select(x => x.Name).ToList();
         }
+        public static int GetDaysAmountByRouteName(string routeName)
+        {
+            Route route = db.Route.Where(r => r.Name == routeName).ToList()[0];            
+            return route.NumberDays;
+        }
     }
 }

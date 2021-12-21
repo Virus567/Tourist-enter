@@ -41,6 +41,19 @@ namespace tourCenter
             catch (Exception ex) { Console.WriteLine(ex.Message); }          
             return false;
         }
+        public bool OpenNewExcel(string filePath)
+        {
+            try
+            {
+                if (File.Exists(filePath))
+                {
+                    _workbook = _excel.Workbooks.Open(filePath, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing); 
+                }
+                return true;
+            }
+            catch (Exception ex) { Console.WriteLine(ex.Message); }
+            return false;
+        }
 
         public bool SetParticipant(List<Participant> participants)
         {
@@ -76,17 +89,19 @@ namespace tourCenter
 
         public object[,] GetParticipants()
         {
-            _worksheet = (Excel.Worksheet)_workbook.Worksheets.get_Item(1);
-            Excel.Range _excelRange1 = _worksheet.get_Range("A1", Missing.Value);       
-            _excelRange1 = _excelRange1.get_End(XlDirection.xlToRight);           
-            _excelRange1 = _excelRange1.get_End(XlDirection.xlDown);
-         
-            string downAddress = _excelRange1.get_Address(
-                false, false, XlReferenceStyle.xlA1,
-                Type.Missing, Type.Missing);
-
-            _excelRange1 = _excelRange1.get_Range("A1", downAddress);
-            object[,] values = (object[,])_excelRange1.Value2;
+            object[,] values;
+            try
+            {
+                _worksheet = (Excel.Worksheet)_workbook.Worksheets.get_Item(1);
+                Excel.Range startRange = _worksheet.get_Range("A2", Missing.Value);
+                Excel.Range ftrRange = startRange.get_End(XlDirection.xlToRight);
+                Excel.Range finishRange = ftrRange.get_End(XlDirection.xlDown);
+                Excel.Range excelRange = (Excel.Range)_worksheet.get_Range(startRange, finishRange);
+                values = (object[,])excelRange.Value2;
+                return values;
+            }
+            catch (Exception ex) { Console.WriteLine(ex.Message); }
+            values = new object[0,0];
             return values;
         }
 

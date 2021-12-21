@@ -66,9 +66,9 @@
 				 materialDesign:HintAssist.Hint="ФИО" Padding="0 10 0 0" Background="#ffdadada"    Cursor="IBeam" />
 		<Label  Margin="20 8 0 0" Grid.Column="12" Grid.Row="1" Grid.ColumnSpan="3" Content="Номер телефона:" 
 				Foreground="Gray" FontSize="16"/>
-		<Border  Background="Gray" Margin="5 8 0 0" Grid.Column="15" Grid.ColumnSpan="3" Grid.Row="1" MaxHeight="30"  >
-			<mah:NumericUpDown x:Name="numberPhone" materialDesign:HintAssist.Hint="+7" Background="#ffdadada" Padding="0 0 0 5" FontSize="16" Margin="0 0.5 0.5 0"
-							   UpDownButtonsWidth="0" ButtonsAlignment="Left" TextAlignment="Left" />
+		<Border  Background="Gray" Margin="5 8 0 0" Grid.Column="15" Grid.ColumnSpan="3" Grid.Row="1" MaxHeight="30">
+			<TextBox x:Name="numberPhone" materialDesign:HintAssist.Hint="+7" Background="#ffdadada" Padding="0 0 0 5" FontSize="16" Margin="0.5 0.5 1 0"
+			PreviewTextInput="numberPhone_PreviewTextInput" PreviewKeyDown="numberPhone_PreviewKeyDown"  TextAlignment="Left" Cursor="IBeam" GotFocus="numberPhone_GotFocus"/>
 		</Border>
 		<Label Content="Кол-во человек:" Grid.Column="18" Grid.Row="1" Grid.ColumnSpan="4" Margin="30 8 0 0" Foreground="Gray" FontSize="16" />
 		<Border Background="Gray" Grid.Column="21" Grid.Row="1" MaxHeight="30"  Margin="0 5 0 0" >
@@ -84,12 +84,12 @@
 				   Background="#ffdadada" MaxHeight="27" FontSize="16" Padding="0 0 3 0" LostMouseCapture="CmBoxRoutes_LostMouseCapture"/>
 		<Label Grid.Row="5" Grid.Column="7" Content="Даты:" Margin="0 5 0 0" Foreground="Gray" FontSize="16" />
 
-		<DatePicker Grid.Row="5" Grid.Column="8" Grid.ColumnSpan="3" materialDesign:HintAssist.Hint="Дата начала" 
-					Margin="5 0 0 2" FontSize="16" SelectedDateFormat="Short"/>
+		<DatePicker x:Name="StartDate" Grid.Row="5" Grid.Column="8" Grid.ColumnSpan="3" materialDesign:HintAssist.Hint="Дата начала" 
+					Margin="5 0 0 2" FontSize="16" SelectedDateFormat="Short" CalendarClosed="StartDate_CalendarClosed"/>
 
 		<Label   Grid.Row="5" Grid.Column="11" Content="—"  Foreground="Gray" FontSize="16" Margin="15 5 0 0" />
 
-		<DatePicker Grid.Row="5" Grid.Column="12" Grid.ColumnSpan="3" Margin="0 0 0 2" materialDesign:HintAssist.Hint="Дата окончания"  
+		<DatePicker x:Name="FinishDate" Grid.Row="5" Grid.Column="12" Grid.ColumnSpan="3" Margin="0 0 0 2" materialDesign:HintAssist.Hint="Дата окончания"  
 					FontSize="16" SelectedDateFormat="Short"/>
 
 		<ComboBox Grid.Row="5" Grid.Column="16" Grid.ColumnSpan="5" Padding="0 0 3 0" materialDesign:HintAssist.Hint="Cпособ передвижения" 
@@ -109,7 +109,7 @@
 
 		<TextBox  x:Name="txtBoxFood" AcceptsReturn="True" Grid.Row="14" Grid.Column="1" Grid.ColumnSpan="5" BorderThickness="1" 
 				  BorderBrush="DimGray" Padding="2" TextWrapping ="Wrap"  Grid.RowSpan="4"  
-				  materialDesign:HintAssist.Hint="Аллергии и т.п." FontSize="16"/>
+				  materialDesign:HintAssist.Hint="Аллергии и т.п." FontSize="16" Cursor="IBeam"/>
 
 		<Label Grid.Row="9" Grid.Column="7" Grid.ColumnSpan="5"  Content="Особенности снаряжения:" 
 			   FontSize="16" Foreground="DimGray"/>
