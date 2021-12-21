@@ -12,6 +12,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using TouristСenterLibrary.Entity;
 using TouristСenterLibrary;
+using ExcelLibrary;
 using System.IO;
 
 namespace tourCenter

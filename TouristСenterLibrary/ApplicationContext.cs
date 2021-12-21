@@ -27,19 +27,23 @@ namespace TouristСenterLibrary
         public DbSet<Transport> Transport { get; set; }
         public DbSet<TransportCompany> TransportCompany { get; set; }
 
-        public ApplicationContext()
+        public ApplicationContext(DbContextOptions<ApplicationContext> options):base(options)
         {
-            Database.EnsureCreated();
+            Database.Migrate();
             new ContextManager(this);
+        }
+        public static DbContextOptions<ApplicationContext> GetDb()
+        {
+            return new DbContextOptionsBuilder<ApplicationContext>().UseNpgsql("Host=localhost;Port=5432;Database=tourist_center;Username=postgres;Password=123").Options;
         }
         public static void InitDb()
         {
-            new ApplicationContext();
+            new ApplicationContext(GetDb());
         }
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            optionsBuilder.UseNpgsql("Host=localhost;Port=5432;Database=tourist_center;Username=postgres;Password=123");
-        }
+        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        //{
+        //    optionsBuilder.UseNpgsql("Host=localhost;Port=5432;Database=tourist_center;Username=postgres;Password=123");
+        //}
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Employee>().HasIndex(s => s.EmployeeTelefonNumber).IsUnique();

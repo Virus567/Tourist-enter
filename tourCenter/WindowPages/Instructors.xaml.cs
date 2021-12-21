@@ -19,7 +19,7 @@ namespace tourCenter
     /// </summary>
     public partial class Instrucors : Window
     {
-        private List<string> selectedInstructors = new List<string>();
+        private List<Instructor.InstructorView> selectedInstructors = new List<Instructor.InstructorView>();
         private List<Instructor.InstructorView> hikeInstructors = new List<Instructor.InstructorView>();
         public Instrucors(int hikeId)
         {
@@ -35,10 +35,12 @@ namespace tourCenter
             foreach (Instructor.InstructorView l in list)
             {
                 foreach(Instructor.InstructorView h in hikeInstructors)
-                if (l.Surname == h.Surname && l.Name == h.Name && l.Middlename == h.Middlename)
-                {
-                  l.InHike = true;
-                }
+                    if (l.Surname == h.Surname && l.Name == h.Name && l.Middlename == h.Middlename)
+                    {
+                        l.InHike = true;
+                        selectedInstructors.Add(l);
+                    }
+
             }
             InstrucorsList.ItemsSource = list;
         }
@@ -50,29 +52,23 @@ namespace tourCenter
             this.Close();
         }
 
-        private void CheckBox_Checked(object sender, RoutedEventArgs e)
+
+        private void checkInstructor_Checked(object sender, RoutedEventArgs e)
         {
-            var checkBox = (CheckBox)sender;
-            selectedInstructors.Add(checkBox.Content.ToString());
+            Instructor.InstructorView selectedInstructor = (Instructor.InstructorView)InstrucorsList.SelectedValue;
+            if (selectedInstructor != null && !selectedInstructors.Contains(selectedInstructor))
+            {
+                selectedInstructors.Add(selectedInstructor);
+            }           
         }
 
-        //private void CheckBox_Unchecked(object sender, RoutedEventArgs e)
-        //{
-        //    var uncheckedBox = (CheckBox)sender;
-        //    if (selectedInstructors.Contains(uncheckedBox.Content.ToString()))
-        //    {
-        //        selectedInstructors.Remove(uncheckedBox.Content.ToString());
-        //    }
-        //}
-
-        //private void CheckBox_Loaded(object sender, RoutedEventArgs e)
-        //{
-        //    var check = (CheckBox)sender;
-        //    if (hikeInstructors.Contains(check.Content.ToString()))
-        //    {
-        //        check.IsChecked = true;
-        //    }
-
-        //}
+        private void checkInstructor_Unchecked(object sender, RoutedEventArgs e)
+        {
+            Instructor.InstructorView selectedInstructor = (Instructor.InstructorView)InstrucorsList.SelectedValue;
+            if (selectedInstructor != null && selectedInstructors.Contains(selectedInstructor))
+            {
+                selectedInstructors.Remove(selectedInstructor);
+            }
+        }
     }    
 }

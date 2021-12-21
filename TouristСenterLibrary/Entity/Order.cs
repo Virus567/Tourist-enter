@@ -86,10 +86,8 @@ namespace TouristСenterLibrary.Entity
         }
         public static Order GetOrderByID(int orderID)
         {
-            using (var db = new ApplicationContext())
-            {
-                return db.Order.Where(o => o.ID == orderID).ToList()[0];                
-            }
+
+            return db.Order.Where(o => o.ID == orderID).ToList()[0];                
             
         }
 

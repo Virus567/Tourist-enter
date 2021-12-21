@@ -38,7 +38,13 @@
 				</Style>
 			</DataGrid.CellStyle>
 			<DataGrid.Columns>
-				<DataGridCheckBoxColumn x:Name="checkInstructor" Header="В походе" Width="*" IsReadOnly="False" Binding="{Binding Path=InHike}"/>
+				<DataGridTemplateColumn Header="В походе" IsReadOnly="False" Width="*">
+					<DataGridTemplateColumn.CellTemplate>
+						<DataTemplate>
+							<CheckBox x:Name="checkInstructor"  Margin="30 0 0 0" IsChecked="{Binding Path=InHike}" Checked="checkInstructor_Checked" Unchecked="checkInstructor_Unchecked" />
+						</DataTemplate>
+					</DataGridTemplateColumn.CellTemplate>
+				</DataGridTemplateColumn> 
 				<DataGridTextColumn  Header="Фамилия" Width="*" Binding="{Binding Path=Surname }" />
 				<DataGridTextColumn Header="Имя" Width="*" Binding="{Binding Path=Name }" />
 				<DataGridTextColumn Header="Отчество" Width="*" Binding="{Binding Path=Middlename}" />

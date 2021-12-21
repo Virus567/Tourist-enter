@@ -7,7 +7,7 @@ using Excel = Microsoft.Office.Interop.Excel;
 using TouristСenterLibrary.Entity;
 using System.Reflection;
 
-namespace tourCenter
+namespace ExcelLibrary
 {
     public class ExcelHelper : IDisposable
     {
@@ -38,7 +38,7 @@ namespace tourCenter
 
                 return true;
             }
-            catch (Exception ex) { Console.WriteLine(ex.Message); }          
+            catch (Exception ex) { Console.WriteLine(ex.Message); }
             return false;
         }
         public bool OpenNewExcel(string filePath)
@@ -47,7 +47,7 @@ namespace tourCenter
             {
                 if (File.Exists(filePath))
                 {
-                    _workbook = _excel.Workbooks.Open(filePath, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing); 
+                    _workbook = _excel.Workbooks.Open(filePath, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing);
                 }
                 return true;
             }
@@ -101,7 +101,7 @@ namespace tourCenter
                 return values;
             }
             catch (Exception ex) { Console.WriteLine(ex.Message); }
-            values = new object[0,0];
+            values = new object[0, 0];
             return values;
         }
 
@@ -111,8 +111,8 @@ namespace tourCenter
             try
             {
                 _workbook.Close();
-            } 
-            catch(Exception ex) { Console.WriteLine(ex.Message); }
+            }
+            catch (Exception ex) { Console.WriteLine(ex.Message); }
         }
 
         public void Save()
