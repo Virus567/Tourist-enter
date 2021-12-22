@@ -34,6 +34,7 @@ namespace ExcelLibrary
                     _workbook = _excel.Workbooks.Add();
                     _filePath = filePath;
 
+
                 }
 
                 return true;
@@ -41,13 +42,14 @@ namespace ExcelLibrary
             catch (Exception ex) { Console.WriteLine(ex.Message); }
             return false;
         }
+
         public bool OpenNewExcel(string filePath)
         {
             try
             {
                 if (File.Exists(filePath))
                 {
-                    _workbook = _excel.Workbooks.Open(filePath, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing);
+                    _workbook = _excel.Workbooks.Open(filePath, false, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing);
                 }
                 return true;
             }
@@ -81,6 +83,39 @@ namespace ExcelLibrary
                 _worksheet.Cells[1, 2] = "Имя";
                 _worksheet.Cells[1, 3] = "Отчество";
                 _worksheet.Cells[1, 4] = "Телефон";
+                _excel.Visible = true;
+                return true;
+            }
+            catch (Exception ex) { Console.WriteLine(ex.Message); }
+            return false;
+        }
+        public bool SetEquipment(List<HikeEquipment> equipments, List<CountableHikeEquip> countableEquipments)
+        {
+            try
+            {
+                //_worksheet = (Excel.Worksheet)_workbook.Worksheets.get_Item(2);
+                //_worksheet.Name = "Снаряжение";
+                //_worksheet.PageSetup.Orientation = Excel.XlPageOrientation.xlLandscape;
+
+                //object[,] participantsExport = new object[participants.Count, 4];
+
+                //for (int i = 0; i < participants.Count; i++)
+                //{
+                //    participantsExport[i, 0] = participants[i].Surname;
+                //    participantsExport[i, 1] = participants[i].Name;
+                //    participantsExport[i, 2] = participants[i].Middlename;
+                //    participantsExport[i, 3] = $"'{participants[i].ClientTelefonNumber}";
+                //}
+
+                //_excelRange = _worksheet.get_Range("A2", Missing.Value);
+                //_excelRange = _excelRange.get_Resize(participants.Count, 4);
+                //_excelRange.set_Value(Missing.Value, participantsExport);
+                //_excelRange.Columns.AutoFit();
+                //_worksheet.Cells[1, 1] = "Фамилия";
+                //_worksheet.Cells[1, 2] = "Имя";
+                //_worksheet.Cells[1, 3] = "Отчество";
+                //_worksheet.Cells[1, 4] = "Телефон";
+                //_excel.Visible = true;
                 return true;
             }
             catch (Exception ex) { Console.WriteLine(ex.Message); }
@@ -110,7 +145,10 @@ namespace ExcelLibrary
         {
             try
             {
-                _workbook.Close();
+                if (!_excel.Visible)
+                {
+                    _workbook.Close();
+                }                
             }
             catch (Exception ex) { Console.WriteLine(ex.Message); }
         }
@@ -119,7 +157,7 @@ namespace ExcelLibrary
         {
             if (!string.IsNullOrEmpty(_filePath))
             {
-                _workbook.SaveAs(_filePath);
+                _workbook.SaveAs(_filePath );
                 _filePath = null;
 
             }

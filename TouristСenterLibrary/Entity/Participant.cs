@@ -23,7 +23,7 @@ namespace TouristСenterLibrary.Entity
         {
              return db.Participant.ToList();
         }
-        public static List<Participant> GetParticipantHike(int hikeID)
+        public static List<Participant> GetParticipantsByHike(int hikeID)
         {
             return (from p in db.Participant                   
                     join c in db.Client on p.Client.ID equals c.ID
@@ -46,7 +46,7 @@ namespace TouristСenterLibrary.Entity
             }
             
         }
-        public static List<Participant> GetParticipantOrder(int orderId)
+        public static List<Participant> GetParticipantsByOrder(int orderId)
         {
             return (from p in db.Participant
                     join c in db.Client on p.Client.ID equals c.ID

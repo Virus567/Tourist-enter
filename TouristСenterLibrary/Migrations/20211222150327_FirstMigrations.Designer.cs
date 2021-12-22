@@ -10,7 +10,7 @@ using TouristСenterLibrary;
 namespace TouristСenterLibrary.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    [Migration("20211221211213_FirstMigrations")]
+    [Migration("20211222150327_FirstMigrations")]
     partial class FirstMigrations
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

@@ -41,7 +41,7 @@ namespace tourCenter
         {
             _hikeView = hv;
             _hikeId = hikeID;
-            int PeopleAmount = Hike.GetPeopleAmountOfHike(hikeID);
+            int peopleAmount = Hike.GetPeopleAmountOfHike(hikeID);
             winRowHike.Title = $" {hv.CompanyName} {hv.StartTime}  — {hv.FinishTime}";
             cmbBoxStatus.Items.Add(hv.Status);
             cmbBoxStatus.SelectedItem = hv.Status;
@@ -49,8 +49,8 @@ namespace tourCenter
             cmbBoxRoute.SelectedItem = hv.RouteName;
             cmbBoxWayToTravel.Items.Add(hv.WayToTravel);
             cmbBoxWayToTravel.SelectedItem = hv.WayToTravel;
-            txtBoxPeopleAmount.Text = $"{PeopleAmount}";
-            _participants = Participant.GetParticipantHike(hikeID);
+            txtBoxPeopleAmount.Text = $"{peopleAmount}";
+            _participants = Participant.GetParticipantsByHike(hikeID);
             listInstructors.ItemsSource = Instructor.GetViewHikeInstructor(hikeID);
         }
 
@@ -71,10 +71,10 @@ namespace tourCenter
                         excel.SetParticipant(_participants);
                         excel.Save();
                     }
-
                 }
                 catch (Exception ex) { MessageBox.Show(ex.Message); }
             }
+           
         }
     }
 }

@@ -60,11 +60,13 @@ namespace TouristСenterLibrary.Entity
             public string CompanyName { get; set; }
             public int PeopleAmount { get; set; }
             public string Status { get; set; }
+            // public int HermeticBagAmount { get; set; }
+            // public int IndividualTentAmount { get; set; }
         }
 
         public static List<HikeViewAll> GetViewByID(int hikeID)
-        {           
-            return (from h in db.Hike
+        {
+            List<HikeViewAll>list = (from h in db.Hike
                     join o in db.Order on h.ID equals o.Hike.ID
                     join c in db.Client on o.ID equals c.ID
                     where h.ID == hikeID
@@ -78,7 +80,15 @@ namespace TouristСenterLibrary.Entity
                         CompanyName = o.Client.GetCompanyNameForHike(),
                         PeopleAmount = c.PeopleAmount,
                         Status = h.Status
+                        //  HermeticBagAmount = o.HermeticBagAmount,
+                        //  IndividualTentAmount =o.IndividualTentAmount
                     }).ToList();
+            //foreach(HikeViewAll hv in list)
+            //{
+            //    hv.HermeticBagAmount = Order.GetHermeticBagAmount(hv.ID);
+            //    hv.IndividualTentAmount = Order.GetIndividualTentAmount(hv.ID);
+            //}
+            return list;
         }
         public static int GetPeopleAmountOfHike(int hikeID)
         {

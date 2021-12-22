@@ -22,7 +22,8 @@ namespace TouristСenterLibrary.Entity
         [Required] public DateTime FinishTime { get; set; }
         [Required] public string Status { get; set; }
         public Hike Hike { get; set; }
-
+        //[Required] public int HermeticBagAmount { get; set; }
+        //[Required] public int IndividualTentAmount { get; set; }
         public class OrderView 
         {
             public int ID { get; set; }
@@ -63,9 +64,40 @@ namespace TouristСenterLibrary.Entity
             public int PeopleAmount { get; set; }
             public string ApplicationType { get; set; }
             public string Status { get; set; }
+            // public int HermeticBagAmount { get; set; }
+            // public int IndividualTentAmount { get; set; }
+            //public string FoodlFeatures { get; set; }
+            //public string EquipmentFeatures { get; set; }
+
         }
 
-        
+        public static int GetHermeticBagAmount(int hikeId)
+        {
+            int result = 0;
+            List<Order> orders = (from o in db.Order
+                                  join h in db.Hike on o.Hike.ID equals h.ID
+                                  where h.ID == hikeId
+                                  select o).ToList();
+            //foreach(Order or in orders)
+            //{
+            //    result += or.HermeticBagAmount;
+            //}
+            return result;
+        }
+        public static int GetIndividualTentAmount(int hikeId)
+        {
+            int result = 0;
+            List<Order> orders = (from o in db.Order
+                                  join h in db.Hike on o.Hike.ID equals h.ID
+                                  where h.ID == hikeId
+                                  select o).ToList();
+            //foreach (Order or in orders)
+            //{
+            //    result += or.IndividualTentAmount;
+            //}
+            return result;
+        }
+
 
         public static List<OrderViewAll> GetViewAll(int orderID)
         {
@@ -82,12 +114,14 @@ namespace TouristСenterLibrary.Entity
                         PeopleAmount = o.Client.PeopleAmount,
                         ApplicationType = o.ApplicationType.Name,
                         Status = o.Status
+                        //HermeticBagAmount = o.HermeticBagAmount,
+                        //IndividualTentAmount =o.IndividualTentAmount
                     }).ToList();
         }
         public static Order GetOrderByID(int orderID)
         {
 
-            return db.Order.Where(o => o.ID == orderID).ToList()[0];                
+            return db.Order.Where(o => o.ID == orderID).ToList()[0];          
             
         }
 

@@ -61,12 +61,12 @@
 
 		<Label Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="5" Content="Особенности питания:" Margin="10 0 0 0" FontSize="16" />
 
-		<TextBox  AcceptsReturn="True" Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="3" BorderThickness="1" Margin="10 0 20 0"
+		<TextBox x:Name="txtBoxFood" AcceptsReturn="True" Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="3" BorderThickness="1" Margin="10 0 20 0"
 				  BorderBrush="DimGray" Padding="2" TextWrapping ="Wrap"  Grid.RowSpan="5"  IsReadOnly="True"
 				  materialDesign:HintAssist.Hint="Примечание" FontSize="16" Cursor="IBeam"/>
 		<Label Grid.Row="3" Grid.Column="3" Grid.ColumnSpan="3" Margin="10 0 0 0" Content="Особенности снаряжения:" 
 			   FontSize="16"/>
-		<TextBox  AcceptsReturn="True" Grid.Row="4" Grid.Column="3" Margin="10 0 0 0" Grid.ColumnSpan="3" IsReadOnly="True"
+		<TextBox x:Name="txtBoxEquipment" AcceptsReturn="True" Grid.Row="4" Grid.Column="3" Margin="10 0 0 0" Grid.ColumnSpan="4" IsReadOnly="True"
 				  BorderThickness="1" BorderBrush="DimGray" Padding="2" TextWrapping ="Wrap"  Grid.RowSpan="5"  
 				  materialDesign:HintAssist.Hint="Примечание" FontSize="16"/>
 	</Grid>

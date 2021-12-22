@@ -49,8 +49,12 @@ namespace tourCenter
             cmbBoxWayToTravel.Items.Add(ov.WayToTravel);
             cmbBoxWayToTravel.SelectedItem = ov.WayToTravel;
             txtBoxPeopleAmount.Text = $"{ov.PeopleAmount}";
-            _participants = Participant.GetParticipantOrder(_orderId);
-            
+            _participants = Participant.GetParticipantsByOrder(_orderId);
+            //txtBoxEquipment.Text = $"Количество индивидуальных палаткок: {ov.IndividualTentAmount}\n";
+            //txtBoxEquipment.Text += $"Количество индивидуальных гермомешки: {ov.HermeticBagAmount}\n";
+            //txtBoxEquipment.Text += ov.EquipmentFeatures;
+            //txtBoxFood.Text = ov.FoodlFeatures;
+
         }
 
         private void ExcelLink_Click(object sender, RoutedEventArgs e)
