@@ -83,7 +83,7 @@ namespace TouristСenterLibrary.Entity
                         Middlename = i.Middlename,
                         InstructorTelefonNumber = i.InstructorTelefonNumber
 
-                    }).ToList()[0]);
+                    }).FirstOrDefault());
             }
             return instructors;
         }

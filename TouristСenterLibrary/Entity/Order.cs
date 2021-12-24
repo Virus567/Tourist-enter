@@ -120,9 +120,7 @@ namespace TouristСenterLibrary.Entity
         }
         public static Order GetOrderByID(int orderID)
         {
-
-            return db.Order.Where(o => o.ID == orderID).ToList()[0];          
-            
+            return db.Order.Where(o => o.ID == orderID).FirstOrDefault();                
         }
 
 

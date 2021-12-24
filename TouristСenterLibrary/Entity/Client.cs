@@ -58,7 +58,7 @@ namespace TouristСenterLibrary.Entity
         }
         public static Client GetClientByID( int clientId)
         {
-            return db.Client.Where(c => c.ID == clientId).ToList()[0];
+            return db.Client.Where(c => c.ID == clientId).FirstOrDefault();
         }
         
         public static List<Client> GetClientsByHikeID(int hikeId)

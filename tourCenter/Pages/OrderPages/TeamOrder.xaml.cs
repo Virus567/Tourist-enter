@@ -23,6 +23,7 @@ namespace tourCenter
     public partial class TeamOrder : Page
     {
         private object[,] _newParticipantsObj;
+        private List<Participant> newPartisipants = new List<Participant>();
         public TeamOrder()
         {
             InitializeComponent();
@@ -73,13 +74,23 @@ namespace tourCenter
                         {
                             _newParticipantsObj = excel.GetParticipants();
                         }
-                        for(int i =1;i <=_newParticipantsObj.GetLength(0); i++)
-                        {
+
+                        for (int i = 1; i <= _newParticipantsObj.GetLength(0); i++)
+                        { 
+                            
                             for (int j = 1; j <= _newParticipantsObj.GetLength(1); j++)
                             {
-                                
+                                Participant participant = new Participant()
+                                {
+                                    Surname = _newParticipantsObj[i, 1].ToString(),
+                                    Name = _newParticipantsObj[i, 2].ToString(),
+                                    Middlename = _newParticipantsObj[i, 3].ToString(),
+                                    ClientTelefonNumber = _newParticipantsObj[i, 4].ToString()
+                                };
+                                newPartisipants.Add(participant);
                             }
-                        }                      
+                        }
+
                     }
                     catch (Exception ex) { MessageBox.Show(ex.Message); }
                 }
@@ -121,6 +132,18 @@ namespace tourCenter
             }
         }
 
+        public bool IsCorrectData()
+        {
+            return txtBoxNameOfCompany.Text != "" &&
+                   txtBoxFullName.Text != "" &&
+                   numberPhone.Text != "" &&
+                   peopleAmount.Value != 0 &&
+                   CmBoxRoutes.Text != "" &&
+                   CmBoxWayToTravel.Text != "" &&
+                   StartDate.Text != "" &&
+                   FinishDate.Text != "";
+        }
+
         private void StartDate_CalendarClosed(object sender, RoutedEventArgs e)
         {
             if(StartDate.Text!="" && CmBoxRoutes.Text != "")
@@ -129,6 +152,66 @@ namespace tourCenter
                 string monthAndYear = StartDate.Text.Substring(2, 8);
                 FinishDate.Text = (days + Route.GetDaysAmountByRouteName(CmBoxRoutes.Text) - 1).ToString() + monthAndYear;
             }           
+        }
+
+        public string[] GetSplitFullName(string fullName)
+        {
+            return  fullName.Split(' ');
+
+        }
+
+        private void AddOrderBtn_Click(object sender, RoutedEventArgs e)
+        {
+            
+            if (IsCorrectData())
+            {
+                try
+                {
+                    var fullName = GetSplitFullName(txtBoxFullName.Text);
+                    Client client;
+                    if (fullName.Length == 3)
+                    {
+                        client = new Client()
+                        {
+                            NameOfCompany = txtBoxNameOfCompany.Text,
+                            Surname = fullName[0],
+                            Name = fullName[1],
+                            Middlename = fullName[2],
+                            ClientTelefonNumber = numberPhone.Text,
+                            PeopleAmount = Convert.ToInt32(peopleAmount.Value)
+                        };
+                    }
+                    else
+                    {
+                        client = new Client()
+                        {
+                            NameOfCompany = txtBoxNameOfCompany.Text,
+                            Surname = fullName[0],
+                            Name = fullName[1],
+                            ClientTelefonNumber = numberPhone.Text,
+                            PeopleAmount = Convert.ToInt32(peopleAmount.Value)
+                        };
+                    }
+                    Order order = new Order()
+                    {
+                        ApplicationType = ApplicationType.GetTeamType(),
+                        Route = Route.GetRouteByRouteName(CmBoxRoutes.Text),
+                        Employee = Employee.GetEmployeeById(1),
+                        Client = client,
+                        WayToTravel = CmBoxWayToTravel.Text,
+                        FoodlFeatures = txtBoxFood.Text, //исправить
+                        EquipmentFeatures = txtBoxEquipment.Text,//исправить
+                        StartTime = (DateTime)StartDate.SelectedDate,
+                        FinishTime = (DateTime)FinishDate.SelectedDate,
+                        Status = "Активна"
+                    };
+                    ContextManager.db.Client.Add(client);
+                    ContextManager.db.Order.Add(order);
+                    ContextManager.db.SaveChanges();
+                    MessageBox.Show("Заявка добавлена!");
+                }
+                catch(Exception ex) { MessageBox.Show("Ошибка добавления! " + ex.Message); }               
+            }
         }
     }
 }
