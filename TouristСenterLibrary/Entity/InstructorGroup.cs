@@ -11,8 +11,8 @@ namespace TouristСenterLibrary.Entity
     {
         private static ApplicationContext db = ContextManager.db;
         public int ID { get; set; }
-        [Required] public Instructor Instructor{ get; set; }
-        [Required] public Hike Hike { get; set; }
+        [Required] public virtual Instructor Instructor{ get; set; }
+        [Required] public virtual Hike Hike { get; set; }
 
         public static List<InstructorGroup> GetInstructorGroup(int hikeId)
         {

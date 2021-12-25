@@ -11,19 +11,20 @@ namespace TouristСenterLibrary.Entity
     {
         private static ApplicationContext db = ContextManager.db;
         public int ID { get; set; }
-        [Required] public  ApplicationType ApplicationType { get; set; }
-        [Required] public Route Route { get; set; }
-        [Required] public Employee Employee { get; set; }
-        [Required] public Client Client { get; set; }
+        [Required] public virtual ApplicationType ApplicationType { get; set; }
+        [Required] public virtual Route Route { get; set; }
+        [Required] public virtual Employee Employee { get; set; }
+        [Required] public virtual Client Client { get; set; }
         [Required] public string WayToTravel { get; set; }
-        public string FoodlFeatures { get; set; }
-        public string EquipmentFeatures { get; set; }
+        public string? FoodlFeatures { get; set; }
+        public string? EquipmentFeatures { get; set; }
         [Required] public DateTime StartTime { get; set; }
         [Required] public DateTime FinishTime { get; set; }
         [Required] public string Status { get; set; }
-        public Hike Hike { get; set; }
-        //[Required] public int HermeticBagAmount { get; set; }
-        //[Required] public int IndividualTentAmount { get; set; }
+        public virtual Hike? Hike { get; set; }
+        [Required] public int HermeticBagAmount { get; set; }
+        [Required] public int IndividualTentAmount { get; set; }
+
         public class OrderView 
         {
             public int ID { get; set; }

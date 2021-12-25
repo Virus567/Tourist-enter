@@ -12,7 +12,7 @@ namespace TouristСenterLibrary.Entity
         public int ID { get; set; }
         [Required] public string Name { get; set; }
         [Required] public int NumberDays { get; set; }
-        [Required] public List<CheckpointRoute> Checkpoints { get; set; } = new List<CheckpointRoute>();
+        [Required] public virtual List<CheckpointRoute> Checkpoints { get; set; } = new List<CheckpointRoute>();
         public static List<string> GetNameRoute()
         {
              return db.Route.Select(x => x.Name).ToList();

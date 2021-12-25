@@ -13,10 +13,10 @@ namespace TouristСenterLibrary.Entity
         public int ID { get; set; }
         [Required] public string Surname { get; set; }
         [Required] public string Name { get; set; }
-        public string Middlename { get; set; }
+        public string? Middlename { get; set; }
         [MaxLength(15)]
         [Required] public string ClientTelefonNumber { get; set; }
-        [Required] public Client Client { get; set; }
+        [Required] public virtual Client Client { get; set; }
         
 
         public static List<Participant> GetParticipants()

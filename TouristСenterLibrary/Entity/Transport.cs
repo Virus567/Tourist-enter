@@ -13,7 +13,7 @@ namespace TouristСenterLibrary.Entity
         [MaxLength(6)]
         [Required] public string CarNumber { get; set; }
         [Required] public int SeatCount { get; set; }
-        [Required] public TransportCompany TransportCompany { get; set;}
+        [Required] public virtual TransportCompany TransportCompany { get; set;}
 
         public class TransportView
         {

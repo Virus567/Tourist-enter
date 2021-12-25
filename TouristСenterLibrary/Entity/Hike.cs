@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
 using System.Linq;
+using Microsoft.EntityFrameworkCore;
 
 namespace TouristСenterLibrary.Entity
 {
@@ -10,7 +11,7 @@ namespace TouristСenterLibrary.Entity
     {
         private static ApplicationContext db = ContextManager.db;
         public int ID { get; set; }
-        [Required] public Route Route { get; set; }
+        [Required] public virtual Route Route { get; set; }
         [Required] public string Status { get; set; }
 
         public static List<Hike> Get()
@@ -33,19 +34,20 @@ namespace TouristСenterLibrary.Entity
         {
             List<HikeView> hikeList = db.Hike.Join(db.Order, h => h.ID, o => o.ID, (h, o) => new HikeView()
             {
-                ID = h.ID,               
+                ID = h.ID,
                 StartTime = o.StartTime.ToString("d"),
                 FinishTime = o.FinishTime.ToString("d"),
                 RouteName = h.Route.Name,
                 WayToTravel = o.WayToTravel,
-                CompanyName = o.Client.GetCompanyNameForHike(),             
+                CompanyName = o.Client.GetCompanyNameForHike(),
                 PeopleAmount = o.Client.PeopleAmount,
                 Status = h.Status
             }).ToList();
 
             foreach (HikeView hike in hikeList)
             {
-                hike.PeopleAmount = Hike.GetPeopleAmountOfHike(hike.ID);
+                hike.PeopleAmount = GetPeopleAmountOfHike(hike.ID);
+                hike.CompanyName = GetViewByID(hike.ID).FirstOrDefault().CompanyName;
             }
             return hikeList;
         }

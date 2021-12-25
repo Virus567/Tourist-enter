@@ -78,17 +78,14 @@ namespace tourCenter
                         for (int i = 1; i <= _newParticipantsObj.GetLength(0); i++)
                         { 
                             
-                            for (int j = 1; j <= _newParticipantsObj.GetLength(1); j++)
+                            Participant participant = new Participant()
                             {
-                                Participant participant = new Participant()
-                                {
-                                    Surname = _newParticipantsObj[i, 1].ToString(),
-                                    Name = _newParticipantsObj[i, 2].ToString(),
-                                    Middlename = _newParticipantsObj[i, 3].ToString(),
-                                    ClientTelefonNumber = _newParticipantsObj[i, 4].ToString()
-                                };
-                                newPartisipants.Add(participant);
-                            }
+                                Surname = _newParticipantsObj[i, 1].ToString(),
+                                Name = _newParticipantsObj[i, 2].ToString(),
+                                Middlename = _newParticipantsObj[i, 3].ToString(),
+                                ClientTelefonNumber = _newParticipantsObj[i, 4].ToString()
+                            };
+                            newPartisipants.Add(participant);
                         }
 
                     }
@@ -192,6 +189,12 @@ namespace tourCenter
                             PeopleAmount = Convert.ToInt32(peopleAmount.Value)
                         };
                     }
+                    foreach(Participant p in newPartisipants)
+                    {
+                        p.Client = client;
+                        ContextManager.db.Participant.Add(p);
+                    }                    
+
                     Order order = new Order()
                     {
                         ApplicationType = ApplicationType.GetTeamType(),

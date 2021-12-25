@@ -12,11 +12,11 @@ namespace TouristСenterLibrary.Entity
         public int ID { get; set; }
         [Required] public string Surname { get; set; }
         [Required] public string Name { get; set; }
-        public string Middlename { get; set; }
+        public string? Middlename { get; set; }
         [Required] public string PassportData { get; set; }
         [MaxLength(15)]
         [Required] public string EmployeeTelefonNumber { get; set; }
-        [Required] public Role Role { get; set; }
+        [Required] public virtual Role Role { get; set; }
         [Required] public DateTime EmploymentDate { get; set; }
 
         public static Employee GetEmployeeById(int empId)

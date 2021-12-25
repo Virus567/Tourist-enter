@@ -11,13 +11,14 @@ namespace TouristСenterLibrary.Entity
         
         private static ApplicationContext db = ContextManager.db;
         public int ID { get; set; }
-        public string NameOfCompany { get; set; }
+        public string? NameOfCompany { get; set; }
         [Required] public string Surname { get; set; }
         [Required] public string Name { get; set; }
-        public string Middlename { get; set; }
+        public string? Middlename { get; set; }
         [MaxLength(15)]
         [Required] public string ClientTelefonNumber { get; set; }
         [Required] public int PeopleAmount { get; set; }
+        public int? ChildrenAmount { get; set; }
 
         public string GetCompanyNameForHike()
         {

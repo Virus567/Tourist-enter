@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using TouristСenterLibrary;
@@ -9,9 +10,10 @@ using TouristСenterLibrary;
 namespace TouristСenterLibrary.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    partial class ApplicationContextModelSnapshot : ModelSnapshot
+    [Migration("20211225201014_AddLazyLoadingAndFixSomeOfTables")]
+    partial class AddLazyLoadingAndFixSomeOfTables
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -66,9 +68,6 @@ namespace TouristСenterLibrary.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer")
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
-
-                    b.Property<int?>("ChildrenAmount")
-                        .HasColumnType("integer");
 
                     b.Property<string>("ClientTelefonNumber")
                         .IsRequired()
@@ -388,13 +387,7 @@ namespace TouristСenterLibrary.Migrations
                     b.Property<string>("FoodlFeatures")
                         .HasColumnType("text");
 
-                    b.Property<int>("HermeticBagAmount")
-                        .HasColumnType("integer");
-
                     b.Property<int?>("HikeID")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("IndividualTentAmount")
                         .HasColumnType("integer");
 
                     b.Property<int?>("RouteID")
@@ -507,7 +500,10 @@ namespace TouristСenterLibrary.Migrations
                     b.Property<int?>("FinishID")
                         .HasColumnType("integer");
 
-                    b.Property<int?>("HikeID")
+                    b.Property<DateTime>("FinishTime")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<int?>("HaltID")
                         .HasColumnType("integer");
 
                     b.Property<int?>("RouteID")
@@ -519,13 +515,16 @@ namespace TouristСenterLibrary.Migrations
                     b.Property<int?>("StartID")
                         .HasColumnType("integer");
 
+                    b.Property<DateTime>("StartTime")
+                        .HasColumnType("timestamp without time zone");
+
                     b.HasKey("ID");
 
                     b.HasIndex("FinishBusID");
 
                     b.HasIndex("FinishID");
 
-                    b.HasIndex("HikeID");
+                    b.HasIndex("HaltID");
 
                     b.HasIndex("RouteID");
 
@@ -725,9 +724,9 @@ namespace TouristСenterLibrary.Migrations
                         .WithMany()
                         .HasForeignKey("FinishID");
 
-                    b.HasOne("TouristСenterLibrary.Entity.Hike", "Hike")
+                    b.HasOne("TouristСenterLibrary.Entity.CheckpointRoute", "Halt")
                         .WithMany()
-                        .HasForeignKey("HikeID");
+                        .HasForeignKey("HaltID");
 
                     b.HasOne("TouristСenterLibrary.Entity.Route", "Route")
                         .WithMany()
@@ -745,7 +744,7 @@ namespace TouristСenterLibrary.Migrations
 
                     b.Navigation("FinishBus");
 
-                    b.Navigation("Hike");
+                    b.Navigation("Halt");
 
                     b.Navigation("Route");
 
