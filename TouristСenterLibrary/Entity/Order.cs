@@ -32,6 +32,7 @@ namespace TouristСenterLibrary.Entity
             public string RouteName { get; set; }
             public string WayToTravel { get; set; }
             public string Client { get; set; }
+            public int ClientID { get; set;}
             public int PeopleAmount { get; set; }
             public string ApplicationTypeName { get; set; }
             public string Status { get; set; }
@@ -40,7 +41,7 @@ namespace TouristСenterLibrary.Entity
 
         public static List<OrderView> GetView()
         {
-            return (from o in db.Order
+            List<OrderView> list = (from o in db.Order
                     select new OrderView()
                     {
                         ID = o.ID,
@@ -48,11 +49,17 @@ namespace TouristСenterLibrary.Entity
                         RouteName = o.Route.Name,
                         WayToTravel = o.WayToTravel,
                         Client = o.Client.GetCompanyNameForOrder(),
+                        ClientID = o.Client.ID,
                         PeopleAmount = o.Client.PeopleAmount,
                         ApplicationTypeName = o.ApplicationType.Name,
                         Status = o.Status,
-                        IsListParticipants = Participant.IsParticipantForOrder(o.Client.ID)
+                        IsListParticipants = false
                     }).ToList();
+            foreach(var l in list)
+            {
+                l.IsListParticipants = Participant.IsParticipantsForOrder(l.ClientID,l.PeopleAmount);
+            }
+            return list;
         }
         public class OrderViewAll
         {
@@ -62,13 +69,16 @@ namespace TouristСenterLibrary.Entity
             public string RouteName { get; set; }
             public string WayToTravel { get; set; }
             public string Client { get; set; }
+            public int ClientID { get; set; }
             public int PeopleAmount { get; set; }
+            public int ChildrenAmount { get; set; }
             public string ApplicationType { get; set; }
             public string Status { get; set; }
-            // public int HermeticBagAmount { get; set; }
-            // public int IndividualTentAmount { get; set; }
-            //public string FoodlFeatures { get; set; }
-            //public string EquipmentFeatures { get; set; }
+            public int HermeticBagAmount { get; set; }
+            public int IndividualTentAmount { get; set; }
+            public string FoodlFeatures { get; set; }
+            public string EquipmentFeatures { get; set; }
+            public bool IsListParticipants { get; set; }
 
         }
 
@@ -79,10 +89,10 @@ namespace TouristСenterLibrary.Entity
                                   join h in db.Hike on o.Hike.ID equals h.ID
                                   where h.ID == hikeId
                                   select o).ToList();
-            //foreach(Order or in orders)
-            //{
-            //    result += or.HermeticBagAmount;
-            //}
+            foreach(Order or in orders)
+            {
+                result += or.HermeticBagAmount;
+            }
             return result;
         }
         public static int GetIndividualTentAmount(int hikeId)
@@ -92,36 +102,45 @@ namespace TouristСenterLibrary.Entity
                                   join h in db.Hike on o.Hike.ID equals h.ID
                                   where h.ID == hikeId
                                   select o).ToList();
-            //foreach (Order or in orders)
-            //{
-            //    result += or.IndividualTentAmount;
-            //}
+            foreach (Order or in orders)
+            {
+                result += or.IndividualTentAmount;
+            }
             return result;
         }
 
 
         public static List<OrderViewAll> GetViewAll(int orderID)
         {
-            return (from o in db.Order
-                    where o.ID == orderID                    
-                    select new OrderViewAll()
-                    {
-                        ID = orderID,
-                        StartTime = o.StartTime.ToString("d"),
-                        FinishTime = o.FinishTime.ToString("d"),
-                        RouteName = o.Route.Name,
-                        WayToTravel = o.WayToTravel,
-                        Client = o.Client.GetCompanyNameForOrder(),
-                        PeopleAmount = o.Client.PeopleAmount,
-                        ApplicationType = o.ApplicationType.Name,
-                        Status = o.Status
-                        //HermeticBagAmount = o.HermeticBagAmount,
-                        //IndividualTentAmount =o.IndividualTentAmount
-                    }).ToList();
+            List<OrderViewAll> list = (from o in db.Order
+                                       where o.ID == orderID                    
+                                       select new OrderViewAll()
+                                       {
+                                            ID = orderID,
+                                            StartTime = o.StartTime.ToString("d"),
+                                            FinishTime = o.FinishTime.ToString("d"),
+                                            RouteName = o.Route.Name,
+                                            WayToTravel = o.WayToTravel,
+                                            Client = o.Client.GetCompanyNameForOrder(),
+                                            ClientID = o.Client.ID,
+                                            PeopleAmount = o.Client.PeopleAmount,
+                                            ApplicationType = o.ApplicationType.Name,
+                                            ChildrenAmount =o.Client.ChildrenAmount,
+                                            FoodlFeatures = o.FoodlFeatures,
+                                            EquipmentFeatures = o.EquipmentFeatures,
+                                            Status = o.Status,
+                                            HermeticBagAmount = o.HermeticBagAmount,
+                                            IndividualTentAmount =o.IndividualTentAmount
+                                       }).ToList();
+            foreach (var l in list)
+            {
+                l.IsListParticipants = Participant.IsParticipantsForOrder(l.ClientID, l.PeopleAmount);
+            }
+            return list;
         }
         public static Order GetOrderByID(int orderID)
         {
-            return db.Order.Where(o => o.ID == orderID).FirstOrDefault();                
+            return db.Order.Where(o => o.ID == orderID).FirstOrDefault();
         }
 
 

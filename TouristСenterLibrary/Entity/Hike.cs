@@ -35,8 +35,6 @@ namespace TouristСenterLibrary.Entity
             List<HikeView> hikeList = db.Hike.Join(db.Order, h => h.ID, o => o.ID, (h, o) => new HikeView()
             {
                 ID = h.ID,
-                StartTime = o.StartTime.ToString("d"),
-                FinishTime = o.FinishTime.ToString("d"),
                 RouteName = h.Route.Name,
                 WayToTravel = o.WayToTravel,
                 CompanyName = o.Client.GetCompanyNameForHike(),
@@ -47,7 +45,10 @@ namespace TouristСenterLibrary.Entity
             foreach (HikeView hike in hikeList)
             {
                 hike.PeopleAmount = GetPeopleAmountOfHike(hike.ID);
-                hike.CompanyName = GetViewByID(hike.ID).FirstOrDefault().CompanyName;
+                var viewHike = GetViewAllByID(hike.ID);
+                hike.CompanyName = viewHike.FirstOrDefault().CompanyName;
+                hike.StartTime = viewHike.FirstOrDefault().StartTime;
+                hike.FinishTime = viewHike.FirstOrDefault().FinishTime;
             }
             return hikeList;
         }
@@ -62,11 +63,11 @@ namespace TouristСenterLibrary.Entity
             public string CompanyName { get; set; }
             public int PeopleAmount { get; set; }
             public string Status { get; set; }
-            // public int HermeticBagAmount { get; set; }
-            // public int IndividualTentAmount { get; set; }
+            public int HermeticBagAmount { get; set; }
+            public int IndividualTentAmount { get; set; }
         }
 
-        public static List<HikeViewAll> GetViewByID(int hikeID)
+        public static List<HikeViewAll> GetViewAllByID(int hikeID)
         {
             List<HikeViewAll>list = (from h in db.Hike
                     join o in db.Order on h.ID equals o.Hike.ID
@@ -81,21 +82,21 @@ namespace TouristСenterLibrary.Entity
                         WayToTravel = o.WayToTravel,
                         CompanyName = o.Client.GetCompanyNameForHike(),
                         PeopleAmount = c.PeopleAmount,
-                        Status = h.Status
-                        //  HermeticBagAmount = o.HermeticBagAmount,
-                        //  IndividualTentAmount =o.IndividualTentAmount
+                        Status = h.Status,
+                        HermeticBagAmount = o.HermeticBagAmount,
+                        IndividualTentAmount =o.IndividualTentAmount
                     }).ToList();
-            //foreach(HikeViewAll hv in list)
-            //{
-            //    hv.HermeticBagAmount = Order.GetHermeticBagAmount(hv.ID);
-            //    hv.IndividualTentAmount = Order.GetIndividualTentAmount(hv.ID);
-            //}
+            foreach (HikeViewAll hv in list)
+            {
+                hv.HermeticBagAmount = Order.GetHermeticBagAmount(hv.ID);
+                hv.IndividualTentAmount = Order.GetIndividualTentAmount(hv.ID);
+            }
             return list;
         }
         public static int GetPeopleAmountOfHike(int hikeID)
         {
             int tmp = 0;
-            List<HikeViewAll> list = GetViewByID(hikeID);
+            List<HikeViewAll> list = GetViewAllByID(hikeID);
                 foreach (HikeViewAll l in list)
                 {
                     tmp += l.PeopleAmount;

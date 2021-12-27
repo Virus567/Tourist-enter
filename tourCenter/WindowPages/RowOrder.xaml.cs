@@ -49,11 +49,19 @@ namespace tourCenter
             cmbBoxWayToTravel.Items.Add(ov.WayToTravel);
             cmbBoxWayToTravel.SelectedItem = ov.WayToTravel;
             txtBoxPeopleAmount.Text = $"{ov.PeopleAmount}";
-            _participants = Participant.GetParticipantsByOrder(_orderId);
-            //txtBoxEquipment.Text = $"Количество индивидуальных палаткок: {ov.IndividualTentAmount}\n";
-            //txtBoxEquipment.Text += $"Количество индивидуальных гермомешки: {ov.HermeticBagAmount}\n";
-            //txtBoxEquipment.Text += ov.EquipmentFeatures;
-            //txtBoxFood.Text = ov.FoodlFeatures;
+            txtBoxChildrenAmount.Text = $"{ov.ChildrenAmount}";          
+             _participants = Participant.GetParticipantsByOrder(_orderId);
+            txtBoxEquipment.Text = $"Количество индивидуальных палаткок: {ov.IndividualTentAmount}\n";
+            txtBoxEquipment.Text += $"Количество индивидуальных гермомешков: {ov.HermeticBagAmount}\n";
+            txtBoxEquipment.Text += ov.EquipmentFeatures;
+            txtBoxFood.Text = ov.FoodlFeatures;
+
+            if (ov.IsListParticipants)
+            {
+                txtBoxFileName.FontSize = 12;
+                txtBoxFileName.Text = Path.Combine("D:\\Order", $"{ov.Client}{ov.StartTime}-{ov.FinishTime}.xlsx");
+                BrowseBtn.Content = "Выбрать другой Файл";               
+            }
 
         }
 

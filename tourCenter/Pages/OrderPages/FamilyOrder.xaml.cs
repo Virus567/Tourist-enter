@@ -14,6 +14,7 @@ using TouristСenterLibrary.Entity;
 using TouristСenterLibrary;
 using System.IO;
 using ExcelLibrary;
+using System.Text.RegularExpressions;
 
 namespace tourCenter
 {
@@ -21,6 +22,7 @@ namespace tourCenter
     public partial class FamilyOrder : Page
     {
         private object[,] _newParticipantsObj;
+        private List<Participant> _newPartisipants = new List<Participant>();
         public FamilyOrder()
         {
             InitializeComponent();
@@ -54,11 +56,52 @@ namespace tourCenter
             if (numberPhone.Text.Length == 0)
             {
                 numberPhone.Text = "+7";
+                numberPhone.SelectionStart = numberPhone.Text.Length;
             }
 
         }
+        public bool IsCorrectData()
+        {
+            return 
+                   txtBoxFullName.Text != "" &&
+                   numberPhone.Text != "" &&
+                   peopleAmount.Value != 0 &&
+                   CmBoxRoutes.Text != "" &&
+                   CmBoxWayToTravel.Text != "" &&
+                   StartDate.Text != "" &&
+                   FinishDate.Text != "";
+        }
 
-        
+        private string GetStringFoodlFeatures()
+        {
+            string str;
+            if ((bool)CheckMeat.IsChecked)
+            {
+                str = "Есть Вегетарианцы\n";
+            }
+            else
+            {
+                str = "Вегетарианцев нет\n";
+            }
+            if ((bool)CheckSugar.IsChecked)
+            {
+                str += "Есть Диабетики\n";
+            }
+            else
+            {
+                str += "Диабетиков нет\n";
+            }
+            str += txtBoxFood.Text;
+            return str;
+        }
+
+        private string[] GetSplitFullName(string fullName)
+        {
+            fullName = Regex.Replace(fullName, "[ ]+", " ");
+            return fullName.Split(' ');
+
+        }
+
         private void BrowseBtn_Click(object sender, RoutedEventArgs e)
         {
             Microsoft.Win32.OpenFileDialog dlg = new Microsoft.Win32.OpenFileDialog();
@@ -79,6 +122,18 @@ namespace tourCenter
                         if (excel.OpenNewExcel(filename))
                         {
                             _newParticipantsObj = excel.GetParticipants();
+                        }
+                        for (int i = 1; i <= _newParticipantsObj.GetLength(0); i++)
+                        {
+
+                            Participant participant = new Participant()
+                            {
+                                Surname = _newParticipantsObj[i, 1].ToString(),
+                                Name = _newParticipantsObj[i, 2].ToString(),
+                                Middlename = _newParticipantsObj[i, 3].ToString(),
+                                ClientTelefonNumber = _newParticipantsObj[i, 4].ToString()
+                            };
+                            _newPartisipants.Add(participant);
                         }
                     }
                     catch (Exception ex) { MessageBox.Show(ex.Message); }
@@ -116,6 +171,59 @@ namespace tourCenter
                 int days = int.Parse(StartDate.Text.Substring(0, 2));
                 string monthAndYear = StartDate.Text.Substring(2, 8);
                 FinishDate.Text = (days + Route.GetDaysAmountByRouteName(CmBoxRoutes.Text) - 1).ToString() + monthAndYear;
+            }
+        }
+
+        private void AddOrderBtn_Click(object sender, RoutedEventArgs e)
+        {
+
+            if (IsCorrectData())
+            {
+                try
+                {
+                    var fullName = GetSplitFullName(txtBoxFullName.Text);
+
+                    Client client = new Client()
+                    {
+                        Surname = fullName[0],
+                        Name = fullName[1],
+                        Middlename = fullName[2],
+                        ClientTelefonNumber = numberPhone.Text,
+                        PeopleAmount = Convert.ToInt32(peopleAmount.Value),
+                        ChildrenAmount = Convert.ToInt32(childrenAmount.Value)
+                    };
+
+                    foreach (Participant p in _newPartisipants)
+                    {
+                        p.Client = client;
+                        ContextManager.db.Participant.Add(p);
+                    }
+
+                    Order order = new Order()
+                    {
+                        ApplicationType = ApplicationType.GetTeamType(),
+                        Route = Route.GetRouteByRouteName(CmBoxRoutes.Text),
+                        Employee = Employee.GetEmployeeById(1),
+                        Client = client,
+                        WayToTravel = CmBoxWayToTravel.Text,
+                        FoodlFeatures = GetStringFoodlFeatures(),
+                        EquipmentFeatures = txtBoxEquipment.Text,
+                        StartTime = (DateTime)StartDate.SelectedDate,
+                        FinishTime = (DateTime)FinishDate.SelectedDate,
+                        HermeticBagAmount = Convert.ToInt32(persHermeticBagAmount.Value),
+                        IndividualTentAmount = Convert.ToInt32(persTentAmount.Value),
+                        Status = "Активна"
+                    };
+                    ContextManager.db.Client.Add(client);
+                    ContextManager.db.Order.Add(order);
+                    ContextManager.db.SaveChanges();
+                    MessageBox.Show("Заявка добавлена!");
+                }
+                catch (Exception ex) { MessageBox.Show("Ошибка добавления! " + ex.Message); }
+            }
+            else
+            {
+                MessageBox.Show("Заполните поля корректно");
             }
         }
 

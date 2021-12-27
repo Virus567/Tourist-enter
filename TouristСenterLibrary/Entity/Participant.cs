@@ -33,18 +33,15 @@ namespace TouristСenterLibrary.Entity
                     select p).ToList();
 
         }
-        public static bool IsParticipantForOrder(int clientId)
+        public static bool IsParticipantsForOrder(int clientId, int peopleAmount)
         {
-            try
+            List<Participant> participants = db.Participant.ToList();
+            participants = participants.Where(p => p.Client.ID == clientId).ToList();
+            if (participants.Count == peopleAmount)
             {
-                List<Participant> participants = db.Participant.Where(p => p.Client.ID == clientId).ToList();
                 return true;
             }
-            catch
-            {
-                return false;
-            }
-            
+            return false;
         }
         public static List<Participant> GetParticipantsByOrder(int orderId)
         {

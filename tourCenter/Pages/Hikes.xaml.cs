@@ -53,7 +53,7 @@ namespace tourCenter
                 DateTime dt = selectDate.SelectedDate.Value;
                 list = list.Where(l => l.StartTime == dt.ToString("d")).ToList();
             }
-            if (CmBoxRoutes.Text != "")
+            if (CmBoxRoutes.Text != "") 
             {
                 list = list.Where(l => l.RouteName == CmBoxRoutes.Text).ToList();
             }

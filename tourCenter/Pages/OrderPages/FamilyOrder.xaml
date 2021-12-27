@@ -60,7 +60,7 @@
 			<RowDefinition/>
 			<RowDefinition/>
 		</Grid.RowDefinitions>
-		<TextBox Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="5" FontSize="16"
+		<TextBox x:Name="txtBoxFullName" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="5" FontSize="16"
 				 materialDesign:HintAssist.Hint="ФИО" Padding="0 10 0 0" Background="#ffdadada"    Cursor="IBeam" />
 		<Label  Margin="0 8 0 0" Grid.Column="7" Grid.Row="1" Grid.ColumnSpan="3" Content="Номер телефона:"  Foreground="Gray" FontSize="16" />
 		<Border  Background="Gray" Margin="5 8 0 0" Grid.Column="10" Grid.ColumnSpan="3" Grid.Row="1" MaxHeight="30">
@@ -104,7 +104,7 @@
 		<CheckBox Grid.Row="11" Grid.Column="1" Grid.ColumnSpan="3" x:Name="CheckSugar" Foreground ="DimGray" 
 				  Background="Teal" FontFamily="Segoe UI" FontSize="16" >Диабетики</CheckBox>
 
-		<TextBox  AcceptsReturn="True" Grid.Row="14" Grid.Column="1" Grid.ColumnSpan="5" BorderThickness="1" 
+		<TextBox x:Name="txtBoxFood"  AcceptsReturn="True" Grid.Row="14" Grid.Column="1" Grid.ColumnSpan="5" BorderThickness="1" 
 				  BorderBrush="DimGray" Padding="2" TextWrapping ="Wrap"  Grid.RowSpan="4"  
 				  materialDesign:HintAssist.Hint="Аллергии и т.п." FontSize="16"/>
 
@@ -125,7 +125,7 @@
 							   UpDownButtonsWidth="0" ButtonsAlignment="Left" TextAlignment="Left" />
 		</Border>
 
-		<TextBox  AcceptsReturn="True" Grid.Row="14" Grid.Column="7" Grid.ColumnSpan="8" 
+		<TextBox x:Name="txtBoxEquipment" AcceptsReturn="True" Grid.Row="14" Grid.Column="7" Grid.ColumnSpan="8" 
 				  BorderThickness="1" BorderBrush="DimGray" Padding="2" TextWrapping ="Wrap"  Grid.RowSpan="4"  
 				  materialDesign:HintAssist.Hint="Примечание" FontSize="16"/>
 
@@ -133,6 +133,6 @@
 				 materialDesign:HintAssist.Hint="Добавьте список участников..." FontSize="16"/>
 		<Button Grid.Row="14" Grid.Column="21" Grid.ColumnSpan="2" Content="Обзор"  HorizontalAlignment="Left" 
                 x:Name="BrowseBtn"   Click="BrowseBtn_Click" Background="Teal" Cursor="Hand" />
-		<Button Grid.Column="16" Grid.Row="16" Grid.ColumnSpan="7" Margin="20 0 37 0" Background="Teal" Content="Оформить заявку"/>
+		<Button x:Name="AddOrderBtn" Click="AddOrderBtn_Click" Grid.Column="16" Grid.Row="16" Grid.ColumnSpan="7" Margin="20 0 37 0" Background="Teal" Content="Оформить заявку"/>
 	</Grid>
 </Page>

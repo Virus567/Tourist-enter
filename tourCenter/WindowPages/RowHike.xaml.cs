@@ -31,7 +31,7 @@ namespace tourCenter
         }
         public void AddSelectedHike(int hikeID)
         {
-            Hike.HikeViewAll hikeVeiw = Hike.GetViewByID(hikeID)[0];
+            Hike.HikeViewAll hikeVeiw = Hike.GetViewAllByID(hikeID)[0];
             
             AddHikeData(hikeVeiw, hikeID);
            

@@ -14,6 +14,7 @@ using TouristСenterLibrary.Entity;
 using TouristСenterLibrary;
 using ExcelLibrary;
 using System.IO;
+using System.Text.RegularExpressions;
 
 namespace tourCenter
 {
@@ -100,6 +101,7 @@ namespace tourCenter
             if (numberPhone.Text.Length == 0)
             {
                 numberPhone.Text = "+7";
+                numberPhone.SelectionStart = numberPhone.Text.Length;
             }
 
         }
@@ -151,10 +153,34 @@ namespace tourCenter
             }           
         }
 
-        public string[] GetSplitFullName(string fullName)
+        private string[] GetSplitFullName(string fullName)
         {
+            fullName = Regex.Replace(fullName, "[ ]+", " ");
             return  fullName.Split(' ');
 
+        }
+
+        private string GetStringFoodlFeatures()
+        {
+            string str;
+            if ((bool)CheckMeat.IsChecked)
+            {
+                str = "Есть Вегетарианцы\n";
+            }
+            else
+            {
+                str = "Вегетарианцев нет\n";
+            }
+            if ((bool)CheckSugar.IsChecked)
+            {
+                str += "Есть Диабетики\n";
+            }
+            else
+            {
+                str += "Диабетиков нет\n";
+            }
+            str += txtBoxFood.Text;
+            return str;
         }
 
         private void AddOrderBtn_Click(object sender, RoutedEventArgs e)
@@ -165,35 +191,23 @@ namespace tourCenter
                 try
                 {
                     var fullName = GetSplitFullName(txtBoxFullName.Text);
-                    Client client;
-                    if (fullName.Length == 3)
+                    
+                    Client client = new Client()
                     {
-                        client = new Client()
-                        {
-                            NameOfCompany = txtBoxNameOfCompany.Text,
-                            Surname = fullName[0],
-                            Name = fullName[1],
-                            Middlename = fullName[2],
-                            ClientTelefonNumber = numberPhone.Text,
-                            PeopleAmount = Convert.ToInt32(peopleAmount.Value)
-                        };
-                    }
-                    else
-                    {
-                        client = new Client()
-                        {
-                            NameOfCompany = txtBoxNameOfCompany.Text,
-                            Surname = fullName[0],
-                            Name = fullName[1],
-                            ClientTelefonNumber = numberPhone.Text,
-                            PeopleAmount = Convert.ToInt32(peopleAmount.Value)
-                        };
-                    }
+                        NameOfCompany = txtBoxNameOfCompany.Text,
+                        Surname = fullName[0],
+                        Name = fullName[1],
+                        Middlename = fullName[2],
+                        ClientTelefonNumber = numberPhone.Text,
+                        PeopleAmount = Convert.ToInt32(peopleAmount.Value),
+                        ChildrenAmount = Convert.ToInt32(childrenAmount.Value)
+                    };
+               
                     foreach(Participant p in newPartisipants)
                     {
                         p.Client = client;
                         ContextManager.db.Participant.Add(p);
-                    }                    
+                    }
 
                     Order order = new Order()
                     {
@@ -202,10 +216,12 @@ namespace tourCenter
                         Employee = Employee.GetEmployeeById(1),
                         Client = client,
                         WayToTravel = CmBoxWayToTravel.Text,
-                        FoodlFeatures = txtBoxFood.Text, //исправить
-                        EquipmentFeatures = txtBoxEquipment.Text,//исправить
+                        FoodlFeatures = GetStringFoodlFeatures(),
+                        EquipmentFeatures = txtBoxEquipment.Text,
                         StartTime = (DateTime)StartDate.SelectedDate,
                         FinishTime = (DateTime)FinishDate.SelectedDate,
+                        HermeticBagAmount = Convert.ToInt32(persHermeticBagAmount.Value),
+                        IndividualTentAmount = Convert.ToInt32(persTentAmount.Value),                     
                         Status = "Активна"
                     };
                     ContextManager.db.Client.Add(client);
@@ -214,6 +230,10 @@ namespace tourCenter
                     MessageBox.Show("Заявка добавлена!");
                 }
                 catch(Exception ex) { MessageBox.Show("Ошибка добавления! " + ex.Message); }               
+            }
+            else
+            {
+                MessageBox.Show("Заполните поля корректно");
             }
         }
     }

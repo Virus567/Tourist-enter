@@ -18,7 +18,7 @@ namespace TouristСenterLibrary.Entity
         [MaxLength(15)]
         [Required] public string ClientTelefonNumber { get; set; }
         [Required] public int PeopleAmount { get; set; }
-        public int? ChildrenAmount { get; set; }
+        [Required] public int ChildrenAmount { get; set; }
 
         public string GetCompanyNameForHike()
         {
