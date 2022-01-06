@@ -20,6 +20,28 @@ namespace TouristСenterLibrary.Entity
         [Required] public int PeopleAmount { get; set; }
         [Required] public int ChildrenAmount { get; set; }
 
+
+        public static int GetChildrenAmountOnHike(int hikeId)
+        {
+            int result = 0;
+            List<Client> clients = (from c in db.Client
+                                  join o in db.Order on c.ID equals o.Client.ID
+                                  join h in db.Hike on o.Hike.ID equals h.ID
+                                  where h.ID == hikeId
+                                  select c).ToList();
+            foreach (Client client in clients)
+            {
+                result += client.ChildrenAmount;
+            }
+            return result;
+
+        }
+        public static void Add(Client client)
+        {
+            db.Client.Add(client);
+            db.SaveChanges();
+        }
+
         public string GetCompanyNameForHike()
         {
             string tmp;

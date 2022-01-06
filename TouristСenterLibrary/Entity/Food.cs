@@ -5,7 +5,7 @@ using System.Text;
 
 namespace TouristСenterLibrary.Entity
 {
-    public class Food // Питание
+    public class Food
     {
         public int ID { get; set; }
         [Required] public string Name { get; set; }

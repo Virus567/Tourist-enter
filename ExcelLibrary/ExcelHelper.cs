@@ -57,7 +57,7 @@ namespace ExcelLibrary
             return false;
         }
 
-        public bool SetParticipant(List<Participant> participants)
+        public bool SetParticipant(List<Participant> participants, int childrenAmount)
         {
             try
             {
@@ -83,6 +83,11 @@ namespace ExcelLibrary
                 _worksheet.Cells[1, 2] = "Имя";
                 _worksheet.Cells[1, 3] = "Отчество";
                 _worksheet.Cells[1, 4] = "Телефон";
+                _worksheet.Cells[2, 6] = "Количество человек:";
+                _worksheet.Cells[3, 6] = "Количество детей:";
+                _worksheet.Cells[2, 7] = participants.Count;
+                _worksheet.Cells[3, 7] = childrenAmount;
+                _worksheet.Columns.AutoFit();
                 _excel.Visible = true;
                 return true;
             }

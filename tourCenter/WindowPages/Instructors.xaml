@@ -51,6 +51,6 @@
 				<DataGridTextColumn Header="Телефон" Width="*" Binding="{Binding Path=InstructorTelefonNumber}" />
 			</DataGrid.Columns>
 		</DataGrid>
-		<Button x:Name="SaveChangesBtn" Grid.Row="11" Grid.RowSpan="2" Content="Сохранить изменения" Margin="10 2 10 2" Cursor="Hand" Click="SaveChangesBtn_Click"/>
+		<Button x:Name="SaveChangesBtn" Grid.Row="11" Grid.RowSpan="2" Content="Сохранить изменения" Margin="10 2 10 2" Cursor="Hand" Background="Teal" Click="SaveChangesBtn_Click"/>
 	</Grid>
 </Window>

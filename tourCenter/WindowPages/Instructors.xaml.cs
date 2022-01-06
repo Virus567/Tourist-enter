@@ -19,13 +19,27 @@ namespace tourCenter
     /// </summary>
     public partial class Instrucors : Window
     {
-        private List<Instructor.InstructorView> selectedInstructors = new List<Instructor.InstructorView>();
-        private List<Instructor.InstructorView> hikeInstructors = new List<Instructor.InstructorView>();
-        public Instrucors(int hikeId)
+        private List<Instructor.InstructorView> _selectedInstructors = new List<Instructor.InstructorView>();
+        private List<Instructor.InstructorView> _hikeInstructors = new List<Instructor.InstructorView>();
+        private NewHike _newhike;
+        private int _hikeId;
+        private RowHike _rowhike;
+        public Instrucors(RowHike rowhike, int hikeId)
         {
-            hikeInstructors = Instructor.GetHikeInstructor(hikeId);
+            _rowhike = rowhike;
+            _hikeId = hikeId;
+            _hikeInstructors = Instructor.GetInstructorViewsByHikeID(hikeId);
             InitializeComponent();
             GetViewInstrucors();
+
+        }
+        public Instrucors(NewHike newHike, List<Instructor.InstructorView> instructors)
+        {
+            _newhike = newHike;
+            _hikeInstructors = instructors;
+            InitializeComponent();
+            GetViewInstrucors();
+            SaveChangesBtn.Content = "Выбрать Инструкторов";
 
         }
         public void GetViewInstrucors()
@@ -34,11 +48,11 @@ namespace tourCenter
 
             foreach (Instructor.InstructorView l in list)
             {
-                foreach(Instructor.InstructorView h in hikeInstructors)
+                foreach(Instructor.InstructorView h in _hikeInstructors)
                     if (l.Surname == h.Surname && l.Name == h.Name && l.Middlename == h.Middlename)
                     {
                         l.InHike = true;
-                        selectedInstructors.Add(l);
+                        _selectedInstructors.Add(l);
                     }
 
             }
@@ -48,26 +62,53 @@ namespace tourCenter
 
         private void SaveChangesBtn_Click(object sender, RoutedEventArgs e)
         {
-            //привязка похода к инструктору(Добавление записей в InstructorGroup)
-            this.Close();
+            if(SaveChangesBtn.Content == "Выбрать Инструкторов")
+            {
+                _newhike.SetInstructors(_selectedInstructors);
+                this.Close();
+            }
+            else
+            {
+                List<InstructorGroup> instructorsGroup = InstructorGroup.GetInstructorGroupByHikeID(_hikeId);
+                
+                foreach (var ig in instructorsGroup)
+                {
+                    InstructorGroup.Remove(ig);//удались пожалуйста!
+                }
+                foreach (var instructorView in _selectedInstructors)
+                {
+                    List<Instructor.InstructorView> hikeInstructors = Instructor.GetInstructorViewsByHikeID(_hikeId);
+                   
+                    Instructor instructor = Instructor.GetInstructorByID(instructorView.ID);
+                    InstructorGroup instructorGroup = new InstructorGroup();
+                    instructorGroup.Hike = Hike.GetHikeByID(_hikeId);
+                    instructorGroup.Instructor = instructor;
+                    InstructorGroup.Add(instructorGroup);
+
+                    
+                }
+                _rowhike.AddInstructorsData(_hikeId);
+                this.Close();
+            }
+            
         }
 
 
         private void checkInstructor_Checked(object sender, RoutedEventArgs e)
         {
             Instructor.InstructorView selectedInstructor = (Instructor.InstructorView)InstrucorsList.SelectedValue;
-            if (selectedInstructor != null && !selectedInstructors.Contains(selectedInstructor))
+            if (selectedInstructor != null && !_selectedInstructors.Contains(selectedInstructor))
             {
-                selectedInstructors.Add(selectedInstructor);
+                _selectedInstructors.Add(selectedInstructor);
             }           
         }
 
         private void checkInstructor_Unchecked(object sender, RoutedEventArgs e)
         {
             Instructor.InstructorView selectedInstructor = (Instructor.InstructorView)InstrucorsList.SelectedValue;
-            if (selectedInstructor != null && selectedInstructors.Contains(selectedInstructor))
+            if (selectedInstructor != null && _selectedInstructors.Contains(selectedInstructor))
             {
-                selectedInstructors.Remove(selectedInstructor);
+                _selectedInstructors.Remove(selectedInstructor);
             }
         }
     }    

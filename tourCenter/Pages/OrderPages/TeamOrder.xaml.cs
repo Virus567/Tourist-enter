@@ -22,9 +22,8 @@ namespace tourCenter
     /// Логика взаимодействия для TeamApp.xaml
     /// </summary>
     public partial class TeamOrder : Page
-    {
-        private object[,] _newParticipantsObj;
-        private List<Participant> newPartisipants = new List<Participant>();
+    {       
+        private List<Participant> _newPartisipants = new List<Participant>();
         public TeamOrder()
         {
             InitializeComponent();
@@ -71,24 +70,23 @@ namespace tourCenter
                 {
                     try
                     {
+
+
                         if (excel.OpenNewExcel(filename))
                         {
-                            _newParticipantsObj = excel.GetParticipants();
-                        }
-
-                        for (int i = 1; i <= _newParticipantsObj.GetLength(0); i++)
-                        { 
-                            
-                            Participant participant = new Participant()
+                            object[,] newParticipantsObj = excel.GetParticipants();
+                            for (int i = 1; i <= newParticipantsObj.GetLength(0); i++)
                             {
-                                Surname = _newParticipantsObj[i, 1].ToString(),
-                                Name = _newParticipantsObj[i, 2].ToString(),
-                                Middlename = _newParticipantsObj[i, 3].ToString(),
-                                ClientTelefonNumber = _newParticipantsObj[i, 4].ToString()
-                            };
-                            newPartisipants.Add(participant);
+                                Participant participant = new Participant()
+                                {
+                                    Surname = newParticipantsObj[i, 1].ToString(),
+                                    Name = newParticipantsObj[i, 2].ToString(),
+                                    Middlename = newParticipantsObj[i, 3].ToString(),
+                                    ClientTelefonNumber = newParticipantsObj[i, 4].ToString()
+                                };
+                                _newPartisipants.Add(participant);
+                            }
                         }
-
                     }
                     catch (Exception ex) { MessageBox.Show(ex.Message); }
                 }
@@ -123,9 +121,24 @@ namespace tourCenter
                 e.Handled = true;
             }
         }
-        private void numberPhone_PreviewKeyDown(object sender, KeyEventArgs e)
+        private void CheckSpaceDown_PreviewKeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Space)
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void CheckCorrectAmount_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            TextBox textBox = (TextBox)sender;
+            string t = textBox.Text;          
+            if (t.Length >= 2)
+            {
+                e.Handled = true;
+            }
+            int val;
+            if (!Int32.TryParse(e.Text, out val))
             {
                 e.Handled = true;
             }
@@ -136,7 +149,7 @@ namespace tourCenter
             return txtBoxNameOfCompany.Text != "" &&
                    txtBoxFullName.Text != "" &&
                    numberPhone.Text != "" &&
-                   peopleAmount.Value != 0 &&
+                   peopleAmount.Text != "" &&
                    CmBoxRoutes.Text != "" &&
                    CmBoxWayToTravel.Text != "" &&
                    StartDate.Text != "" &&
@@ -182,6 +195,33 @@ namespace tourCenter
             str += txtBoxFood.Text;
             return str;
         }
+        public void CorrectNullFields()
+        {
+            if (peopleAmount.Text == "") peopleAmount.Text = "0";
+            if (childrenAmount.Text == "") childrenAmount.Text = "0";
+            if (persHermeticBagAmount.Text == "") persHermeticBagAmount.Text = "0";
+            if (persTentAmount.Text == "") persTentAmount.Text = "0";
+        }
+
+
+        public void ClearFields()
+        {
+            txtBoxNameOfCompany.Text = "";
+            txtBoxFullName.Text = "";
+            numberPhone.Text = "";
+            peopleAmount.Text = "";
+            childrenAmount.Text = "";
+            CheckMeat.IsChecked = false;
+            CheckSugar.IsChecked = false;
+            CmBoxRoutes.Text = "";
+            CmBoxWayToTravel.Text = "";
+            StartDate.Text = "";
+            FinishDate.Text = "";
+            txtBoxFood.Text = "";
+            txtBoxEquipment.Text = "";
+            persTentAmount.Text = "";
+            persHermeticBagAmount.Text = "";
+        }
 
         private void AddOrderBtn_Click(object sender, RoutedEventArgs e)
         {
@@ -191,7 +231,7 @@ namespace tourCenter
                 try
                 {
                     var fullName = GetSplitFullName(txtBoxFullName.Text);
-                    
+                    CorrectNullFields();
                     Client client = new Client()
                     {
                         NameOfCompany = txtBoxNameOfCompany.Text,
@@ -199,14 +239,13 @@ namespace tourCenter
                         Name = fullName[1],
                         Middlename = fullName[2],
                         ClientTelefonNumber = numberPhone.Text,
-                        PeopleAmount = Convert.ToInt32(peopleAmount.Value),
-                        ChildrenAmount = Convert.ToInt32(childrenAmount.Value)
+                        PeopleAmount = Convert.ToInt32(peopleAmount.Text),
+                        ChildrenAmount = Convert.ToInt32(childrenAmount.Text)
                     };
                
-                    foreach(Participant p in newPartisipants)
+                    foreach(Participant p in _newPartisipants)
                     {
-                        p.Client = client;
-                        ContextManager.db.Participant.Add(p);
+                        p.Client = client;                       
                     }
 
                     Order order = new Order()
@@ -220,14 +259,18 @@ namespace tourCenter
                         EquipmentFeatures = txtBoxEquipment.Text,
                         StartTime = (DateTime)StartDate.SelectedDate,
                         FinishTime = (DateTime)FinishDate.SelectedDate,
-                        HermeticBagAmount = Convert.ToInt32(persHermeticBagAmount.Value),
-                        IndividualTentAmount = Convert.ToInt32(persTentAmount.Value),                     
+                        HermeticBagAmount = Convert.ToInt32(persHermeticBagAmount.Text),
+                        IndividualTentAmount = Convert.ToInt32(persTentAmount.Text),                     
                         Status = "Активна"
                     };
-                    ContextManager.db.Client.Add(client);
-                    ContextManager.db.Order.Add(order);
-                    ContextManager.db.SaveChanges();
+                    Client.Add(client);
+                    if (_newPartisipants.Count == client.PeopleAmount)
+                    {
+                        Participant.AddAll(_newPartisipants);
+                    }                    
+                    Order.Add(order);
                     MessageBox.Show("Заявка добавлена!");
+                    ClearFields();
                 }
                 catch(Exception ex) { MessageBox.Show("Ошибка добавления! " + ex.Message); }               
             }

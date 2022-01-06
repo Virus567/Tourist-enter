@@ -77,11 +77,25 @@
 			</DataGrid.CellStyle>
 
 			<DataGrid.Columns>
-				<DataGridTextColumn  Header="Дата" Width="125" Binding="{Binding Path=StartTime }" />
-				<DataGridTextColumn Header="Статус" Width="130" Binding="{Binding Path=Status }" />
-				<DataGridTextColumn Header="Кол-во человек" Width="165" Binding="{Binding Path=PeopleAmount }" />
-				<DataGridTextColumn Header="Маршрут" Width="*" Binding="{Binding Path=RouteName }" />
-				<DataGridTextColumn Header="Способ Передвижения" Width="*" Binding="{Binding Path=WayToTravel }" />
+				<DataGridTextColumn  Header="Дата" Width="200" Binding="{Binding Path=StartTime }" />
+				<DataGridTextColumn Header="Статус" Width="150" Binding="{Binding Path=Status }" />
+				<DataGridTextColumn Header="Кол-во человек" Width="163" Binding="{Binding Path=PeopleAmount }">
+					<DataGridTextColumn.ElementStyle>
+						<Style>
+							<Setter Property="TextBlock.HorizontalAlignment" Value="Center"/>
+						</Style>
+					</DataGridTextColumn.ElementStyle>
+				</DataGridTextColumn>
+				<DataGridTextColumn  Width="50" />
+				<DataGridTextColumn Header="Маршрут" Width="230" Binding="{Binding Path=RouteName }" />
+				<DataGridTextColumn Header="Способ Передвижения" Width="250" Binding="{Binding Path=WayToTravel }">
+					<DataGridTextColumn.ElementStyle>
+						<Style>
+							<Setter Property="TextBlock.HorizontalAlignment" Value="Center"/>
+						</Style>
+					</DataGridTextColumn.ElementStyle>
+				</DataGridTextColumn>
+				<DataGridTextColumn  Width="70" />
 				<DataGridTextColumn Header="Клиент" Width="*" Binding="{Binding Path=CompanyName }" />
 			</DataGrid.Columns>
 			<DataGrid.ItemContainerStyle>

@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using TouristСenterLibrary;
@@ -9,9 +10,10 @@ using TouristСenterLibrary;
 namespace TouristСenterLibrary.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    partial class ApplicationContextModelSnapshot : ModelSnapshot
+    [Migration("20220101174547_refactorSomeColumns")]
+    partial class refactorSomeColumns
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -42,15 +44,20 @@ namespace TouristСenterLibrary.Migrations
                         .HasColumnType("integer")
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
-                    b.Property<string>("Title")
+                    b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<string>("Type")
+                    b.Property<int?>("RouteID")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("TargetStop")
                         .IsRequired()
                         .HasColumnType("text");
 
                     b.HasKey("ID");
+
+                    b.HasIndex("RouteID");
 
                     b.ToTable("CheckpointRoute");
                 });
@@ -244,6 +251,9 @@ namespace TouristСenterLibrary.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer")
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+
+                    b.Property<string>("EquipmentFeatures")
+                        .HasColumnType("text");
 
                     b.Property<int?>("EquipmentID")
                         .HasColumnType("integer");
@@ -474,15 +484,6 @@ namespace TouristСenterLibrary.Migrations
                         .HasColumnType("integer")
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
-                    b.Property<int?>("CheckpointFinishID")
-                        .HasColumnType("integer");
-
-                    b.Property<int?>("CheckpointStartID")
-                        .HasColumnType("integer");
-
-                    b.Property<string>("Description")
-                        .HasColumnType("text");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("text");
@@ -491,10 +492,6 @@ namespace TouristСenterLibrary.Migrations
                         .HasColumnType("integer");
 
                     b.HasKey("ID");
-
-                    b.HasIndex("CheckpointFinishID");
-
-                    b.HasIndex("CheckpointStartID");
 
                     b.ToTable("Route");
                 });
@@ -509,6 +506,9 @@ namespace TouristСenterLibrary.Migrations
                     b.Property<int?>("FinishBusID")
                         .HasColumnType("integer");
 
+                    b.Property<int?>("FinishID")
+                        .HasColumnType("integer");
+
                     b.Property<int?>("HikeID")
                         .HasColumnType("integer");
 
@@ -518,15 +518,22 @@ namespace TouristСenterLibrary.Migrations
                     b.Property<int?>("StartBusID")
                         .HasColumnType("integer");
 
+                    b.Property<int?>("StartID")
+                        .HasColumnType("integer");
+
                     b.HasKey("ID");
 
                     b.HasIndex("FinishBusID");
+
+                    b.HasIndex("FinishID");
 
                     b.HasIndex("HikeID");
 
                     b.HasIndex("RouteID");
 
                     b.HasIndex("StartBusID");
+
+                    b.HasIndex("StartID");
 
                     b.ToTable("RouteHike");
                 });
@@ -581,6 +588,13 @@ namespace TouristСenterLibrary.Migrations
                         .IsUnique();
 
                     b.ToTable("TransportCompany");
+                });
+
+            modelBuilder.Entity("TouristСenterLibrary.Entity.CheckpointRoute", b =>
+                {
+                    b.HasOne("TouristСenterLibrary.Entity.Route", null)
+                        .WithMany("Checkpoints")
+                        .HasForeignKey("RouteID");
                 });
 
             modelBuilder.Entity("TouristСenterLibrary.Entity.CountableHikeEquip", b =>
@@ -703,26 +717,15 @@ namespace TouristСenterLibrary.Migrations
                     b.Navigation("Client");
                 });
 
-            modelBuilder.Entity("TouristСenterLibrary.Entity.Route", b =>
-                {
-                    b.HasOne("TouristСenterLibrary.Entity.CheckpointRoute", "CheckpointFinish")
-                        .WithMany()
-                        .HasForeignKey("CheckpointFinishID");
-
-                    b.HasOne("TouristСenterLibrary.Entity.CheckpointRoute", "CheckpointStart")
-                        .WithMany()
-                        .HasForeignKey("CheckpointStartID");
-
-                    b.Navigation("CheckpointFinish");
-
-                    b.Navigation("CheckpointStart");
-                });
-
             modelBuilder.Entity("TouristСenterLibrary.Entity.RouteHike", b =>
                 {
                     b.HasOne("TouristСenterLibrary.Entity.Transport", "FinishBus")
                         .WithMany()
                         .HasForeignKey("FinishBusID");
+
+                    b.HasOne("TouristСenterLibrary.Entity.CheckpointRoute", "Finish")
+                        .WithMany()
+                        .HasForeignKey("FinishID");
 
                     b.HasOne("TouristСenterLibrary.Entity.Hike", "Hike")
                         .WithMany()
@@ -736,11 +739,19 @@ namespace TouristСenterLibrary.Migrations
                         .WithMany()
                         .HasForeignKey("StartBusID");
 
+                    b.HasOne("TouristСenterLibrary.Entity.CheckpointRoute", "Start")
+                        .WithMany()
+                        .HasForeignKey("StartID");
+
+                    b.Navigation("Finish");
+
                     b.Navigation("FinishBus");
 
                     b.Navigation("Hike");
 
                     b.Navigation("Route");
+
+                    b.Navigation("Start");
 
                     b.Navigation("StartBus");
                 });
@@ -752,6 +763,11 @@ namespace TouristСenterLibrary.Migrations
                         .HasForeignKey("TransportCompanyID");
 
                     b.Navigation("TransportCompany");
+                });
+
+            modelBuilder.Entity("TouristСenterLibrary.Entity.Route", b =>
+                {
+                    b.Navigation("Checkpoints");
                 });
 #pragma warning restore 612, 618
         }

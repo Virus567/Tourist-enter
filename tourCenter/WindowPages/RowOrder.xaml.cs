@@ -25,6 +25,8 @@ namespace tourCenter
         private List<Participant> _participants;
         private Order.OrderViewAll _orderView;
         private object[,] _newParticipantsObj;
+        private int _childrenAmount;
+
         public RowOrder()
         {
             InitializeComponent();
@@ -41,6 +43,7 @@ namespace tourCenter
         {
             _orderId = orderID;
             _orderView = ov;
+            _childrenAmount = ov.ChildrenAmount;
             winRowOrder.Title = $"{ov.ApplicationType} заявка: {ov.Client} {ov.StartTime}  — {ov.FinishTime}";
             cmbBoxStatus.Items.Add(ov.Status);
             cmbBoxStatus.SelectedItem = ov.Status;
@@ -49,8 +52,8 @@ namespace tourCenter
             cmbBoxWayToTravel.Items.Add(ov.WayToTravel);
             cmbBoxWayToTravel.SelectedItem = ov.WayToTravel;
             txtBoxPeopleAmount.Text = $"{ov.PeopleAmount}";
-            txtBoxChildrenAmount.Text = $"{ov.ChildrenAmount}";          
-             _participants = Participant.GetParticipantsByOrder(_orderId);
+            txtBoxChildrenAmount.Text = $"{_childrenAmount}";             
+            _participants = Participant.GetParticipantsByOrder(_orderId);
             txtBoxEquipment.Text = $"Количество индивидуальных палаткок: {ov.IndividualTentAmount}\n";
             txtBoxEquipment.Text += $"Количество индивидуальных гермомешков: {ov.HermeticBagAmount}\n";
             txtBoxEquipment.Text += ov.EquipmentFeatures;
@@ -60,9 +63,8 @@ namespace tourCenter
             {
                 txtBoxFileName.FontSize = 12;
                 txtBoxFileName.Text = Path.Combine("D:\\Order", $"{ov.Client}{ov.StartTime}-{ov.FinishTime}.xlsx");
-                BrowseBtn.Content = "Выбрать другой Файл";               
+                BrowseBtn.Content = "Выбрать другой Файл";
             }
-
         }
 
         private void ExcelLink_Click(object sender, RoutedEventArgs e)
@@ -73,7 +75,7 @@ namespace tourCenter
                 {
                     if (excel.Open(filePath: Path.Combine("D:\\Order", $"{_orderView.Client}{_orderView.StartTime}-{_orderView.FinishTime}.xlsx")))
                     {
-                        excel.SetParticipant(_participants);
+                        excel.SetParticipant(_participants,_childrenAmount);
                         excel.Save();
                     }
 

@@ -18,7 +18,14 @@ namespace TouristСenterLibrary.Entity
         [Required] public string ClientTelefonNumber { get; set; }
         [Required] public virtual Client Client { get; set; }
         
-
+        public static void AddAll(List<Participant> participants)
+        {
+            foreach(Participant p in participants)
+            {
+                db.Participant.Add(p);
+            }       
+            db.SaveChanges();
+        }
         public static List<Participant> GetParticipants()
         {
              return db.Participant.ToList();

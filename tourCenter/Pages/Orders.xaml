@@ -78,14 +78,26 @@
 					</Style>
 				</DataGrid.CellStyle>
 				<DataGrid.Columns>
-					<DataGridTextColumn  Header="Дата" Width="*" Binding="{Binding Path=DateTime }" />
-					<DataGridTextColumn Header="Статус" Width="*" Binding="{Binding Path=Status }" />
-					<DataGridTextColumn Header="Кол-во человек" Width="165" Binding="{Binding Path=PeopleAmount }" />
-					<DataGridTextColumn Header="Маршрут" Width="*" Binding="{Binding Path=RouteName }" />
-					<DataGridTextColumn Header="Способ Передвижения" Width="*" Binding="{Binding Path=WayToTravel }" />
-					<DataGridTextColumn Header="Клиент" Width="*" Binding="{Binding Path=Client }" />
-					<DataGridTextColumn Header="Тип заявки" Width="*" Binding="{Binding Path=ApplicationTypeName }" />
-					<DataGridCheckBoxColumn x:Name="checkInstructor" Header="Список участников" Width="*"  Binding="{Binding Path=IsListParticipants}"/>
+					<DataGridTextColumn  Header="Дата" Width="120" Binding="{Binding Path=DateTime }" />
+					<DataGridTextColumn Header="Статус" Width="95" Binding="{Binding Path=Status }" />
+					<DataGridTextColumn Header="Кол-во человек" Width="162" Binding="{Binding Path=PeopleAmount }">
+						<DataGridTextColumn.ElementStyle>
+							<Style>
+								<Setter Property="TextBlock.HorizontalAlignment" Value="Center"/>
+							</Style>
+						</DataGridTextColumn.ElementStyle>
+					</DataGridTextColumn>
+					<DataGridTextColumn Header="Маршрут" Width="190" Binding="{Binding Path=RouteName }" />
+					<DataGridTextColumn Header="Способ Передвижения" Width="230" Binding="{Binding Path=WayToTravel }">
+						<DataGridTextColumn.ElementStyle>
+							<Style>
+								<Setter Property="TextBlock.HorizontalAlignment" Value="Center"/>
+							</Style>
+						</DataGridTextColumn.ElementStyle>
+					</DataGridTextColumn>
+					<DataGridTextColumn Header="Клиент" Width="230" Binding="{Binding Path=Client }" />
+					<DataGridTextColumn Header="Тип заявки" Width="143" Binding="{Binding Path=ApplicationTypeName }" />
+					<DataGridCheckBoxColumn x:Name="checkInstructor" Header="Список участников" Width="197"  Binding="{Binding Path=IsListParticipants}"/>
 				</DataGrid.Columns>
 				<DataGrid.ItemContainerStyle>
 					<Style TargetType="DataGridRow">

@@ -19,6 +19,9 @@ namespace tourCenter
     /// </summary>
     public partial class NewHike : Window
     {
+        private List<Order.OrderView> _selectedOrders = new List<Order.OrderView>();
+        private List<Instructor.InstructorView> _selectedInstructors = new List<Instructor.InstructorView>();
+        private List<Transport.TransportView> _selectedTransport = new List<Transport.TransportView>();
         public NewHike()
         {
             InitializeComponent();
@@ -89,14 +92,19 @@ namespace tourCenter
                 if (!dgOrdersForHike.Items.Contains(selectedOrder) && IsСorrectOrder(selectedOrder) && !IsTeamOrder(selectedOrder))
                 {
                     dgOrdersForHike.Items.Add(selectedOrder);
-                    int tmp = int.Parse(txtBoxPeopleAmount.Text);
-                    tmp += selectedOrder.PeopleAmount;
-                    txtBoxPeopleAmount.Text = tmp.ToString();
+                    _selectedOrders.Add(selectedOrder);
+                    int peopleAmount = int.Parse(txtBoxPeopleAmount.Text);
+                    peopleAmount += selectedOrder.PeopleAmount;                     
+                    txtBoxPeopleAmount.Text = peopleAmount.ToString();
+                    int childrenAmount = int.Parse(txtBoxChildrenAmount.Text);
+                    childrenAmount += selectedOrder.ChildrenAmount;
+                    txtBoxChildrenAmount.Text = childrenAmount.ToString();
 
                 }
                 else if (IsTeamOrder(selectedOrder) && txtBoxPeopleAmount.Text == "0")
                 {
                     dgOrdersForHike.Items.Add(selectedOrder);
+                    _selectedOrders.Add(selectedOrder);
                     txtBoxPeopleAmount.Text = selectedOrder.PeopleAmount.ToString();
                     addOrderBtn.IsEnabled = false;
                 }
@@ -129,6 +137,16 @@ namespace tourCenter
             txtBoxWayToTravel.Text = order.WayToTravel;
             VisibleTxtBoxes(100);
         }
+
+        private void ClearOrderData()
+        {
+            txtBoxStartDate.Text = "";
+            txtBoxFinishDate.Text = "";
+            txtBoxRoute.Text = "";
+            txtBoxWayToTravel.Text = "";
+            VisibleTxtBoxes(0);
+        }
+
         private void selectDate_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
         {
             FillingDataGrid();
@@ -138,6 +156,108 @@ namespace tourCenter
         {
             if (e.Key == Key.Back)
                 FillingDataGrid();
+        }
+
+        public void SetInstructors(List<Instructor.InstructorView> instructors)
+        {
+            _selectedInstructors = instructors;
+        }
+        public void SetTransport(List<Transport.TransportView> transports)
+        {
+            _selectedTransport = transports;
+        }
+
+        private void SelectInstructorsBtn_Click(object sender, RoutedEventArgs e)
+        {
+            Instrucors instrucors = new Instrucors(this, _selectedInstructors);
+            instrucors.Show();
+        }
+        private void SelectTransportBtn_Click(object sender, RoutedEventArgs e)
+        {
+            Transports transports = new Transports(this, _selectedTransport);
+            transports.Show();
+        }
+
+        private void CommitHikeBtn_Click(object sender, RoutedEventArgs e)
+        {
+            if (_selectedOrders.Count != 0 && _selectedInstructors.Count!=0 && _selectedTransport.Count!=0)
+            {
+                try
+                {
+                    Route route = Route.GetRouteByRouteName(_selectedOrders.FirstOrDefault().RouteName);
+                    Hike hike = new Hike()
+                    {
+                        Route = route,
+                        Status = "В сборке"
+                    };
+                    Hike.Add(hike);
+
+                    foreach (var orderView in _selectedOrders)
+                    {
+                        Order order = Order.GetOrderByID(orderView.ID);
+                        order.Hike = hike;
+                        order.Status = "В сборке";
+                        Order.Update(order);
+                    }
+
+                    foreach (var instructorView in _selectedInstructors)
+                    {
+                        Instructor instructor = Instructor.GetInstructorByID(instructorView.ID);
+                        InstructorGroup instructorGroup = new InstructorGroup();
+                        instructorGroup.Hike = hike;
+                        instructorGroup.Instructor = instructor;
+                        InstructorGroup.Add(instructorGroup);
+                    }
+
+                    Transport startTransport = new Transport();
+                    Transport finishTransport = new Transport();
+                    foreach(var transportView in _selectedTransport)
+                    {
+                        if (transportView.IsStartBus)
+                        {
+                            startTransport = Transport.GetTransportByID(transportView.ID);
+                        }
+                        if (transportView.IsFinishBus)
+                        {
+                            finishTransport = Transport.GetTransportByID(transportView.ID);
+                        }
+                    }
+                    if(startTransport.CarNumber!=null && finishTransport.CarNumber != null)
+                    {
+                        RouteHike routeHike = new RouteHike()
+                        {
+                            Route = route,
+                            StartBus = startTransport,
+                            FinishBus = finishTransport,
+                            Hike = hike
+                        };
+                        RouteHike.Add(routeHike);
+                    }
+
+                    MessageBox.Show("Поход успешно добавлен!");
+                    _selectedOrders.Clear();
+                    dgOrdersForHike.Items.Clear();
+                    ClearOrderData();
+                    this.Close();
+                }
+                catch(Exception ex)
+                {
+                    MessageBox.Show("Ошибка добавления!\n", ex.Message);
+                }
+                
+            }
+            else if(_selectedOrders.Count == 0)
+            {
+                MessageBox.Show("Оформить поход невозможно!\n Вы не выбрали ни одной заявки");
+            }
+            else if(_selectedInstructors.Count == 0)
+            {
+                MessageBox.Show("Выберите инструкторов для похода!");
+            }
+            else
+            {
+                MessageBox.Show("Выберите транспорт для похода!");
+            }
         }
     }    
 }

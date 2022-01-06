@@ -6,8 +6,8 @@
         xmlns:local="clr-namespace:tourCenter"
 		xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         mc:Ignorable="d"
-        MinHeight="600" MaxHeight="600"
-		MinWidth="1060" MaxWidth="1060"
+        MinHeight="720"
+		MinWidth="1270" 
         Title="Добавить поход" FontSize="16" Height="600" Width="1060" Icon="/icon.ico" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
 	<Grid Background="#ffdadada"  >
 		<Grid.ColumnDefinitions>
@@ -63,28 +63,41 @@
 				</Style>
 			</DataGrid.CellStyle>
 			<DataGrid.Columns>
-				<DataGridTextColumn Header="Дата" Width="*" Binding="{Binding Path=DateTime }" />
-				<DataGridTextColumn Header="Маршрут" Width="*" Binding="{Binding Path=RouteName }" />
-				<DataGridTextColumn Header="Способ Передвижения" Width="*" Binding="{Binding Path=WayToTravel }" />
-				<DataGridTextColumn Header="Клиент" Width="*" Binding="{Binding Path=Client }" />
-				<DataGridTextColumn Header="Кол-во человек" Width="97" Binding="{Binding Path=PeopleAmount }" />
+				<DataGridTextColumn Header="Дата" Width="95" Binding="{Binding Path=DateTime }" />
+				<DataGridTextColumn Header="Маршрут" Width="173" Binding="{Binding Path=RouteName }" />
+				<DataGridTextColumn Header="Способ Передвижения" Width="*" Binding="{Binding Path=WayToTravel }">
+					<DataGridTextColumn.ElementStyle>
+						<Style>
+							<Setter Property="TextBlock.HorizontalAlignment" Value="Center"/>
+						</Style>
+					</DataGridTextColumn.ElementStyle>
+				</DataGridTextColumn>
+				<DataGridTextColumn Header="Клиент" Width="200" Binding="{Binding Path=Client }" />
+				<DataGridTextColumn Header="Кол-во человек" Width="160" Binding="{Binding Path=PeopleAmount }">
+					<DataGridTextColumn.ElementStyle>
+						<Style>
+							<Setter Property="TextBlock.HorizontalAlignment" Value="Center"/>
+						</Style>
+					</DataGridTextColumn.ElementStyle>
+				</DataGridTextColumn>
 				<DataGridTextColumn Header="Тип заявки" Width="*" Binding="{Binding Path=ApplicationTypeName }" />
 			</DataGrid.Columns>
 
 		</DataGrid>
 		<Label Grid.Row="0" Grid.Column="5" Grid.ColumnSpan="2" Margin="10 0 0 0" Content="Создание похода:"/>
 		<Label Grid.Row="1" Grid.Column="5" Margin="10 0 0 0" Content="Даты:"/>
-		<TextBox x:Name="txtBoxStartDate" Grid.Row="1" Grid.Column="4" Grid.ColumnSpan="2" HorizontalAlignment="Center"  IsReadOnly="True" Margin="200 0 0 10" Text=""/>
+		<TextBox x:Name="txtBoxStartDate" Grid.Row="1" Grid.Column="4" Grid.ColumnSpan="2" HorizontalAlignment="Center"  IsReadOnly="True" Margin="200 0 0 16" Text=""/>
 		<Label x:Name="label_" Grid.Row="1" Grid.Column="5" Grid.ColumnSpan="2" Margin="140 0 0 0" Content="—"/>
-		<TextBox x:Name="txtBoxFinishDate" Grid.Row="1" Grid.Column="5" Grid.ColumnSpan="2" HorizontalAlignment="Center" IsReadOnly="True" Margin="110 0 0 10" Text=""/>
+		<TextBox x:Name="txtBoxFinishDate" Grid.Row="1" Grid.Column="5" Grid.ColumnSpan="2" HorizontalAlignment="Center" IsReadOnly="True" Margin="45 0 0 16" Text=""/>
 		<Label Grid.Row="2" Grid.Column="5" Content="Маршрут:" Margin="10 0 0 0"/>
-		<TextBox x:Name="txtBoxRoute" Grid.Row="2" Grid.Column="5" Grid.ColumnSpan="2" HorizontalAlignment="Center" IsReadOnly="True" Padding="0 5 0 0" Margin="20 0 0 7" Text=""/>
+		<TextBox x:Name="txtBoxRoute" Grid.Row="2" Grid.Column="5" Grid.ColumnSpan="2" HorizontalAlignment="Center" IsReadOnly="True" Padding="0 5 0 0" Margin="-40 0 0 15" Text=""/>
 		<Label Grid.Row="3" Grid.Column="5" Margin="10 0 0 0" Content="Кол-во человек:"/>
-		<TextBox x:Name="txtBoxPeopleAmount" Grid.Row="3" Grid.Column="5" Grid.ColumnSpan="2" HorizontalAlignment="Center" Margin="10 0 0 5" Text="0" BorderThickness="1" Padding="2 0 2 0" MaxHeight="25" IsReadOnly="True" Cursor="IBeam"/>
+		<TextBox x:Name="txtBoxPeopleAmount" Grid.Row="3" Grid.Column="5" Grid.ColumnSpan="1" HorizontalAlignment="Center" Margin="130 0 0 15" Text="0" BorderThickness="1" Padding="3 0 3 0" MaxHeight="25" IsReadOnly="True" Cursor="IBeam"/>
+		<Label Grid.Row="3" Grid.Column="6" Margin="10 0 0 0" Content="Кол-во детей:"/>
+		<TextBox x:Name="txtBoxChildrenAmount" Grid.Row="3" Grid.Column="6" Grid.ColumnSpan="1" HorizontalAlignment="Center" Margin="90 0 0 15" Text="0" BorderThickness="1" Padding="3 0 3 0" MaxHeight="25" IsReadOnly="True" Cursor="IBeam"/>
 		<Label Grid.Row="4" Grid.Column="5" Grid.ColumnSpan="2" Margin="10 0 0 0" Content="Способ Передвижения:"/>
-		<TextBox x:Name="txtBoxWayToTravel" Grid.Row="4" Grid.Column="6" IsReadOnly="True" Margin="10 0 0 7" Padding="0 5 0 0" HorizontalAlignment="Center" Text="" Cursor="IBeam"/>
-		<Label Grid.Row="5" Grid.Column="5" Margin="10 0 0 0" Content="Заявки:"/>
-		<DataGrid x:Name="dgOrdersForHike" Grid.Row="6" Grid.Column="5" Grid.ColumnSpan="2" Grid.RowSpan="6" Margin="5 0 8 10" Background="#ffdadada"
+		<TextBox x:Name="txtBoxWayToTravel" Grid.Row="4" Grid.Column="6" IsReadOnly="True" Margin="-80 0 0 15" Padding="0 5 0 0" HorizontalAlignment="Center" Text="" Cursor="IBeam"/>
+		<DataGrid x:Name="dgOrdersForHike" Grid.Row="5" Grid.Column="5" Grid.ColumnSpan="2" Grid.RowSpan="4" Margin="5 0 8 10" Background="#ffdadada"
 				  AutoGenerateColumns="False" SelectionMode="Single" SelectionUnit="FullRow" ItemsSource="{Binding}"
 			      CanUserResizeColumns="False" IsReadOnly="True" CanUserReorderColumns="False">
 			<DataGrid.CellStyle>
@@ -100,11 +113,13 @@
 				</Style>
 			</DataGrid.CellStyle>
 			<DataGrid.Columns>
-				<DataGridTextColumn Header="Клиент" Width="*" Binding="{Binding Path=Client }" />
+				<DataGridTextColumn Header="Заявка" Width="*" Binding="{Binding Path=Client }" />
 				<DataGridTextColumn Header="Кол-во человек" Width="*" Binding="{Binding Path=PeopleAmount }" />
 			</DataGrid.Columns>
 		</DataGrid>
-		<Button x:Name="addOrderBtn" Click="addOrderBtn_Click" Grid.Row="12" Grid.Column="5" Grid.ColumnSpan="3" Margin="40 0 40 0" Background="Teal" Content="Добавить заявку в поход"/>
-		<Button Grid.Row="13" Grid.Column="5" Grid.ColumnSpan="3" Margin="40 5 40 0" Background="Teal" Content="Сформировать поход"/>
+		<Button x:Name="addOrderBtn" Click="addOrderBtn_Click" Grid.Row="9" Grid.Column="5" Grid.ColumnSpan="3" Margin="40 0 40 0" Background="Teal" Content="Добавить заявку в поход"/>
+		<Button x:Name="SelectInstructorsBtn" Click="SelectInstructorsBtn_Click" Grid.Row="10" Grid.Column="5" Grid.ColumnSpan="3" Margin="40 0 40 0" Background="Teal" Content="Выбрать инструкторов"/>
+		<Button x:Name="SelectTransportBtn" Click="SelectTransportBtn_Click" Grid.Row="11" Grid.Column="5" Grid.ColumnSpan="3" Margin="40 0 40 0" Background="Teal" Content="Выбрать транспорт"/>
+		<Button x:Name="CommitHikeBtn" Click="CommitHikeBtn_Click" Grid.Row="13" Grid.Column="5" Grid.ColumnSpan="3" Margin="40 5 40 0" Background="Teal" Content="Сформировать поход"/>
 	</Grid>
 </Window>

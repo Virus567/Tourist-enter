@@ -1,0 +1,82 @@
+﻿<Window x:Class="tourCenter.Transports"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:tourCenter"
+        mc:Ignorable="d"
+		xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        Title="Транспорт" Height="450" Width="700" WindowStartupLocation="CenterScreen" ResizeMode="NoResize" Icon="/WindowPages/icon.ico">
+	<Grid Background="#ffdadada">
+		<Grid.RowDefinitions>
+			<RowDefinition/>
+			<RowDefinition/>
+			<RowDefinition/>
+			<RowDefinition/>
+			<RowDefinition/>
+			<RowDefinition/>
+			<RowDefinition/>
+			<RowDefinition/>
+			<RowDefinition/>
+			<RowDefinition/>
+			<RowDefinition/>
+			<RowDefinition/>
+			<RowDefinition/>
+		</Grid.RowDefinitions>
+		<TextBlock x:Name="tb1"  Text="Выберите транспорт для этого похода:" FontSize="16"/>
+		<DataGrid x:Name="TransportList" Grid.Row="1" Grid.RowSpan="10" ItemsSource="{Binding Collection}" IsReadOnly="True"
+				  SelectionMode="Single" BorderBrush="Transparent" FontFamily="Times New Roman" Background="#ffdadada"
+				  AutoGenerateColumns="False" SelectionUnit="FullRow" FontSize="16" CanUserResizeColumns="False" CanUserReorderColumns="False">
+			<DataGrid.CellStyle>
+				<Style TargetType="DataGridCell">
+					<Setter Property="BorderThickness" Value="0"/>
+					<Style.Triggers>
+						<Trigger Property="DataGridCell.IsSelected" Value="True">
+							<Setter Property="Background" Value="#ffdadada" />
+							<Setter Property="Foreground" Value="Black" />
+						</Trigger>
+					</Style.Triggers>
+				</Style>
+			</DataGrid.CellStyle>
+			<DataGrid.Columns>
+				<DataGridTemplateColumn Header="Стартовый" IsReadOnly="False" Width="107">
+					<DataGridTemplateColumn.CellTemplate>
+						<DataTemplate>
+							<CheckBox x:Name="checkStartBus"  Margin="30 0 0 0" IsChecked="{Binding Path=IsStartBus}" Checked="checkStartBus_Checked" Unchecked="checkStartBus_Unchecked" />
+						</DataTemplate>
+					</DataGridTemplateColumn.CellTemplate>
+				</DataGridTemplateColumn>
+				<DataGridTemplateColumn Header="Финишный" IsReadOnly="False" Width="111">
+					<DataGridTemplateColumn.CellTemplate>
+						<DataTemplate>
+							<CheckBox x:Name="checkFinishBus"  Margin="30 0 0 0" IsChecked="{Binding Path=IsFinishBus}" Checked="checkFinishBus_Checked" Unchecked="checkFinishBus_Unchecked" />
+						</DataTemplate>
+					</DataGridTemplateColumn.CellTemplate>
+				</DataGridTemplateColumn>
+				<DataGridTextColumn  Header="Номер Автобуса" Width="144" Binding="{Binding Path=CarNumber }">
+					<DataGridTextColumn.ElementStyle>
+						<Style>
+							<Setter Property="TextBlock.HorizontalAlignment" Value="Center"/>
+						</Style>
+					</DataGridTextColumn.ElementStyle>
+				</DataGridTextColumn>
+				<DataGridTextColumn Header="Кол-во мест" Width="120" Binding="{Binding Path=SeatCount}">
+					<DataGridTextColumn.ElementStyle>
+						<Style>
+							<Setter Property="TextBlock.HorizontalAlignment" Value="Center"/>
+						</Style>
+					</DataGridTextColumn.ElementStyle>
+				</DataGridTextColumn>
+				<DataGridTextColumn Header="Транспортная компания" Width="200" Binding="{Binding Path=TransportCompanyName}">
+					<DataGridTextColumn.ElementStyle>
+						<Style>
+							<Setter Property="TextBlock.HorizontalAlignment" Value="Center"/>
+						</Style>
+					</DataGridTextColumn.ElementStyle>
+				</DataGridTextColumn>
+				
+			</DataGrid.Columns>
+		</DataGrid>
+		<Button x:Name="SaveChangesBtn" Grid.Row="11" Grid.RowSpan="2" Content="Сохранить изменения" Margin="10 2 10 2" Cursor="Hand" Background="Teal" Click="SaveChangesBtn_Click"/>
+	</Grid>
+</Window>

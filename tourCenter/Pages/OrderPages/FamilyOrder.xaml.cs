@@ -21,7 +21,6 @@ namespace tourCenter
 
     public partial class FamilyOrder : Page
     {
-        private object[,] _newParticipantsObj;
         private List<Participant> _newPartisipants = new List<Participant>();
         public FamilyOrder()
         {
@@ -60,12 +59,35 @@ namespace tourCenter
             }
 
         }
-        public bool IsCorrectData()
+
+        private void CheckSpaceDown_PreviewKeyDown(object sender, KeyEventArgs e)
         {
-            return 
-                   txtBoxFullName.Text != "" &&
+            if (e.Key == Key.Space)
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void CheckCorrectAmount_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            TextBox textBox = (TextBox)sender;
+            string t = textBox.Text;
+            if (t.Length >= 2)
+            {
+                e.Handled = true;
+            }
+            int val;
+            if (!Int32.TryParse(e.Text, out val))
+            {
+                e.Handled = true;
+            }
+        }
+
+        public bool IsCorrectData()
+        {   
+            return txtBoxFullName.Text != "" &&
                    numberPhone.Text != "" &&
-                   peopleAmount.Value != 0 &&
+                   peopleAmount.Text != "" &&
                    CmBoxRoutes.Text != "" &&
                    CmBoxWayToTravel.Text != "" &&
                    StartDate.Text != "" &&
@@ -74,25 +96,25 @@ namespace tourCenter
 
         private string GetStringFoodlFeatures()
         {
-            string str;
+            string foodlFeatures;
             if ((bool)CheckMeat.IsChecked)
             {
-                str = "Есть Вегетарианцы\n";
+                foodlFeatures = "Есть Вегетарианцы\n";
             }
             else
             {
-                str = "Вегетарианцев нет\n";
+                foodlFeatures = "Вегетарианцев нет\n";
             }
             if ((bool)CheckSugar.IsChecked)
             {
-                str += "Есть Диабетики\n";
+                foodlFeatures += "Есть Диабетики\n";
             }
             else
             {
-                str += "Диабетиков нет\n";
+                foodlFeatures += "Диабетиков нет\n";
             }
-            str += txtBoxFood.Text;
-            return str;
+            foodlFeatures += txtBoxFood.Text;
+            return foodlFeatures;
         }
 
         private string[] GetSplitFullName(string fullName)
@@ -121,20 +143,21 @@ namespace tourCenter
                     {
                         if (excel.OpenNewExcel(filename))
                         {
-                            _newParticipantsObj = excel.GetParticipants();
-                        }
-                        for (int i = 1; i <= _newParticipantsObj.GetLength(0); i++)
-                        {
+                            object[,] newParticipantsObj = excel.GetParticipants();
 
-                            Participant participant = new Participant()
+                            for (int i = 1; i <= newParticipantsObj.GetLength(0); i++)
                             {
-                                Surname = _newParticipantsObj[i, 1].ToString(),
-                                Name = _newParticipantsObj[i, 2].ToString(),
-                                Middlename = _newParticipantsObj[i, 3].ToString(),
-                                ClientTelefonNumber = _newParticipantsObj[i, 4].ToString()
-                            };
-                            _newPartisipants.Add(participant);
+                                Participant participant = new Participant()
+                                {
+                                    Surname = newParticipantsObj[i, 1].ToString(),
+                                    Name = newParticipantsObj[i, 2].ToString(),
+                                    Middlename = newParticipantsObj[i, 3].ToString(),
+                                    ClientTelefonNumber = newParticipantsObj[i, 4].ToString()
+                                };
+                                _newPartisipants.Add(participant);
+                            }
                         }
+                        
                     }
                     catch (Exception ex) { MessageBox.Show(ex.Message); }
                 }
@@ -157,6 +180,15 @@ namespace tourCenter
                 e.Handled = true; 
             }
         }
+
+        public void CorrectNullFields()
+        {
+            if (peopleAmount.Text == "") peopleAmount.Text = "0";
+            if (childrenAmount.Text == "") childrenAmount.Text = "0";
+            if (persHermeticBagAmount.Text == "") persHermeticBagAmount.Text = "0";
+            if (persTentAmount.Text == "") persTentAmount.Text = "0";
+        }
+
         private void numberPhone_PreviewKeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Space)
@@ -174,34 +206,51 @@ namespace tourCenter
             }
         }
 
+        public void ClearFields()
+        {
+            txtBoxFullName.Text = "";
+            numberPhone.Text = "";
+            peopleAmount.Text = "";
+            childrenAmount.Text = "";
+            CheckMeat.IsChecked = false;
+            CheckSugar.IsChecked = false;
+            CmBoxRoutes.Text = "";
+            CmBoxWayToTravel.Text = "";
+            StartDate.Text = "";
+            FinishDate.Text = "";
+            txtBoxFood.Text = "";
+            txtBoxEquipment.Text = "";
+            persTentAmount.Text = "";
+            persHermeticBagAmount.Text = "";
+        }
+
         private void AddOrderBtn_Click(object sender, RoutedEventArgs e)
         {
 
             if (IsCorrectData())
             {
                 try
-                {
+                {                   
                     var fullName = GetSplitFullName(txtBoxFullName.Text);
-
+                    CorrectNullFields();
                     Client client = new Client()
                     {
                         Surname = fullName[0],
                         Name = fullName[1],
                         Middlename = fullName[2],
                         ClientTelefonNumber = numberPhone.Text,
-                        PeopleAmount = Convert.ToInt32(peopleAmount.Value),
-                        ChildrenAmount = Convert.ToInt32(childrenAmount.Value)
+                        PeopleAmount = Convert.ToInt32(peopleAmount.Text),
+                        ChildrenAmount = Convert.ToInt32(childrenAmount.Text)
                     };
 
                     foreach (Participant p in _newPartisipants)
                     {
                         p.Client = client;
-                        ContextManager.db.Participant.Add(p);
                     }
-
+                    
                     Order order = new Order()
                     {
-                        ApplicationType = ApplicationType.GetTeamType(),
+                        ApplicationType = ApplicationType.GetFamilyType(),
                         Route = Route.GetRouteByRouteName(CmBoxRoutes.Text),
                         Employee = Employee.GetEmployeeById(1),
                         Client = client,
@@ -210,16 +259,20 @@ namespace tourCenter
                         EquipmentFeatures = txtBoxEquipment.Text,
                         StartTime = (DateTime)StartDate.SelectedDate,
                         FinishTime = (DateTime)FinishDate.SelectedDate,
-                        HermeticBagAmount = Convert.ToInt32(persHermeticBagAmount.Value),
-                        IndividualTentAmount = Convert.ToInt32(persTentAmount.Value),
+                        HermeticBagAmount = Convert.ToInt32(persHermeticBagAmount.Text),
+                        IndividualTentAmount = Convert.ToInt32(persTentAmount.Text),
                         Status = "Активна"
                     };
-                    ContextManager.db.Client.Add(client);
-                    ContextManager.db.Order.Add(order);
-                    ContextManager.db.SaveChanges();
+                    Client.Add(client);
+                    if (_newPartisipants.Count == client.PeopleAmount)
+                    {
+                        Participant.AddAll(_newPartisipants);
+                    }
+                    Order.Add(order);                   
                     MessageBox.Show("Заявка добавлена!");
+                    ClearFields();
                 }
-                catch (Exception ex) { MessageBox.Show("Ошибка добавления! " + ex.Message); }
+                catch (Exception ex) { MessageBox.Show("Ошибка добавления!\n" + ex.Message); }
             }
             else
             {

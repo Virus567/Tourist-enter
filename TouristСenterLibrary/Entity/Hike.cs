@@ -14,11 +14,17 @@ namespace TouristСenterLibrary.Entity
         [Required] public virtual Route Route { get; set; }
         [Required] public string Status { get; set; }
 
-        public static List<Hike> Get()
+        public static void Add(Hike hike)
         {
-            return db.Hike.ToList();
-
+            db.Hike.Add(hike);
+            db.SaveChanges();
         }
+
+        public static Hike GetHikeByID(int hikeId)
+        {
+            return db.Hike.Where(h => h.ID == hikeId).First();
+        }
+
         public class HikeView
         {
             public int ID { get; set; }
@@ -32,7 +38,7 @@ namespace TouristСenterLibrary.Entity
         }
         public static List<HikeView> GetView()
         {
-            List<HikeView> hikeList = db.Hike.Join(db.Order, h => h.ID, o => o.ID, (h, o) => new HikeView()
+            List<HikeView> hikeList =db.Hike.Join(db.Order, h => h.ID, o => o.ID, (h, o) => new HikeView()
             {
                 ID = h.ID,
                 RouteName = h.Route.Name,
@@ -62,6 +68,7 @@ namespace TouristСenterLibrary.Entity
             public string WayToTravel { get; set; }
             public string CompanyName { get; set; }
             public int PeopleAmount { get; set; }
+            public int ChildrenAmount { get; set; }
             public string Status { get; set; }
             public int HermeticBagAmount { get; set; }
             public int IndividualTentAmount { get; set; }
@@ -71,7 +78,7 @@ namespace TouristСenterLibrary.Entity
         {
             List<HikeViewAll>list = (from h in db.Hike
                     join o in db.Order on h.ID equals o.Hike.ID
-                    join c in db.Client on o.ID equals c.ID
+                    join c in db.Client on o.Client.ID equals c.ID
                     where h.ID == hikeID
                     select new HikeViewAll()
                     {
@@ -82,14 +89,13 @@ namespace TouristСenterLibrary.Entity
                         WayToTravel = o.WayToTravel,
                         CompanyName = o.Client.GetCompanyNameForHike(),
                         PeopleAmount = c.PeopleAmount,
-                        Status = h.Status,
-                        HermeticBagAmount = o.HermeticBagAmount,
-                        IndividualTentAmount =o.IndividualTentAmount
+                        Status = h.Status,                   
                     }).ToList();
             foreach (HikeViewAll hv in list)
             {
                 hv.HermeticBagAmount = Order.GetHermeticBagAmount(hv.ID);
                 hv.IndividualTentAmount = Order.GetIndividualTentAmount(hv.ID);
+                hv.ChildrenAmount = Client.GetChildrenAmountOnHike(hv.ID);
             }
             return list;
         }

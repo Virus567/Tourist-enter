@@ -41,21 +41,40 @@ namespace TouristСenterLibrary.Entity
                         InHike = false
                     }).ToList();
 
-        }        
+        }
+
+        public static InstructorView GetInstructorViewByID(int instructorId)
+        {
+            return (from i in db.Instructor
+                    where i.ID == instructorId
+                    select new InstructorView()
+                    {
+                        ID = i.ID,
+                        Surname = i.Surname,
+                        Name = i.Name,
+                        Middlename = i.Middlename,
+                        InstructorTelefonNumber = i.InstructorTelefonNumber,
+                        InHike = false
+                    }).FirstOrDefault();
+        }
         
-        public static List<InstructorView> GetHikeInstructor(int hikeId)
+        public static Instructor GetInstructorByID(int id)
+        {
+            return db.Instructor.Where(i => i.ID == id).FirstOrDefault();
+        }
+        public static List<InstructorView> GetInstructorViewsByHikeID(int hikeId)
         {
             List<int> intList = new List<int>();
-            List<InstructorGroup> listInstructorGroup =InstructorGroup.GetInstructorGroup(hikeId);
+            List<InstructorGroup> listInstructorGroup =InstructorGroup.GetInstructorGroupByHikeID(hikeId);
             foreach (InstructorGroup ig in listInstructorGroup)
                 intList.Add(ig.Instructor.ID);
-            List<InstructorView> list = Instructor.GetInstructorsByID(intList);
+            List<InstructorView> list = Instructor.GetInstructorViewsByListID(intList);
             return list;
         }
 
-        public static List<string> GetViewHikeInstructor(int hikeId)
+        public static List<string> GetFullNameInstructorsByHikeID(int hikeId)
         {
-            List<InstructorView>list = Instructor.GetHikeInstructor(hikeId);
+            List<InstructorView>list = Instructor.GetInstructorViewsByHikeID(hikeId);
             string str;
             List<string> strlist = new List<string>();
             foreach(InstructorView i in list)
@@ -69,7 +88,7 @@ namespace TouristСenterLibrary.Entity
             return strlist;
         }
 
-        public static List<InstructorView> GetInstructorsByID(List<int> instructorsID)
+        public static List<InstructorView> GetInstructorViewsByListID(List<int> instructorsID)
         {
             List<InstructorView> instructors= new List<InstructorView>();
             foreach(int instructorId in instructorsID)

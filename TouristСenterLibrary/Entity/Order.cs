@@ -16,12 +16,12 @@ namespace TouristСenterLibrary.Entity
         [Required] public virtual Employee Employee { get; set; }
         [Required] public virtual Client Client { get; set; }
         [Required] public string WayToTravel { get; set; }
-        public string? FoodlFeatures { get; set; }
-        public string? EquipmentFeatures { get; set; }
+        public string FoodlFeatures { get; set; }
+        public string EquipmentFeatures { get; set; }
         [Required] public DateTime StartTime { get; set; }
         [Required] public DateTime FinishTime { get; set; }
         [Required] public string Status { get; set; }
-        public virtual Hike? Hike { get; set; }
+        public virtual Hike Hike { get; set; }
         [Required] public int HermeticBagAmount { get; set; }
         [Required] public int IndividualTentAmount { get; set; }
 
@@ -34,6 +34,7 @@ namespace TouristСenterLibrary.Entity
             public string Client { get; set; }
             public int ClientID { get; set;}
             public int PeopleAmount { get; set; }
+            public int ChildrenAmount { get; set; }
             public string ApplicationTypeName { get; set; }
             public string Status { get; set; }
             public bool IsListParticipants { get; set; }
@@ -52,6 +53,7 @@ namespace TouristСenterLibrary.Entity
                         ClientID = o.Client.ID,
                         PeopleAmount = o.Client.PeopleAmount,
                         ApplicationTypeName = o.ApplicationType.Name,
+                        ChildrenAmount = o.Client.ChildrenAmount,
                         Status = o.Status,
                         IsListParticipants = false
                     }).ToList();
@@ -82,6 +84,17 @@ namespace TouristСenterLibrary.Entity
 
         }
 
+        public static void Add(Order order)
+        {
+            db.Order.Add(order);
+            db.SaveChanges();
+        }
+
+        public static void Update(Order order)
+        {
+            db.SaveChanges();
+        }
+
         public static int GetHermeticBagAmount(int hikeId)
         {
             int result = 0;
@@ -108,7 +121,6 @@ namespace TouristСenterLibrary.Entity
             }
             return result;
         }
-
 
         public static List<OrderViewAll> GetViewAll(int orderID)
         {
