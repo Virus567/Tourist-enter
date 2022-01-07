@@ -65,7 +65,7 @@
 		<Label  Margin="0 8 0 0" Grid.Column="7" Grid.Row="1" Grid.ColumnSpan="3" Content="Номер телефона:"  Foreground="Gray" FontSize="16" />
 		<Border  Background="Gray" Margin="5 8 0 0" Grid.Column="10" Grid.ColumnSpan="3" Grid.Row="1" MaxHeight="30">
 			<TextBox x:Name="numberPhone" materialDesign:HintAssist.Hint="+7" Background="#ffdadada" Padding="0 0 0 5" FontSize="16" Margin="0 0.5 0.5 0"
-				PreviewTextInput="numberPhone_PreviewTextInput" PreviewKeyDown="numberPhone_PreviewKeyDown"  TextAlignment="Left" Cursor="IBeam" GotFocus="numberPhone_GotFocus"/>
+				PreviewTextInput="numberPhone_PreviewTextInput" PreviewKeyDown="numberPhone_PreviewKeyDown"  TextAlignment="Left" Cursor="IBeam" GotFocus="NumberPhone_GotFocus"/>
 		</Border>
 		<Label Content="Кол-во человек:" Grid.Column="13" Grid.Row="1" Grid.ColumnSpan="3" Margin="30 8 0 0" Foreground="Gray" FontSize="16" />
 		<Border Background="Gray" Grid.Column="16" Grid.Row="1" MaxHeight="30"  Margin="0 5 0 0" >

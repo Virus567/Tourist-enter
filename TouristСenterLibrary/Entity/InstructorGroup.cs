@@ -12,7 +12,7 @@ namespace TouristСenterLibrary.Entity
     {
         private static ApplicationContext db = ContextManager.db;
         public int ID { get; set; }
-        [Required] public virtual Instructor Instructor{ get; set; }
+        [Required] public virtual List<Instructor> InstructorsList { get; set; } = new List<Instructor>();
         [Required] public virtual Hike Hike { get; set; }
 
         public static void Add(InstructorGroup instructorGroup)
@@ -21,22 +21,16 @@ namespace TouristСenterLibrary.Entity
             db.SaveChanges();
         }
 
-        public static void Remove(InstructorGroup instructorGroup)
+        public static void Update(InstructorGroup instructorGroup)
         {
-            db.InstructorGroup.Remove(instructorGroup);
             db.SaveChanges();
         }     
 
-        public static List<InstructorGroup> GetInstructorGroupByHikeID(int hikeId)
+        public static InstructorGroup GetInstructorGroupByHikeID(int hikeId)
         {
             return (from i in db.InstructorGroup
                     where i.Hike.ID == hikeId
-                    select new InstructorGroup()
-                    {
-                        ID = i.ID,
-                        Instructor = i.Instructor,
-                        Hike = i.Hike
-                    }).ToList();
+                    select i).FirstOrDefault();
         }
     }
     

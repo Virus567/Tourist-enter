@@ -12,6 +12,7 @@ namespace TouristСenterLibrary.Entity
         public int ID { get; set; }
         [Required] public string Name { get; set; }
         [Required] public int Number { get; set; }
+        public virtual List<Hike> HikesList { get; set; } = new List<Hike>();
 
         public static int GetEquipmentAmount(int cEquipId)
         {

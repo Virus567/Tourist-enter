@@ -10,6 +10,7 @@ namespace TouristСenterLibrary.Entity
         public int ID { get; set; }
         [Required] public string Name { get; set; }
         [Required] public DateTime PurchaseDate { get; set; }
+        public virtual List<Hike> HikesList { get; set; } = new List<Hike>();
 
     }
 }

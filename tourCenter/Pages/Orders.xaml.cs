@@ -90,7 +90,7 @@ namespace tourCenter
             RowOrder rowOrder = new RowOrder();
             Order.OrderView selectedOrder = (Order.OrderView)dgOrder.SelectedValue;
             rowOrder.Show();
-            rowOrder.AddSelectedOrder(selectedOrder.ID.ToString());
+            rowOrder.AddSelectedOrder(selectedOrder.ID);
         }
 
         private void UpdateBtn_Click(object sender, RoutedEventArgs e)

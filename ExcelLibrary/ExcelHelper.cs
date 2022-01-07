@@ -94,7 +94,7 @@ namespace ExcelLibrary
             catch (Exception ex) { Console.WriteLine(ex.Message); }
             return false;
         }
-        public bool SetEquipment(List<HikeEquipment> equipments, List<CountableHikeEquip> countableEquipments)
+        public bool SetEquipment(/*List<HikeEquipment> equipments, List<CountableHikeEquip> countableEquipments*/)
         {
             try
             {

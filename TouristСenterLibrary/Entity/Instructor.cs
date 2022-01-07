@@ -18,6 +18,7 @@ namespace TouristСenterLibrary.Entity
         [MaxLength(15)]
         [Required] public string InstructorTelefonNumber { get; set; }
         [Required] public DateTime EmploymentDate { get; set; }
+        [Required] public virtual List<InstructorGroup> InstructorGroups { get; set; } = new List<InstructorGroup>();
 
         public class InstructorView
         {
@@ -65,9 +66,11 @@ namespace TouristСenterLibrary.Entity
         public static List<InstructorView> GetInstructorViewsByHikeID(int hikeId)
         {
             List<int> intList = new List<int>();
-            List<InstructorGroup> listInstructorGroup =InstructorGroup.GetInstructorGroupByHikeID(hikeId);
-            foreach (InstructorGroup ig in listInstructorGroup)
-                intList.Add(ig.Instructor.ID);
+            InstructorGroup instructorGroup =InstructorGroup.GetInstructorGroupByHikeID(hikeId);
+            foreach (var ii in instructorGroup.InstructorsList)
+            {
+                intList.Add(ii.ID);
+            }  
             List<InstructorView> list = Instructor.GetInstructorViewsByListID(intList);
             return list;
         }

@@ -79,7 +79,7 @@ namespace tourCenter
             RowOrder rowOrder = new RowOrder();
             Order.OrderView selectedOrder = (Order.OrderView)dgOrders.SelectedValue;
             rowOrder.Show();
-            rowOrder.AddSelectedOrder(selectedOrder.ID.ToString());
+            rowOrder.AddSelectedOrder(selectedOrder.ID);
         }
 
         private void addOrderBtn_Click(object sender, RoutedEventArgs e) //заявки могут быть объеденены только если все заявки семейные
@@ -122,7 +122,7 @@ namespace tourCenter
 
         private bool IsСorrectOrder(Order.OrderView order)
         {
-            Order.OrderViewAll o = Order.GetViewAll(order.ID)[0];
+            Order.OrderViewAll o = Order.GetViewAllByID(order.ID);
             return txtBoxStartDate.Text == o.StartTime &&
                    txtBoxRoute.Text == o.RouteName &&
                    txtBoxWayToTravel.Text == o.WayToTravel;
@@ -130,7 +130,7 @@ namespace tourCenter
 
         private void GetOrderData(Order.OrderView tmpOrder)
         {
-            Order.OrderViewAll order = Order.GetViewAll(tmpOrder.ID)[0];
+            Order.OrderViewAll order = Order.GetViewAllByID(tmpOrder.ID);
             txtBoxStartDate.Text = order.StartTime;
             txtBoxFinishDate.Text = order.FinishTime;
             txtBoxRoute.Text = order.RouteName;
@@ -188,7 +188,7 @@ namespace tourCenter
                     Hike hike = new Hike()
                     {
                         Route = route,
-                        Status = "В сборке"
+                        Status = Hike.GetDescriptionByEnum(Hike.EnumStatus.inAssembly)
                     };
                     Hike.Add(hike);
 
@@ -200,15 +200,14 @@ namespace tourCenter
                         Order.Update(order);
                     }
 
+                    InstructorGroup instructorGroup = new InstructorGroup();
+                    instructorGroup.Hike = hike;
                     foreach (var instructorView in _selectedInstructors)
                     {
                         Instructor instructor = Instructor.GetInstructorByID(instructorView.ID);
-                        InstructorGroup instructorGroup = new InstructorGroup();
-                        instructorGroup.Hike = hike;
-                        instructorGroup.Instructor = instructor;
-                        InstructorGroup.Add(instructorGroup);
-                    }
-
+                        instructorGroup.InstructorsList.Add(instructor);
+                    }        
+                    InstructorGroup.Add(instructorGroup);
                     Transport startTransport = new Transport();
                     Transport finishTransport = new Transport();
                     foreach(var transportView in _selectedTransport)

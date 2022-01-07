@@ -69,24 +69,14 @@ namespace tourCenter
             }
             else
             {
-                List<InstructorGroup> instructorsGroup = InstructorGroup.GetInstructorGroupByHikeID(_hikeId);
-                
-                foreach (var ig in instructorsGroup)
-                {
-                    InstructorGroup.Remove(ig);//удались пожалуйста!
-                }
+                InstructorGroup instructorGroup = InstructorGroup.GetInstructorGroupByHikeID(_hikeId);
+                instructorGroup.InstructorsList.RemoveAll(i=> instructorGroup.Hike.ID ==_hikeId);
                 foreach (var instructorView in _selectedInstructors)
-                {
-                    List<Instructor.InstructorView> hikeInstructors = Instructor.GetInstructorViewsByHikeID(_hikeId);
-                   
+                {                 
                     Instructor instructor = Instructor.GetInstructorByID(instructorView.ID);
-                    InstructorGroup instructorGroup = new InstructorGroup();
-                    instructorGroup.Hike = Hike.GetHikeByID(_hikeId);
-                    instructorGroup.Instructor = instructor;
-                    InstructorGroup.Add(instructorGroup);
-
-                    
+                    instructorGroup.InstructorsList.Add(instructor);
                 }
+                InstructorGroup.Update(instructorGroup);
                 _rowhike.AddInstructorsData(_hikeId);
                 this.Close();
             }

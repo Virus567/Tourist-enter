@@ -50,18 +50,18 @@
 		<TextBox Grid.Row="1" Grid.Column="7" x:Name="txtBoxPeopleAmount" HorizontalAlignment="Center" Margin="20 5 0 0" BorderThickness="1" Padding="2 0 2 0" MaxHeight="25" IsReadOnly="True" Cursor="IBeam"/>
 		<Label Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="3" Margin="10 0 0 0" Content="Группа Инструкторов:"/>
 		<ListBox x:Name="listInstructors" ItemsSource="{Binding}" Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="4"  Grid.RowSpan="7"  Margin="10 0 0 20"/>
-		<Label Grid.Row="3" Grid.Column="4"  Content="Транспорт:"/>
-		<Label Grid.Row="3" Grid.Column="5"  Content="до т. старта:"/>
-		<Label Grid.Row="4" Grid.Column="5"  Content="от т. финиша:"/>
-		<TextBox Grid.Row="3" Grid.Column="6"  x:Name="txtBoxCarNumberStart" HorizontalAlignment="Center" Text="" Padding="0 0 5 0" Margin="0 0 0 10" MaxHeight="25" IsReadOnly="True" Cursor="IBeam"/>
-		<TextBox Grid.Row="4" Grid.Column="6"  x:Name="txtBoxCarNumberFinish" HorizontalAlignment="Center" Text="" Padding="0 0 5 0" Margin="0 0 0 10" MaxHeight="25" IsReadOnly="True" Cursor="IBeam"/>
-		<Label Content="Кол-во мест:" Grid.Column="7" Grid.Row="3"  Grid.ColumnSpan="2" Margin="20 0 0 0"  FontSize="16" />
-		<Label Content="Кол-во мест:" Grid.Column="7" Grid.Row="4"  Grid.ColumnSpan="2" Margin="20 0 0 0"  FontSize="16" />
-		<TextBox Grid.Row="3" Grid.Column="8" x:Name="txtBoxSeatsOfAmountStart" HorizontalAlignment="Center" Margin="20 0 0 10" Text="" BorderThickness="1" Padding="2 0 2 0" MaxHeight="25" IsReadOnly="True" Cursor="IBeam"/>
-		<TextBox Grid.Row="4" Grid.Column="8" x:Name="txtBoxSeatsOfAmountFinish" HorizontalAlignment="Center" Margin="20 0 0 10" Text="" BorderThickness="1" Padding="2 0 2 0" MaxHeight="25" IsReadOnly="True" Cursor="IBeam"/>
+		<Label Grid.Row="3" Grid.Column="5"  Content="Транспорт:"/>
+		<Label Grid.Row="3" Grid.Column="6"  Content="до т. старта:"/>
+		<Label Grid.Row="4" Grid.Column="6"  Content="от т. финиша:"/>
+		<TextBox Grid.Row="3" Grid.Column="7"  x:Name="txtBoxCarNumberStart" HorizontalAlignment="Center" Text="" Padding="0 0 5 0" Margin="0 0 0 10" MaxHeight="25" IsReadOnly="True" Cursor="IBeam"/>
+		<TextBox Grid.Row="4" Grid.Column="7"  x:Name="txtBoxCarNumberFinish" HorizontalAlignment="Center" Text="" Padding="0 0 5 0" Margin="0 0 0 10" MaxHeight="25" IsReadOnly="True" Cursor="IBeam"/>
+		<Label Content="Кол-во мест:" Grid.Column="8" Grid.Row="3"  Grid.ColumnSpan="2" Margin="20 0 0 0"  FontSize="16" />
+		<Label Content="Кол-во мест:" Grid.Column="8" Grid.Row="4"  Grid.ColumnSpan="2" Margin="20 0 0 0"  FontSize="16" />
+		<TextBox Grid.Row="3" Grid.Column="9" x:Name="txtBoxSeatsOfAmountStart" HorizontalAlignment="Center" Margin="20 0 0 10" Text="" BorderThickness="1" Padding="2 0 2 0" MaxHeight="25" IsReadOnly="True" Cursor="IBeam"/>
+		<TextBox Grid.Row="4" Grid.Column="9" x:Name="txtBoxSeatsOfAmountFinish" HorizontalAlignment="Center" Margin="20 0 0 10" Text="" BorderThickness="1" Padding="2 0 2 0" MaxHeight="25" IsReadOnly="True" Cursor="IBeam"/>
 		<Button x:Name="ChangeInstructorsBtn" Click="ChangeInstructorsBtn_Click" Grid.Column="0" Grid.Row="12" Margin="100 0 30 0 " Grid.ColumnSpan="3" Background="Teal" Content="Изменить состав" Cursor="Hand"/>
-		<Button Grid.Column="6" Grid.Row="12" Grid.ColumnSpan="2" Background="Teal" Margin="5 0 5 0" Content="Изменить данные"/>
-		<Button Grid.Column="8" Grid.Row="12" Grid.ColumnSpan="2" Background="Teal" Margin="5 0 5 0" Content="Изменить Статус"/>
+		<Button x:Name="ChangeDataBtn" Click="ChangeDataBtn_Click" Grid.Column="6" Grid.Row="12" Grid.ColumnSpan="2" Background="Teal" Margin="5 0 5 0" Content="Изменить данные"/>
+		<Button x:Name="ChangeStatusBtn" Click="ChangeStatusBtn_Click" Grid.Column="8" Grid.Row="12" Grid.ColumnSpan="2" Background="Teal" Margin="5 0 5 0" Content="Изменить Статус"/>
 		<Button x:Name="ChangeTransportBtn" Click="ChangeTransportBtn_Click" Grid.Column="8" Grid.Row="6" Grid.ColumnSpan="2" Background="Teal" Margin="5 0 5 0" Content="Поменять транспорт"/>
 		<TextBlock Grid.Row="12" Margin="0 7" Grid.Column="4" Grid.ColumnSpan="2">
 		<Hyperlink  x:Name="ExcelLink" Click="ExcelLink_Click" >Подробности о походе</Hyperlink>

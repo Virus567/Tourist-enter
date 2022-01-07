@@ -4,6 +4,8 @@ using System.ComponentModel.DataAnnotations;
 using System.Text;
 using TouristСenterLibrary;
 using System.Linq;
+using System.ComponentModel;
+using System.Reflection;
 
 namespace TouristСenterLibrary.Entity
 {
@@ -25,7 +27,16 @@ namespace TouristСenterLibrary.Entity
         [Required] public int HermeticBagAmount { get; set; }
         [Required] public int IndividualTentAmount { get; set; }
 
-        public class OrderView 
+        public enum EnumStatus
+        {
+            [Description("Активна")] active = 1,
+            [Description("В сборке")] onRoute = 2,
+            [Description("Завершена")] сompleted = 3,
+            [Description("Отменена")] canceled = 4
+        }
+
+
+        public class OrderView
         {
             public int ID { get; set; }
             public string DateTime { get; set; }
@@ -59,7 +70,7 @@ namespace TouristСenterLibrary.Entity
                     }).ToList();
             foreach(var l in list)
             {
-                l.IsListParticipants = Participant.IsParticipantsForOrder(l.ClientID,l.PeopleAmount);
+                l.IsListParticipants = Participant.IsParticipantsForOrder(Client.GetClientByID(l.ClientID));
             }
             return list;
         }
@@ -92,39 +103,12 @@ namespace TouristСenterLibrary.Entity
 
         public static void Update(Order order)
         {
+            db.Order.Update(order);
             db.SaveChanges();
         }
-
-        public static int GetHermeticBagAmount(int hikeId)
+        public static OrderViewAll GetViewAllByID(int orderID)
         {
-            int result = 0;
-            List<Order> orders = (from o in db.Order
-                                  join h in db.Hike on o.Hike.ID equals h.ID
-                                  where h.ID == hikeId
-                                  select o).ToList();
-            foreach(Order or in orders)
-            {
-                result += or.HermeticBagAmount;
-            }
-            return result;
-        }
-        public static int GetIndividualTentAmount(int hikeId)
-        {
-            int result = 0;
-            List<Order> orders = (from o in db.Order
-                                  join h in db.Hike on o.Hike.ID equals h.ID
-                                  where h.ID == hikeId
-                                  select o).ToList();
-            foreach (Order or in orders)
-            {
-                result += or.IndividualTentAmount;
-            }
-            return result;
-        }
-
-        public static List<OrderViewAll> GetViewAll(int orderID)
-        {
-            List<OrderViewAll> list = (from o in db.Order
+            OrderViewAll order = (from o in db.Order
                                        where o.ID == orderID                    
                                        select new OrderViewAll()
                                        {
@@ -143,18 +127,58 @@ namespace TouristСenterLibrary.Entity
                                             Status = o.Status,
                                             HermeticBagAmount = o.HermeticBagAmount,
                                             IndividualTentAmount =o.IndividualTentAmount
-                                       }).ToList();
-            foreach (var l in list)
-            {
-                l.IsListParticipants = Participant.IsParticipantsForOrder(l.ClientID, l.PeopleAmount);
-            }
-            return list;
+                                       }).FirstOrDefault();
+            order.IsListParticipants = Participant.IsParticipantsForOrder(Client.GetClientByID(order.ClientID));
+            return order;
         }
         public static Order GetOrderByID(int orderID)
         {
             return db.Order.Where(o => o.ID == orderID).FirstOrDefault();
         }
 
+        public static List<string> GetPossibleStatuses(string str)
+        {
+            EnumStatus startStatus = GetEnumByDescription<EnumStatus>(str);
+            List<string> list = new List<string>();
+            foreach (EnumStatus status in Enum.GetValues(typeof(EnumStatus)))
+            {
+                if (status >= startStatus)
+                {
+                    list.Add(GetDescriptionByEnum(status));
+                }
+            }
+            return list;
+        }
+        public static string GetDescriptionByEnum(Enum enumElement)
+        {
+            Type type = enumElement.GetType();
+            MemberInfo[] memInfo = type.GetMember(enumElement.ToString());
+            if (memInfo != null && memInfo.Length > 0)
+            {
+                object[] attrs = memInfo[0].GetCustomAttributes(typeof(DescriptionAttribute), false);
+                if (attrs != null && attrs.Length > 0)
+                    return ((DescriptionAttribute)attrs[0]).Description;
+            }
+            return enumElement.ToString();
+        }
+        public static T GetEnumByDescription<T>(string description) where T : Enum
+        {
+            foreach (var field in typeof(T).GetFields())
+            {
+                if (Attribute.GetCustomAttribute(field,
+                typeof(DescriptionAttribute)) is DescriptionAttribute attribute)
+                {
+                    if (attribute.Description == description)
+                        return (T)field.GetValue(null);
+                }
+                else
+                {
+                    if (field.Name == description)
+                        return (T)field.GetValue(null);
+                }
+            }
+            throw new ArgumentException("Enum is not found!", nameof(description));
+        }
 
     }
 }

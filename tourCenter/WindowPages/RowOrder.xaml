@@ -47,10 +47,10 @@
 		<Label Grid.Column="3" Grid.Row="1" Margin="0 8 0 0" Grid.ColumnSpan="2"  Content="Способ передвижения:"/>
 		<ComboBox Grid.Row="1" Grid.Column="5"  x:Name="cmbBoxWayToTravel" HorizontalAlignment="Center"  Padding="5 0 5 0" Margin="0 5 0 0" MaxHeight="25" IsReadOnly="True" Cursor="IBeam"/>
 		<Label Content="Кол-во человек:" Grid.Column="6" Grid.Row="1"  Grid.ColumnSpan="2" Margin="20 8 0 0"  FontSize="16" />
-		<TextBox Grid.Row="1" Grid.Column="7" x:Name="txtBoxPeopleAmount" HorizontalAlignment="Center" Margin="20 5 0 0" BorderThickness="1" Padding="2 0 2 0" MaxHeight="25" IsReadOnly="True" Cursor="IBeam"/>
+		<TextBox Grid.Row="1" Grid.Column="7" x:Name="txtBoxPeopleAmount" HorizontalAlignment="Center" Margin="20 5 0 0" BorderThickness="1" Padding="2 0 2 0" MaxHeight="25" IsReadOnly="True" PreviewKeyDown ="CheckSpaceDown_PreviewKeyDown" PreviewTextInput ="CheckCorrectAmount_PreviewTextInput" Cursor="IBeam"/>
 		<Label Content="Кол-во детей:" Grid.Column="8" Grid.Row="1"  Grid.ColumnSpan="2" Margin="20 8 0 0"  FontSize="16" />
-		<TextBox Grid.Row="1" Grid.Column="9" Text="" x:Name="txtBoxChildrenAmount" HorizontalAlignment="Center" Margin="20 5 0 0" BorderThickness="1" Padding="2 0 2 0" MaxHeight="25" IsReadOnly="True" Cursor="IBeam"/>
-		<Button x:Name="ChengeBtn" Grid.Column="7" Grid.Row="12" Grid.ColumnSpan="4" Background="Teal" Margin="80 0 10 0" Content="Изменить данные" Cursor="Hand"/>
+		<TextBox Grid.Row="1" Grid.Column="9" Text="" x:Name="txtBoxChildrenAmount" HorizontalAlignment="Center" Margin="20 5 0 0" BorderThickness="1" Padding="2 0 2 0" MaxHeight="25" IsReadOnly="True" PreviewKeyDown ="CheckSpaceDown_PreviewKeyDown" PreviewTextInput ="CheckCorrectAmount_PreviewTextInput" Cursor="IBeam"/>
+		<Button x:Name="ChangeDataBtn" Click="ChangeDataBtn_Click" Grid.Column="7" Grid.Row="12" Grid.ColumnSpan="4" Background="Teal" Margin="80 0 10 0" Content="Изменить данные" Cursor="Hand"/>
 		<TextBox x:Name="txtBoxFileName" Grid.Row="10" Grid.Column="5" Grid.ColumnSpan="3" Margin="0 6 50 3" IsReadOnly="True" 
 				 materialDesign:HintAssist.Hint="Добавьте список участников..." FontSize="16" Cursor="IBeam"/>
 		<Button Grid.Row="10" Grid.Column="7" Grid.ColumnSpan="4" Content="Добавить список участников" Margin="80 0 5 0" HorizontalAlignment="Left" 

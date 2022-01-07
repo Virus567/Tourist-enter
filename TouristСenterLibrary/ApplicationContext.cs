@@ -11,13 +11,9 @@ namespace TouristСenterLibrary
         public DbSet<CheckpointRoute> CheckpointRoute { get; set; }
         public DbSet<Client> Client { get; set; }
         public DbSet<CountableEquipment> CountableEquipment { get; set; }
-        public DbSet<CountableHikeEquip> CountableHikeEquip { get; set; }
         public DbSet<Employee> Employee { get; set; }
         public DbSet<Equipment> Equipment { get; set; }
-        public DbSet<Food> Food { get; set; }
         public DbSet<Hike> Hike { get; set; }
-        public DbSet<HikeEquipment> HikeEquipment { get; set; }
-        public DbSet<HikeFood> HikeFood { get; set; }
         public DbSet<Instructor> Instructor { get; set; }
         public DbSet<InstructorGroup> InstructorGroup { get; set; }
         public DbSet<Participant> Participant { get; set; }

@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using TouristСenterLibrary;
@@ -9,45 +10,16 @@ using TouristСenterLibrary;
 namespace TouristСenterLibrary.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    partial class ApplicationContextModelSnapshot : ModelSnapshot
+    [Migration("20220107085049_AddManyToOneInCLientAndParticipant")]
+    partial class AddManyToOneInCLientAndParticipant
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("Relational:MaxIdentifierLength", 63)
                 .HasAnnotation("ProductVersion", "5.0.10")
                 .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
-
-            modelBuilder.Entity("CountableEquipmentHike", b =>
-                {
-                    b.Property<int>("CountableEquipmentsID")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("HikesListID")
-                        .HasColumnType("integer");
-
-                    b.HasKey("CountableEquipmentsID", "HikesListID");
-
-                    b.HasIndex("HikesListID");
-
-                    b.ToTable("CountableEquipmentHike");
-                });
-
-            modelBuilder.Entity("EquipmentHike", b =>
-                {
-                    b.Property<int>("EquipmentsID")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("HikesListID")
-                        .HasColumnType("integer");
-
-                    b.HasKey("EquipmentsID", "HikesListID");
-
-                    b.HasIndex("HikesListID");
-
-                    b.ToTable("EquipmentHike");
-                });
 
             modelBuilder.Entity("InstructorInstructorGroup", b =>
                 {
@@ -156,6 +128,31 @@ namespace TouristСenterLibrary.Migrations
                     b.ToTable("CountableEquipment");
                 });
 
+            modelBuilder.Entity("TouristСenterLibrary.Entity.CountableHikeEquip", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+
+                    b.Property<int?>("EquipmentID")
+                        .HasColumnType("integer");
+
+                    b.Property<int?>("HikeID")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("Number")
+                        .HasColumnType("integer");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("EquipmentID");
+
+                    b.HasIndex("HikeID");
+
+                    b.ToTable("CountableHikeEquip");
+                });
+
             modelBuilder.Entity("TouristСenterLibrary.Entity.Employee", b =>
                 {
                     b.Property<int>("ID")
@@ -221,6 +218,22 @@ namespace TouristСenterLibrary.Migrations
                     b.ToTable("Equipment");
                 });
 
+            modelBuilder.Entity("TouristСenterLibrary.Entity.Food", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("ID");
+
+                    b.ToTable("Food");
+                });
+
             modelBuilder.Entity("TouristСenterLibrary.Entity.Hike", b =>
                 {
                     b.Property<int>("ID")
@@ -240,6 +253,60 @@ namespace TouristСenterLibrary.Migrations
                     b.HasIndex("RouteID");
 
                     b.ToTable("Hike");
+                });
+
+            modelBuilder.Entity("TouristСenterLibrary.Entity.HikeEquipment", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+
+                    b.Property<int?>("EquipmentID")
+                        .HasColumnType("integer");
+
+                    b.Property<int?>("HikeID")
+                        .HasColumnType("integer");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("EquipmentID");
+
+                    b.HasIndex("HikeID");
+
+                    b.ToTable("HikeEquipment");
+                });
+
+            modelBuilder.Entity("TouristСenterLibrary.Entity.HikeFood", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+
+                    b.Property<int?>("FoodID")
+                        .HasColumnType("integer");
+
+                    b.Property<int?>("HikeID")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("Number")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime>("ShelfLife")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<string>("Unit")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("FoodID");
+
+                    b.HasIndex("HikeID");
+
+                    b.ToTable("HikeFood");
                 });
 
             modelBuilder.Entity("TouristСenterLibrary.Entity.Instructor", b =>
@@ -370,7 +437,7 @@ namespace TouristСenterLibrary.Migrations
                         .HasColumnType("integer")
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
-                    b.Property<int>("ClientID")
+                    b.Property<int?>("ClientID")
                         .HasColumnType("integer");
 
                     b.Property<string>("ClientTelefonNumber")
@@ -529,36 +596,6 @@ namespace TouristСenterLibrary.Migrations
                     b.ToTable("TransportCompany");
                 });
 
-            modelBuilder.Entity("CountableEquipmentHike", b =>
-                {
-                    b.HasOne("TouristСenterLibrary.Entity.CountableEquipment", null)
-                        .WithMany()
-                        .HasForeignKey("CountableEquipmentsID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("TouristСenterLibrary.Entity.Hike", null)
-                        .WithMany()
-                        .HasForeignKey("HikesListID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("EquipmentHike", b =>
-                {
-                    b.HasOne("TouristСenterLibrary.Entity.Equipment", null)
-                        .WithMany()
-                        .HasForeignKey("EquipmentsID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("TouristСenterLibrary.Entity.Hike", null)
-                        .WithMany()
-                        .HasForeignKey("HikesListID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("InstructorInstructorGroup", b =>
                 {
                     b.HasOne("TouristСenterLibrary.Entity.InstructorGroup", null)
@@ -572,6 +609,21 @@ namespace TouristСenterLibrary.Migrations
                         .HasForeignKey("InstructorsListID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("TouristСenterLibrary.Entity.CountableHikeEquip", b =>
+                {
+                    b.HasOne("TouristСenterLibrary.Entity.CountableEquipment", "Equipment")
+                        .WithMany()
+                        .HasForeignKey("EquipmentID");
+
+                    b.HasOne("TouristСenterLibrary.Entity.Hike", "Hike")
+                        .WithMany()
+                        .HasForeignKey("HikeID");
+
+                    b.Navigation("Equipment");
+
+                    b.Navigation("Hike");
                 });
 
             modelBuilder.Entity("TouristСenterLibrary.Entity.Employee", b =>
@@ -590,6 +642,36 @@ namespace TouristСenterLibrary.Migrations
                         .HasForeignKey("RouteID");
 
                     b.Navigation("Route");
+                });
+
+            modelBuilder.Entity("TouristСenterLibrary.Entity.HikeEquipment", b =>
+                {
+                    b.HasOne("TouristСenterLibrary.Entity.Equipment", "Equipment")
+                        .WithMany()
+                        .HasForeignKey("EquipmentID");
+
+                    b.HasOne("TouristСenterLibrary.Entity.Hike", "Hike")
+                        .WithMany()
+                        .HasForeignKey("HikeID");
+
+                    b.Navigation("Equipment");
+
+                    b.Navigation("Hike");
+                });
+
+            modelBuilder.Entity("TouristСenterLibrary.Entity.HikeFood", b =>
+                {
+                    b.HasOne("TouristСenterLibrary.Entity.Food", "Food")
+                        .WithMany()
+                        .HasForeignKey("FoodID");
+
+                    b.HasOne("TouristСenterLibrary.Entity.Hike", "Hike")
+                        .WithMany()
+                        .HasForeignKey("HikeID");
+
+                    b.Navigation("Food");
+
+                    b.Navigation("Hike");
                 });
 
             modelBuilder.Entity("TouristСenterLibrary.Entity.InstructorGroup", b =>
@@ -637,10 +719,8 @@ namespace TouristСenterLibrary.Migrations
             modelBuilder.Entity("TouristСenterLibrary.Entity.Participant", b =>
                 {
                     b.HasOne("TouristСenterLibrary.Entity.Client", "Client")
-                        .WithMany("ParticipantsList")
-                        .HasForeignKey("ClientID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .WithMany()
+                        .HasForeignKey("ClientID");
 
                     b.Navigation("Client");
                 });
@@ -694,11 +774,6 @@ namespace TouristСenterLibrary.Migrations
                         .HasForeignKey("TransportCompanyID");
 
                     b.Navigation("TransportCompany");
-                });
-
-            modelBuilder.Entity("TouristСenterLibrary.Entity.Client", b =>
-                {
-                    b.Navigation("ParticipantsList");
                 });
 
             modelBuilder.Entity("TouristСenterLibrary.Entity.Hike", b =>

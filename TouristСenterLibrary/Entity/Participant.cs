@@ -40,11 +40,11 @@ namespace TouristСenterLibrary.Entity
                     select p).ToList();
 
         }
-        public static bool IsParticipantsForOrder(int clientId, int peopleAmount)
+        public static bool IsParticipantsForOrder(Client client)
         {
             List<Participant> participants = db.Participant.ToList();
-            participants = participants.Where(p => p.Client.ID == clientId).ToList();
-            if (participants.Count == peopleAmount)
+            participants = participants.Where(p => p.Client.ID == client.ID).ToList();
+            if (participants.Count == client.PeopleAmount)
             {
                 return true;
             }
@@ -59,7 +59,7 @@ namespace TouristСenterLibrary.Entity
                     select p).ToList();
 
         }
-        public static List<string> GetAllName(List<Participant> participants)
+        public static List<string> GetFullName(List<Participant> participants)
         {
             List<string> list = new List<string>();
             foreach(Participant p in participants)

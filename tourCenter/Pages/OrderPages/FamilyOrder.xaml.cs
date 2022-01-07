@@ -39,9 +39,9 @@ namespace tourCenter
             if (CmBoxRoutes.Text == "Выберите Маршрут") CmBoxRoutes.Text = "";
             if (StartDate.Text != "" && CmBoxRoutes.Text != "")
             {
-                int days = int.Parse(StartDate.Text.Substring(0, 2));
-                string monthAndYear = StartDate.Text.Substring(2, 8);
-                FinishDate.Text = (days + Route.GetDaysAmountByRouteName(CmBoxRoutes.Text) - 1).ToString() + monthAndYear;
+                DateTime startDate = Convert.ToDateTime(StartDate.Text);
+                DateTime finishDate = startDate.AddDays(Route.GetDaysAmountByRouteName(CmBoxRoutes.Text) - 1);
+                FinishDate.Text = finishDate.ToString();
             }
         }
         private void CmBoxWayToTravel_LostMouseCapture(object sender, MouseEventArgs e)
@@ -50,7 +50,7 @@ namespace tourCenter
 
         }
 
-        private void numberPhone_GotFocus(object sender, RoutedEventArgs e)
+        private void NumberPhone_GotFocus(object sender, RoutedEventArgs e)
         {
             if (numberPhone.Text.Length == 0)
             {
@@ -200,9 +200,9 @@ namespace tourCenter
         {
             if (StartDate.Text != "" && CmBoxRoutes.Text != "")
             {
-                int days = int.Parse(StartDate.Text.Substring(0, 2));
-                string monthAndYear = StartDate.Text.Substring(2, 8);
-                FinishDate.Text = (days + Route.GetDaysAmountByRouteName(CmBoxRoutes.Text) - 1).ToString() + monthAndYear;
+                DateTime startDate = Convert.ToDateTime(StartDate.Text);
+                DateTime finishDate = startDate.AddDays(Route.GetDaysAmountByRouteName(CmBoxRoutes.Text) - 1);
+                FinishDate.Text = finishDate.ToString();
             }
         }
 
@@ -222,6 +222,7 @@ namespace tourCenter
             txtBoxEquipment.Text = "";
             persTentAmount.Text = "";
             persHermeticBagAmount.Text = "";
+            txtBoxFileName.Text = "";
         }
 
         private void AddOrderBtn_Click(object sender, RoutedEventArgs e)
@@ -243,11 +244,13 @@ namespace tourCenter
                         ChildrenAmount = Convert.ToInt32(childrenAmount.Text)
                     };
 
-                    foreach (Participant p in _newPartisipants)
+                    if (_newPartisipants.Count == client.PeopleAmount)
                     {
-                        p.Client = client;
-                    }
-                    
+                        foreach (Participant p in _newPartisipants)
+                        {
+                            client.ParticipantsList.Add(p);
+                        }
+                    }              
                     Order order = new Order()
                     {
                         ApplicationType = ApplicationType.GetFamilyType(),
@@ -263,12 +266,8 @@ namespace tourCenter
                         IndividualTentAmount = Convert.ToInt32(persTentAmount.Text),
                         Status = "Активна"
                     };
-                    Client.Add(client);
-                    if (_newPartisipants.Count == client.PeopleAmount)
-                    {
-                        Participant.AddAll(_newPartisipants);
-                    }
-                    Order.Add(order);                   
+                    Client.Add(client);                  
+                    Order.Add(order);
                     MessageBox.Show("Заявка добавлена!");
                     ClearFields();
                 }

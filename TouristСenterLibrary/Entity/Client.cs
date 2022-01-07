@@ -19,26 +19,18 @@ namespace TouristСenterLibrary.Entity
         [Required] public string ClientTelefonNumber { get; set; }
         [Required] public int PeopleAmount { get; set; }
         [Required] public int ChildrenAmount { get; set; }
+        [Required] public virtual List<Participant> ParticipantsList { get; set; } = new List<Participant>();
 
 
-        public static int GetChildrenAmountOnHike(int hikeId)
-        {
-            int result = 0;
-            List<Client> clients = (from c in db.Client
-                                  join o in db.Order on c.ID equals o.Client.ID
-                                  join h in db.Hike on o.Hike.ID equals h.ID
-                                  where h.ID == hikeId
-                                  select c).ToList();
-            foreach (Client client in clients)
-            {
-                result += client.ChildrenAmount;
-            }
-            return result;
-
-        }
         public static void Add(Client client)
         {
             db.Client.Add(client);
+            db.SaveChanges();
+        }
+
+        public static void Update(Client client)
+        {
+            db.Client.Update(client);
             db.SaveChanges();
         }
 
@@ -82,15 +74,6 @@ namespace TouristСenterLibrary.Entity
         public static Client GetClientByID( int clientId)
         {
             return db.Client.Where(c => c.ID == clientId).FirstOrDefault();
-        }
-        
-        public static List<Client> GetClientsByHikeID(int hikeId)
-        {
-            return(from c in db.Client
-                   join o in db.Order on c.ID equals o.Client.ID
-                   where o.Hike.ID == hikeId
-                   select c).ToList();
-            
         }
     
     }
