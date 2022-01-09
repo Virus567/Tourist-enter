@@ -5,45 +5,23 @@ using System.Linq;
 
 namespace TouristСenterLibrary.Entity
 {
-    public class Participant
+    public class Participant : Human
     {
         private static ApplicationContext db = ContextManager.db;
         public int ID { get; set; }
-        [Required] public string Surname { get; set; }
-        [Required] public string Name { get; set; }
-        public string? Middlename { get; set; }
-        [MaxLength(15)]
-        [Required] public string ClientTelefonNumber { get; set; }
         [Required] public virtual Client Client { get; set; }
 
         public Participant()
         {
 
         }
-        public Participant(string Surname, string Name,string Middlename, string ClientTelefonNumber)
+        public Participant(string Surname, string Name,string Middlename, string PhoneNumber) : base(Surname, Name, Middlename, PhoneNumber)
         {
-            this.Surname = Surname;
-            this.Name = Name;
-            this.Middlename = Middlename;
-            this.ClientTelefonNumber = ClientTelefonNumber;
+
         }
-        public Participant(string Surname, string Name, string ClientTelefonNumber)
+        public Participant(string Surname, string Name, string PhoneNumber) : base(Surname, Name, PhoneNumber)
         {
-            this.Surname = Surname;
-            this.Name = Name;
-            this.ClientTelefonNumber = ClientTelefonNumber;
-        }
-        public static void AddAll(List<Participant> participants)
-        {
-            foreach(Participant p in participants)
-            {
-                db.Participant.Add(p);
-            }       
-            db.SaveChanges();
-        }
-        public static List<Participant> GetParticipants()
-        {
-             return db.Participant.ToList();
+
         }
         public static List<Participant> GetParticipantsByHike(int hikeID)
         {
@@ -73,17 +51,6 @@ namespace TouristСenterLibrary.Entity
                     where o.ID == orderId
                     select p).ToList();
 
-        }
-        public static List<string> GetFullName(List<Participant> participants)
-        {
-            List<string> list = new List<string>();
-            foreach(Participant p in participants)
-            {
-                string tmp = $"{p.Surname} {p.Name}";
-                if (p.Middlename != null) tmp += $" {p.Middlename}";
-                list.Add(tmp);
-            }
-            return list;
         }
     }
 }

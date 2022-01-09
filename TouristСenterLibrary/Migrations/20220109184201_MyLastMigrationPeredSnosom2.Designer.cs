@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using TouristСenterLibrary;
@@ -9,9 +10,10 @@ using TouristСenterLibrary;
 namespace TouristСenterLibrary.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    partial class ApplicationContextModelSnapshot : ModelSnapshot
+    [Migration("20220109184201_MyLastMigrationPeredSnosom2")]
+    partial class MyLastMigrationPeredSnosom2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -57,7 +59,6 @@ namespace TouristСenterLibrary.Migrations
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.HasKey("ID");
@@ -85,11 +86,9 @@ namespace TouristСenterLibrary.Migrations
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
                     b.Property<string>("Title")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("Type")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.HasKey("ID");
@@ -185,7 +184,6 @@ namespace TouristСenterLibrary.Migrations
                         .HasColumnType("text");
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("NameOfCompany")
@@ -195,12 +193,9 @@ namespace TouristСenterLibrary.Migrations
                         .HasColumnType("integer");
 
                     b.Property<string>("PhoneNumber")
-                        .IsRequired()
-                        .HasMaxLength(15)
-                        .HasColumnType("character varying(15)");
+                        .HasColumnType("text");
 
                     b.Property<string>("Surname")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.HasKey("ID");
@@ -216,7 +211,6 @@ namespace TouristСenterLibrary.Migrations
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<int>("Number")
@@ -305,7 +299,7 @@ namespace TouristСenterLibrary.Migrations
                     b.Property<int?>("CountableEquipmentID")
                         .HasColumnType("integer");
 
-                    b.Property<int>("HikeID")
+                    b.Property<int?>("HikeID")
                         .HasColumnType("integer");
 
                     b.Property<int>("Number")
@@ -334,23 +328,18 @@ namespace TouristСenterLibrary.Migrations
                         .HasColumnType("text");
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("PassportData")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("PhoneNumber")
-                        .IsRequired()
-                        .HasMaxLength(15)
-                        .HasColumnType("character varying(15)");
+                        .HasColumnType("text");
 
                     b.Property<int>("RoleID")
                         .HasColumnType("integer");
 
                     b.Property<string>("Surname")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.HasKey("ID");
@@ -398,14 +387,12 @@ namespace TouristСenterLibrary.Migrations
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<DateTime>("PurchaseDate")
                         .HasColumnType("timestamp without time zone");
 
                     b.Property<string>("Type")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.HasKey("ID");
@@ -776,7 +763,6 @@ namespace TouristСenterLibrary.Migrations
                         .HasColumnType("integer");
 
                     b.Property<string>("Status")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.HasKey("ID");
@@ -800,20 +786,15 @@ namespace TouristСenterLibrary.Migrations
                         .HasColumnType("text");
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("PassportData")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("PhoneNumber")
-                        .IsRequired()
-                        .HasMaxLength(15)
-                        .HasColumnType("character varying(15)");
+                        .HasColumnType("text");
 
                     b.Property<string>("Surname")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.HasKey("ID");
@@ -987,11 +968,9 @@ namespace TouristСenterLibrary.Migrations
                         .HasColumnType("timestamp without time zone");
 
                     b.Property<string>("Status")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("WayToTravel")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.HasKey("ID");
@@ -1016,23 +995,19 @@ namespace TouristСenterLibrary.Migrations
                         .HasColumnType("integer")
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
-                    b.Property<int>("ClientID")
+                    b.Property<int?>("ClientID")
                         .HasColumnType("integer");
 
                     b.Property<string>("Middlename")
                         .HasColumnType("text");
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("PhoneNumber")
-                        .IsRequired()
-                        .HasMaxLength(15)
-                        .HasColumnType("character varying(15)");
+                        .HasColumnType("text");
 
                     b.Property<string>("Surname")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.HasKey("ID");
@@ -1050,7 +1025,6 @@ namespace TouristСenterLibrary.Migrations
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
                     b.Property<string>("PositionName")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.HasKey("ID");
@@ -1079,11 +1053,9 @@ namespace TouristСenterLibrary.Migrations
                         .HasColumnType("integer");
 
                     b.Property<string>("Description")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<int>("NumberDays")
@@ -1194,7 +1166,6 @@ namespace TouristСenterLibrary.Migrations
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
                     b.Property<string>("CarNumber")
-                        .IsRequired()
                         .HasMaxLength(6)
                         .HasColumnType("character varying(6)");
 
@@ -1266,11 +1237,9 @@ namespace TouristСenterLibrary.Migrations
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("PhoneNumber")
-                        .IsRequired()
                         .HasMaxLength(15)
                         .HasColumnType("character varying(15)");
 
@@ -1334,9 +1303,7 @@ namespace TouristСenterLibrary.Migrations
 
                     b.HasOne("TouristСenterLibrary.Entity.Hike", "Hike")
                         .WithMany("CountableHikeEquipList")
-                        .HasForeignKey("HikeID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("HikeID");
 
                     b.Navigation("CountableEquipment");
 
@@ -1409,9 +1376,7 @@ namespace TouristСenterLibrary.Migrations
                 {
                     b.HasOne("TouristСenterLibrary.Entity.Client", "Client")
                         .WithMany("ParticipantsList")
-                        .HasForeignKey("ClientID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("ClientID");
 
                     b.Navigation("Client");
                 });

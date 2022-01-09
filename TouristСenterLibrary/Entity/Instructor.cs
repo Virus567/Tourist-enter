@@ -5,30 +5,22 @@ using System.Linq;
 
 namespace TouristСenterLibrary.Entity
 {
-    public class Instructor
+    public class Instructor : Human
     {
         private static ApplicationContext db = ContextManager.db;
         public int ID { get; set; }
-        [Required] public string Surname { get; set; }
-        [Required] public string Name { get; set; }
-        public string? Middlename { get; set; }
         [Required] public string PassportData { get; set; }
-        [MaxLength(15)]
-        [Required] public string InstructorTelefonNumber { get; set; }
         [Required] public DateTime EmploymentDate { get; set; }
-        [Required] public virtual List<InstructorGroup> InstructorGroups { get; set; } = new List<InstructorGroup>();
+        public virtual List<InstructorGroup> InstructorGroups { get; set; } = new List<InstructorGroup>();
 
         public Instructor()
         {
 
         }
-        public Instructor(string Surname,string Name,string Middlename, string PassportData,string InstructorTelefonNumber, DateTime EmploymentDate)
+        public Instructor(string Surname,string Name,string Middlename, string PassportData, 
+                          string PhoneNumber, DateTime EmploymentDate) : base(Surname, Name, Middlename, PhoneNumber)
         {
-            this.Surname = Surname;
-            this.Name = Name;
-            this.Middlename = Middlename;
             this.PassportData = PassportData;
-            this.InstructorTelefonNumber = InstructorTelefonNumber;
             this.EmploymentDate = EmploymentDate;
         }
         public class InstructorView
@@ -49,25 +41,9 @@ namespace TouristСenterLibrary.Entity
                         Surname = i.Surname,
                         Name = i.Name,
                         Middlename = i.Middlename,
-                        InstructorTelefonNumber = i.InstructorTelefonNumber,
+                        InstructorTelefonNumber = i.PhoneNumber,
                         InHike = false
                     }).ToList();
-
-        }
-
-        public static InstructorView GetInstructorViewByID(int instructorId)
-        {
-            return (from i in db.Instructor
-                    where i.ID == instructorId
-                    select new InstructorView()
-                    {
-                        ID = i.ID,
-                        Surname = i.Surname,
-                        Name = i.Name,
-                        Middlename = i.Middlename,
-                        InstructorTelefonNumber = i.InstructorTelefonNumber,
-                        InHike = false
-                    }).FirstOrDefault();
         }
         
         public static Instructor GetInstructorByID(int id)
@@ -114,7 +90,7 @@ namespace TouristСenterLibrary.Entity
                         Surname = i.Surname,
                         Name = i.Name,
                         Middlename = i.Middlename,
-                        InstructorTelefonNumber = i.InstructorTelefonNumber
+                        InstructorTelefonNumber = i.PhoneNumber
 
                     }).FirstOrDefault());
             }

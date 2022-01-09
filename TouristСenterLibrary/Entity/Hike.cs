@@ -13,7 +13,7 @@ namespace TouristСenterLibrary.Entity
         public int ID { get; set; }
         [Required] public virtual Route Route { get; set; }
         [Required] public string Status { get; set; }
-        [Required] public virtual List<Order> OrdersList { get; set; } = new List<Order>();
+        public virtual List<Order> OrdersList { get; set; } = new List<Order>();
         public virtual List<CountableHikeEquipment> CountableHikeEquipList { get; set; } = new List<CountableHikeEquipment>();
         public virtual List<Equipment> EquipmentsList { get; set; } = new List<Equipment>();
 

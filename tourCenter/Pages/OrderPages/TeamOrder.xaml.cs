@@ -90,22 +90,22 @@ namespace tourCenter
             }
         }
 
-        private void numberPhone_GotFocus(object sender, RoutedEventArgs e)
+        private void NumberPhone_GotFocus(object sender, RoutedEventArgs e)
         {
-            if (numberPhone.Text.Length == 0)
+            if (NumberPhone.Text.Length == 0)
             {
-                numberPhone.Text = "+7";
-                numberPhone.SelectionStart = numberPhone.Text.Length;
+                NumberPhone.Text = "+7";
+                NumberPhone.SelectionStart = NumberPhone.Text.Length;
             }
 
         }
 
         private void numberPhone_PreviewTextInput(object sender, TextCompositionEventArgs e)
         {
-            string t = numberPhone.Text;
+            string t = NumberPhone.Text;
             if (t.Length == 0)
             {
-                numberPhone.SelectionStart = numberPhone.Text.Length;
+                NumberPhone.SelectionStart = NumberPhone.Text.Length;
             }
             if (t.Length >= 12)
             {
@@ -143,7 +143,7 @@ namespace tourCenter
         public bool IsCorrectData()
         {
             return txtBoxFullName.Text != "" &&
-                   numberPhone.Text != "" &&
+                   NumberPhone.Text != "" &&
                    peopleAmount.Text != "" &&
                    CmBoxRoutes.Text != "" &&
                    CmBoxWayToTravel.Text != "" &&
@@ -206,7 +206,7 @@ namespace tourCenter
         {
             txtBoxNameOfCompany.Text = "";
             txtBoxFullName.Text = "";
-            numberPhone.Text = "";
+            NumberPhone.Text = "";
             peopleAmount.Text = "";
             childrenAmount.Text = "";
             CheckMeat.IsChecked = false;
@@ -232,16 +232,20 @@ namespace tourCenter
                 {
                     var fullName = GetSplitFullName(txtBoxFullName.Text);
                     CorrectNullFields();
-                    Client client = new Client()
+                    int peopleCount = Convert.ToInt32(peopleAmount.Text);
+                    int childrenCount = Convert.ToInt32(childrenAmount.Text);
+                    Client client;                   
+                    if (fullName.Length > 2)
                     {
-                        NameOfCompany = txtBoxNameOfCompany.Text,
-                        Surname = fullName[0],
-                        Name = fullName[1],
-                        Middlename = fullName[2],
-                        ClientTelefonNumber = numberPhone.Text,
-                        PeopleAmount = Convert.ToInt32(peopleAmount.Text),
-                        ChildrenAmount = Convert.ToInt32(childrenAmount.Text)
-                    };
+                        client = new Client(txtBoxNameOfCompany.Text, fullName[0], fullName[1], fullName[2], NumberPhone.Text,
+                                            peopleCount, childrenCount);
+                    }
+                    else
+                    {
+                        client = new Client(txtBoxNameOfCompany.Text, fullName[0], fullName[1], NumberPhone.Text,
+                                            peopleCount, childrenCount);
+                    }
+
                     if (_newPartisipants.Count == client.PeopleAmount)
                     {
                         foreach (Participant p in _newPartisipants)

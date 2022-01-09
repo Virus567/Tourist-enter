@@ -6,17 +6,16 @@ namespace TouristСenterLibrary.Entity
     {
         public int ID { get; set; }
         [Required] public string Name { get; set; }
-        [MaxLength(15)]
-        [Required] public string CompanyTelefonNumber { get; set; }
+        [MaxLength(15)] [Required] public string PhoneNumber { get; set; }
 
         public TransportCompany()
         {
 
         }
-        public TransportCompany(string Name, string CompanyTelefonNumber)
+        public TransportCompany(string Name, string PhoneNumber)
         {
             this.Name = Name;
-            this.CompanyTelefonNumber = CompanyTelefonNumber;
+            this.PhoneNumber = PhoneNumber;
         }
     }
 }

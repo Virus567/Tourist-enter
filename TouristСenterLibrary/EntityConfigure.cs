@@ -45,16 +45,32 @@ namespace TouristСenterLibrary
             routes.Add(new Route("Город с воды", 1, "С воды раскрываются все красоты города Кирова") { ID = 6, CheckpointStartID = 11, CheckpointFinishID = 12 });
             builder.HasData(routes);
         }
+        public static void ClientConfigure(EntityTypeBuilder<Client> builder)
+        {
+            builder.Property(e => e.Surname).IsRequired();
+            builder.Property(e => e.Name).IsRequired();
+            builder.Property(e => e.PhoneNumber).IsRequired().HasMaxLength(15);          
+        }
+        public static void ParticipantConfigure(EntityTypeBuilder<Participant> builder)
+        {
+            builder.Property(e => e.Surname).IsRequired();
+            builder.Property(e => e.Name).IsRequired();
+            builder.Property(e => e.PhoneNumber).IsRequired().HasMaxLength(15);
+        }
+
         public static void EmployeeConfigure(EntityTypeBuilder<Employee> builder)
         {
-            builder.HasIndex(s => s.EmployeeTelefonNumber).IsUnique();
+            builder.Property(e => e.Surname).IsRequired();
+            builder.Property(e => e.Name).IsRequired();
+            builder.Property(e => e.PhoneNumber).IsRequired().HasMaxLength(15);
+            builder.HasIndex(s => s.PhoneNumber).IsUnique();
             builder.HasIndex(s => s.PassportData).IsUnique();
             builder.HasData(new Employee("Кондрашов", "Леонид", "Матвеевич", "3316 345677", "+79532521240", DateTime.Parse("12/2/2020 00:00")) { ID = 1, RoleID =1});
             builder.HasData(new Employee("Шишкина", "Анастасия", "Мироновна", "3314 861234", "+79129750710", DateTime.Parse("12/2/2020 00:00")) { ID = 2, RoleID = 1 });
         }
         public static void TransportCompanyConfigure(EntityTypeBuilder<TransportCompany> builder)
         {
-            builder.HasIndex(s => s.CompanyTelefonNumber).IsUnique();
+            builder.HasIndex(s => s.PhoneNumber).IsUnique();
             builder.HasData(new TransportCompany("Довезем", "+79127262438") { ID = 1 });
             builder.HasData(new TransportCompany("Автокар", "+79227126472") { ID = 2 });
         }
@@ -73,7 +89,10 @@ namespace TouristСenterLibrary
         }
         public static void InstructorConfigure(EntityTypeBuilder<Instructor> builder)
         {
-            builder.HasIndex(s => s.InstructorTelefonNumber).IsUnique();
+            builder.Property(e => e.Surname).IsRequired();
+            builder.Property(e => e.Name).IsRequired();
+            builder.Property(e => e.PhoneNumber).IsRequired().HasMaxLength(15);
+            builder.HasIndex(s => s.PhoneNumber).IsUnique();
             builder.HasIndex(s => s.PassportData).IsUnique();
             List<Instructor> instructors = new List<Instructor>();
             instructors.Add(new Instructor("Петрова", "Алиса", "Александровна", "3314 568475", "+79222106611", DateTime.Parse("7/8/2019 00:00")) { ID = 1 });

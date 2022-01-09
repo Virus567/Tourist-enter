@@ -67,8 +67,8 @@
 		<Label  Margin="20 8 0 0" Grid.Column="12" Grid.Row="1" Grid.ColumnSpan="3" Content="Номер телефона:" 
 				Foreground="Gray" FontSize="16"/>
 		<Border  Background="Gray" Margin="5 8 0 0" Grid.Column="15" Grid.ColumnSpan="3" Grid.Row="1" MaxHeight="30">
-			<TextBox x:Name="numberPhone" materialDesign:HintAssist.Hint="+7" Background="#ffdadada" Padding="0 2 0 5" FontSize="16" Margin="0.5 0.5 1 0"
-			PreviewTextInput="numberPhone_PreviewTextInput" PreviewKeyDown="CheckSpaceDown_PreviewKeyDown"  TextAlignment="Left" Cursor="IBeam" GotFocus="numberPhone_GotFocus"/>
+			<TextBox x:Name="NumberPhone" materialDesign:HintAssist.Hint="+7" Background="#ffdadada" Padding="0 2 0 5" FontSize="16" Margin="0.5 0.5 1 0"
+			PreviewTextInput="numberPhone_PreviewTextInput" PreviewKeyDown="CheckSpaceDown_PreviewKeyDown"  TextAlignment="Left" Cursor="IBeam" GotFocus="NumberPhone_GotFocus"/>
 		</Border>
 		<Label Content="Кол-во человек:" Grid.Column="18" Grid.Row="1" Grid.ColumnSpan="4" Margin="30 8 0 0" Foreground="Gray" FontSize="16" />
 		<Border Background="Black" Grid.Column="21" Grid.Row="1" MaxHeight="30"  Margin="0 8 0 2" >

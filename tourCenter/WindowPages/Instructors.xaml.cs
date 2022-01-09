@@ -33,7 +33,7 @@ namespace tourCenter
 
         }
         public void GetViewInstrucors()
-        {           
+        {
             List<Instructor.InstructorView> list = Instructor.GetInstructors();
 
             foreach (Instructor.InstructorView l in list)
@@ -44,7 +44,6 @@ namespace tourCenter
                         l.InHike = true;
                         _selectedInstructors.Add(l);
                     }
-
             }
             InstrucorsList.ItemsSource = list;
         }

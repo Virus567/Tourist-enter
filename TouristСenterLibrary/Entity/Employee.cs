@@ -4,16 +4,11 @@ using System.Linq;
 
 namespace TouristСenterLibrary.Entity
 {
-    public class Employee
+    public class Employee : Human
     {
         private static ApplicationContext db = ContextManager.db;
         public int ID { get; set; }
-        [Required] public string Surname { get; set; }
-        [Required] public string Name { get; set; }
-        public string? Middlename { get; set; }
         [Required] public string PassportData { get; set; }
-        [MaxLength(15)]
-        [Required] public string EmployeeTelefonNumber { get; set; }
         [Required] public virtual Role Role { get; set; }
         public int RoleID { get; set; }
         [Required] public DateTime EmploymentDate { get; set; }
@@ -22,13 +17,14 @@ namespace TouristСenterLibrary.Entity
         {
 
         }
-        public Employee(string Surname,string Name,string Middlename,string PassportData, string EmployeeTelefonNumber, DateTime EmploymentDate)
+        public Employee(string Surname,string Name,string? Middlename,string PassportData,
+                        string PhoneNumber, DateTime EmploymentDate) : base(Surname, Name, Middlename, PhoneNumber)
         {
             this.Surname = Surname;
             this.Name = Name;
             this.Middlename = Middlename;
             this.PassportData = PassportData;
-            this.EmployeeTelefonNumber = EmployeeTelefonNumber;
+            this.PhoneNumber = PhoneNumber;
             this.EmploymentDate = EmploymentDate;
         }
 

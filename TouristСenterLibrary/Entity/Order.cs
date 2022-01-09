@@ -16,8 +16,8 @@ namespace TouristСenterLibrary.Entity
         [Required] public virtual Employee Employee { get; set; }
         [Required] public virtual Client Client { get; set; }
         [Required] public string WayToTravel { get; set; }
-        public string FoodlFeatures { get; set; }
-        public string EquipmentFeatures { get; set; }
+        public string? FoodlFeatures { get; set; }
+        public string? EquipmentFeatures { get; set; }
         [Required] public DateTime StartTime { get; set; }
         [Required] public DateTime FinishTime { get; set; }
         [Required] public string Status { get; set; }
@@ -134,19 +134,6 @@ namespace TouristСenterLibrary.Entity
             return db.Order.Where(o => o.ID == orderID).FirstOrDefault();
         }
 
-        public static List<string> GetPossibleStatuses(string str)
-        {
-            EnumStatus startStatus = GetEnumByDescription<EnumStatus>(str);
-            List<string> list = new List<string>();
-            foreach (EnumStatus status in Enum.GetValues(typeof(EnumStatus)))
-            {
-                if (status >= startStatus)
-                {
-                    list.Add(GetDescriptionByEnum(status));
-                }
-            }
-            return list;
-        }
         public static string GetDescriptionByEnum(Enum enumElement)
         {
             Type type = enumElement.GetType();
@@ -159,24 +146,5 @@ namespace TouristСenterLibrary.Entity
             }
             return enumElement.ToString();
         }
-        public static T GetEnumByDescription<T>(string description) where T : Enum
-        {
-            foreach (var field in typeof(T).GetFields())
-            {
-                if (Attribute.GetCustomAttribute(field,
-                typeof(DescriptionAttribute)) is DescriptionAttribute attribute)
-                {
-                    if (attribute.Description == description)
-                        return (T)field.GetValue(null);
-                }
-                else
-                {
-                    if (field.Name == description)
-                        return (T)field.GetValue(null);
-                }
-            }
-            throw new ArgumentException("Enum is not found!", nameof(description));
-        }
-
     }
 }

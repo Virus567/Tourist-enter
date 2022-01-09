@@ -92,8 +92,6 @@ namespace tourCenter
                    peopleAmount.Text != "0" &&
                    (DateTime)StartDate.SelectedDate <= (DateTime)FinishDate.SelectedDate &&
                    isCorrectPeopleAmount;
-            
-                   
         }
 
         private string GetStringFoodlFeatures()
@@ -123,7 +121,6 @@ namespace tourCenter
         {
             fullName = Regex.Replace(fullName, "[ ]+", " ");
             return fullName.Split(' ');
-
         }
 
         private void BrowseBtn_Click(object sender, RoutedEventArgs e)
@@ -132,7 +129,6 @@ namespace tourCenter
             dlg.DefaultExt = ".xlsx";
             dlg.Filter = "Text documents (.xlsx)|*.xlsx";
             Nullable<bool> result = dlg.ShowDialog();
-
 
             if (result == true)
             {
@@ -244,16 +240,20 @@ namespace tourCenter
                 {                   
                     var fullName = GetSplitFullName(txtBoxFullName.Text.Trim());
                     CorrectNullFields();
-                    Client client = new Client()
+                    int peopleCount = Convert.ToInt32(peopleAmount.Text);
+                    int childrenCount = Convert.ToInt32(childrenAmount.Text);
+                    Client client;
+                    if (fullName.Length > 2)
                     {
-                        Surname = fullName[0],
-                        Name = fullName[1],
-                        Middlename = fullName[2],
-                        ClientTelefonNumber = NumberPhone.Text,
-                        PeopleAmount = Convert.ToInt32(peopleAmount.Text),
-                        ChildrenAmount = Convert.ToInt32(childrenAmount.Text)
-                    };
-
+                        client = new Client(null, fullName[0], fullName[1], fullName[2], NumberPhone.Text,
+                                                   peopleCount, childrenCount);
+                    }
+                    else
+                    {
+                        client = new Client(null, fullName[0], fullName[1], NumberPhone.Text,
+                                                   peopleCount, childrenCount);
+                    }
+                    
                     if (_newPartisipants.Count == client.PeopleAmount)
                     {
                         foreach (Participant p in _newPartisipants)

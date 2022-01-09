@@ -4,21 +4,33 @@ using System.Linq;
 
 namespace TouristСenterLibrary.Entity
 {
-    public class Client 
+    public class Client : Human
     {
-        
         private static ApplicationContext db = ContextManager.db;
         public int ID { get; set; }
         public string? NameOfCompany { get; set; }
-        [Required] public string Surname { get; set; }
-        [Required] public string Name { get; set; }
-        public string? Middlename { get; set; }
-        [MaxLength(15)]
-        [Required] public string ClientTelefonNumber { get; set; }
         [Required] public int PeopleAmount { get; set; }
         [Required] public int ChildrenAmount { get; set; }
-        [Required] public virtual List<Participant> ParticipantsList { get; set; } = new List<Participant>();
+        public virtual List<Participant> ParticipantsList { get; set; } = new List<Participant>();
 
+        public Client()
+        {
+
+        }
+        public Client(string NameOfCompany,string Surname,string Name, string Middlename,
+                      string PhoneNumber,int PeopleAmount,int ChildrenAmount) : base(Surname, Name,Middlename, PhoneNumber)
+        {
+            this.NameOfCompany = NameOfCompany;
+            this.PeopleAmount = PeopleAmount;
+            this.ChildrenAmount = ChildrenAmount;
+        }
+        public Client(string? NameOfCompany, string Surname, string Name,
+                      string PhoneNumber, int PeopleAmount, int ChildrenAmount) : base(Surname, Name, PhoneNumber)
+        {
+            this.NameOfCompany = NameOfCompany;
+            this.PeopleAmount = PeopleAmount;
+            this.ChildrenAmount = ChildrenAmount;
+        }
 
         public static void Add(Client client)
         {
@@ -54,25 +66,10 @@ namespace TouristСenterLibrary.Entity
                 if (Middlename != null) tmp += $" {Middlename.Substring(0, 1)}.";
             }
             return tmp;
-            
-        }
-        public string GetFullNameOrCompanyName()
-        {
-
-            string tmp;
-            if (NameOfCompany != null)
-                tmp = $"{NameOfCompany}";
-            else
-            {
-                tmp = $"{Surname} {Name}";
-                if (Middlename != null) tmp += $" {Middlename}";
-            }
-            return tmp;
         }
         public static Client GetClientByID( int clientId)
         {
             return db.Client.Where(c => c.ID == clientId).FirstOrDefault();
         }
-    
     }
 }

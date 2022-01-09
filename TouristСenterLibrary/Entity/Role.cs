@@ -7,8 +7,8 @@ namespace TouristСenterLibrary.Entity
         public int ID { get; set; }
         [Required] public string PositionName { get; set; }
 
-        public Role() 
-        { 
+        public Role()
+        {
         }
         public Role(string PositionName)
         {

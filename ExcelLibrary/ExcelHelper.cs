@@ -72,7 +72,7 @@ namespace ExcelLibrary
                     participantsExport[i, 0] = participants[i].Surname;
                     participantsExport[i, 1] = participants[i].Name;
                     participantsExport[i, 2] = participants[i].Middlename;
-                    participantsExport[i, 3] = $"'{participants[i].ClientTelefonNumber}";
+                    participantsExport[i, 3] = $"'{participants[i].PhoneNumber}";
                 }
 
                 _excelRange = _worksheet1.get_Range("A2", Missing.Value);

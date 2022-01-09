@@ -45,7 +45,7 @@ namespace tourCenter
         private void CmBoxWayToTravel_LostMouseCapture(object sender, MouseEventArgs e)
         {
             if (CmBoxWayToTravel.Text == "Способ передвижения") CmBoxWayToTravel.Text = "";
-            FillingDataGrid();              
+            FillingDataGrid();
         }
         public void FillingDataGrid()
         {

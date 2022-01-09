@@ -8,7 +8,7 @@ namespace TouristСenterLibrary.Entity
     {
         private static ApplicationContext db = ContextManager.db;
         public int ID { get; set; }
-        [Required] public virtual List<Instructor> InstructorsList { get; set; } = new List<Instructor>();
+        public virtual List<Instructor> InstructorsList { get; set; } = new List<Instructor>();
         [Required] public virtual Hike Hike { get; set; }
 
         public static void Add(InstructorGroup instructorGroup)

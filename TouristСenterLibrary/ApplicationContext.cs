@@ -42,11 +42,14 @@ namespace TouristСenterLibrary
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Ignore<Human>();
             modelBuilder.Entity<Role>(EntityConfigure.RoleConfigure);
             modelBuilder.Entity<ApplicationType>(EntityConfigure.ApplicationTypeConfigure);
             modelBuilder.Entity<CheckpointRoute>(EntityConfigure.CheckpointRouteConfigure);
             modelBuilder.Entity<Route>(EntityConfigure.RouteConfigure);
             modelBuilder.Entity<Employee>(EntityConfigure.EmployeeConfigure);
+            modelBuilder.Entity<Client>(EntityConfigure.ClientConfigure);
+            modelBuilder.Entity<Participant>(EntityConfigure.ParticipantConfigure);
             modelBuilder.Entity<TransportCompany>(EntityConfigure.TransportCompanyConfigure);
             modelBuilder.Entity<Transport>(EntityConfigure.TransportConfigure);
             modelBuilder.Entity<Instructor>(EntityConfigure.InstructorConfigure);

@@ -8,11 +8,10 @@ namespace TouristСenterLibrary.Entity
     {
         private static ApplicationContext db = ContextManager.db;
         public int ID { get; set; }
-        [MaxLength(6)]
-        [Required] public string CarNumber { get; set; }
+        [MaxLength(6)] [Required] public string CarNumber { get; set; }
         [Required] public int SeatCount { get; set; }
         [Required] public virtual TransportCompany TransportCompany { get; set;}
-        public int TransportCompanyID { get; set; }
+        [Required] public int TransportCompanyID { get; set; }
 
         public Transport()
         {
@@ -84,6 +83,5 @@ namespace TouristСenterLibrary.Entity
             }
             return listHikeTransport;
         }
-
     }
 }
