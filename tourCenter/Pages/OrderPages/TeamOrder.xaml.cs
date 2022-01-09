@@ -253,6 +253,10 @@ namespace tourCenter
                             client.ParticipantsList.Add(p);
                         }
                     }
+                    else
+                    {
+                        MessageBox.Show("Количество людей не совпадает!\n Заявка будет добавелна без участников!");
+                    }
 
                     Order order = new Order()
                     {
