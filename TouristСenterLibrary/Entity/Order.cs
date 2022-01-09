@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Text;
-using TouristСenterLibrary;
 using System.Linq;
 using System.ComponentModel;
 using System.Reflection;
@@ -30,7 +28,7 @@ namespace TouristСenterLibrary.Entity
         public enum EnumStatus
         {
             [Description("Активна")] active = 1,
-            [Description("В сборке")] onRoute = 2,
+            [Description("В сборке")] inAssembly = 2,
             [Description("Завершена")] сompleted = 3,
             [Description("Отменена")] canceled = 4
         }

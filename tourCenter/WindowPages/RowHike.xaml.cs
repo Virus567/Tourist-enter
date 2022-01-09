@@ -1,17 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Text;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
 using TouristСenterLibrary.Entity;
 using ExcelLibrary;
-using TouristСenterLibrary;
 using System.Linq;
 
 namespace tourCenter
@@ -25,14 +17,16 @@ namespace tourCenter
         private List<Participant> _participants;
         private Hike.HikeViewAll _hikeView;
         private int _childrenAmount;
-        public RowHike()
+        private Hikes _hikesPage;
+        public RowHike(Hikes hikes)
         {
             InitializeComponent();
+            _hikesPage = hikes;
             
         }
         public void AddSelectedHike(int hikeId)
         {
-            Hike.HikeViewAll hikeVeiw = Hike.GetViewAllByID(hikeId)[0];          
+            Hike.HikeViewAll hikeVeiw = Hike.GetViewAllByID(hikeId)[0];
             AddHikeData(hikeVeiw, hikeId);          
         }
 
@@ -92,10 +86,11 @@ namespace tourCenter
                     }
 
                     Hike.Update(hike);
-                    MessageBox.Show("Стратус успешно изменен!");
+                    MessageBox.Show("Статус успешно изменен!");
                     cmbBoxStatus.Items.Clear();
                     cmbBoxStatus.Items.Add(hike.Status);
                     cmbBoxStatus.SelectedItem = hike.Status;
+                    _hikesPage.FillingDataGrid();
                 }
                 ChangeStatusBtn.Content = "Изменить Статус";
             }
@@ -192,6 +187,7 @@ namespace tourCenter
                     if (excel.Open(filePath: Path.Combine("D:\\Hike", $"{_hikeView.CompanyName}{_hikeView.StartTime}-{_hikeView.FinishTime}.xlsx")))
                     {
                         excel.SetParticipant(_participants,_childrenAmount);
+                        excel.SetEquipment(Hike.GetHikeByID(_hikeId));
                         excel.Save();
                     }
                 }

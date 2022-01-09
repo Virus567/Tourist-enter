@@ -1,15 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using System.Linq;
 using TouristСenterLibrary.Entity;
 
@@ -45,7 +38,7 @@ namespace tourCenter
             CmBoxRoutes.ItemsSource = routeName ;
         }
 
-        private void FillingDataGrid()
+        public void FillingDataGrid()
         {
             List<Hike.HikeView> list = Hike.GetView();
             if (selectDate.Text != "")
@@ -90,7 +83,7 @@ namespace tourCenter
         }
         private void Row_DoubleClick(object sender, MouseButtonEventArgs e)
         {
-            RowHike rowHike = new RowHike();
+            RowHike rowHike = new RowHike(this);
             Hike.HikeView selectedHike = (Hike.HikeView) dgHike.SelectedValue;
             rowHike.Show();
             rowHike.AddSelectedHike(selectedHike.ID);
@@ -98,7 +91,7 @@ namespace tourCenter
 
         private void addBtn_Click(object sender, RoutedEventArgs e)
         {
-            NewHike newHike = new NewHike();
+            NewHike newHike = new NewHike(this);
             newHike.Show();
         }
         private void UpdateBtn_Click(object sender, RoutedEventArgs e)

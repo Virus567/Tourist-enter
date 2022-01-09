@@ -1,17 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using TouristСenterLibrary;
 
 namespace tourCenter
@@ -21,9 +10,9 @@ namespace tourCenter
     /// </summary>
     public partial class MainWindow : Window
     {
-        private Page newOrder;
-        private Page orders;
-        private Page hikes;
+        private NewOrder newOrder;
+        private Orders orders;
+        private Hikes hikes;
        
         public MainWindow()
         {
@@ -61,6 +50,7 @@ namespace tourCenter
         private void OrderBtn_Click(object sender, RoutedEventArgs e)
         {
             mainframe.Navigate(orders);
+            orders.FillingDataGrid();
             NewOrderBtn.Background = Brushes.LightGray;
             NewOrderBtn.Foreground = Brushes.Black;
             OrderBtn.Background = Brushes.Teal;
@@ -71,6 +61,7 @@ namespace tourCenter
         private void HikeBtn_Click(object sender, RoutedEventArgs e)
         {
             mainframe.Navigate(hikes);
+            hikes.FillingDataGrid();
             NewOrderBtn.Background = Brushes.LightGray;
             NewOrderBtn.Foreground = Brushes.Black;
             OrderBtn.Background = Brushes.LightGray;

@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Text;
 using System.Linq;
 
 namespace TouristСenterLibrary.Entity
@@ -17,7 +15,22 @@ namespace TouristСenterLibrary.Entity
         [MaxLength(15)]
         [Required] public string EmployeeTelefonNumber { get; set; }
         [Required] public virtual Role Role { get; set; }
+        public int RoleID { get; set; }
         [Required] public DateTime EmploymentDate { get; set; }
+
+        public Employee()
+        {
+
+        }
+        public Employee(string Surname,string Name,string Middlename,string PassportData, string EmployeeTelefonNumber, DateTime EmploymentDate)
+        {
+            this.Surname = Surname;
+            this.Name = Name;
+            this.Middlename = Middlename;
+            this.PassportData = PassportData;
+            this.EmployeeTelefonNumber = EmployeeTelefonNumber;
+            this.EmploymentDate = EmploymentDate;
+        }
 
         public static Employee GetEmployeeById(int empId)
         {

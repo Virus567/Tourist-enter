@@ -60,27 +60,31 @@
 			<RowDefinition/>
 			<RowDefinition/>
 		</Grid.RowDefinitions>
-		<TextBox x:Name="txtBoxFullName" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="5" FontSize="16"
-				 materialDesign:HintAssist.Hint="ФИО" Padding="0 10 0 0" Background="#ffdadada"    Cursor="IBeam" />
-		<Label  Margin="0 8 0 0" Grid.Column="7" Grid.Row="1" Grid.ColumnSpan="3" Content="Номер телефона:"  Foreground="Gray" FontSize="16" />
-		<Border  Background="Gray" Margin="5 8 0 0" Grid.Column="10" Grid.ColumnSpan="3" Grid.Row="1" MaxHeight="30">
-			<TextBox x:Name="numberPhone" materialDesign:HintAssist.Hint="+7" Background="#ffdadada" Padding="0 0 0 5" FontSize="16" Margin="0 0.5 0.5 0"
-				PreviewTextInput="numberPhone_PreviewTextInput" PreviewKeyDown="numberPhone_PreviewKeyDown"  TextAlignment="Left" Cursor="IBeam" GotFocus="NumberPhone_GotFocus"/>
+		<TextBox x:Name="txtBoxFullName" materialDesign:HintAssist.Hint="ФИО" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="5" 
+				  Padding="0 10 0 0" Background="#ffdadada" FontSize="16" Cursor="IBeam"/>
+		<Label Content="Номер телефона:" Grid.Column="7" Grid.Row="1" Grid.ColumnSpan="3" Margin="0 8 0 0" Foreground="Gray" FontSize="16"/>
+		<Border Grid.Column="10" Grid.ColumnSpan="3" Grid.Row="1" Margin="5 8 0 0" MaxHeight="30" Background="Gray">
+			<TextBox x:Name="NumberPhone" materialDesign:HintAssist.Hint="+7"  Padding="0 0 0 5"  Margin="0 0.5 0.5 0"
+					 PreviewTextInput="numberPhone_PreviewTextInput" PreviewKeyDown="numberPhone_PreviewKeyDown" 
+					 GotFocus="NumberPhone_GotFocus" TextAlignment="Left" Background="#ffdadada" FontSize="16" Cursor="IBeam"/>
 		</Border>
-		<Label Content="Кол-во человек:" Grid.Column="13" Grid.Row="1" Grid.ColumnSpan="3" Margin="30 8 0 0" Foreground="Gray" FontSize="16" />
-		<Border Background="Gray" Grid.Column="16" Grid.Row="1" MaxHeight="30"  Margin="0 5 0 0" >
-			<TextBox x:Name="peopleAmount"  Background="#ffdadada" FontSize="16" Padding="0 2 0 0" 
+		<Label Content="Кол-во человек:" Grid.Column="13" Grid.Row="1" Grid.ColumnSpan="3" Margin="30 8 0 0" 
+			   Foreground="Gray" FontSize="16"/>
+		<Border Grid.Column="16" Grid.Row="1" MaxHeight="30"  Margin="0 5 0 0" Background="Gray" >
+			<TextBox x:Name="peopleAmount" Padding="0 2 0 0" Margin="0.5 1 0.5 0.2"
 					 PreviewTextInput="CheckCorrectAmount_PreviewTextInput" PreviewKeyDown="CheckSpaceDown_PreviewKeyDown" 
-					 Margin="0.5 1 0.5 0.2" TextAlignment="Left" />
+					 TextAlignment="Left" Background="#ffdadada" FontSize="16"/>
 		</Border>
-		<Label Content="Кол-во детей:" Grid.Column="17" Grid.Row="1" Grid.ColumnSpan="3" Margin="50 8 0 0" Foreground="Gray" FontSize="16" />
+		<Label Content="Кол-во детей:" Grid.Column="17" Grid.Row="1" Grid.ColumnSpan="3" Margin="50 8 0 0" 
+			   Foreground="Gray" FontSize="16" />
 		<Border Background="Gray" MaxHeight="30" Grid.Column="20" Grid.Row="1" Margin="0 5 0 0" >
-			<TextBox x:Name="childrenAmount"  Background="#ffdadada" PreviewTextInput="CheckCorrectAmount_PreviewTextInput" PreviewKeyDown="CheckSpaceDown_PreviewKeyDown"
-					 FontSize="16" Margin="0.5 1 0.5 0" Padding="0 2 0 0" TextAlignment="Left" />
+			<TextBox x:Name="childrenAmount" Margin="0.5 1 0.5 0" Padding="0 2 0 0" PreviewTextInput="CheckCorrectAmount_PreviewTextInput" 
+					 PreviewKeyDown="CheckSpaceDown_PreviewKeyDown" TextAlignment="Left" Background="#ffdadada" FontSize="16"/>
 		</Border>
-		<ComboBox x:Name="CmBoxRoutes"  materialDesign:HintAssist.Hint="Выберите Маршрут" Grid.Column="1" Grid.Row="5" Grid.ColumnSpan="5"  
-				   Background="#ffdadada" MaxHeight="27" FontSize="16" Padding="0 0 3 0" LostMouseCapture="CmBoxRoutes_LostMouseCapture"/>
-		<Label Grid.Row="5" Grid.Column="7" Content="Даты:" Margin="0 5 0 0" Foreground="Gray" FontSize="16" />
+		<ComboBox x:Name="CmBoxRoutes"  materialDesign:HintAssist.Hint="Выберите Маршрут" Grid.Column="1" Grid.Row="5" 
+				  Grid.ColumnSpan="5" Padding="0 0 3 0" LostMouseCapture="CmBoxRoutes_LostMouseCapture"
+				  Background="#ffdadada" MaxHeight="27" FontSize="16"/>
+		<Label Content="Даты:" Grid.Row="5" Grid.Column="7" Margin="0 5 0 0" Foreground="Gray" FontSize="16" />
 
 		<DatePicker x:Name="StartDate" Grid.Row="5" Grid.Column="8" Grid.ColumnSpan="3" materialDesign:HintAssist.Hint="Дата начала" 
 					CalendarClosed="StartDate_CalendarClosed" Margin="5 0 0 2" FontSize="16" SelectedDateFormat="Short"/>

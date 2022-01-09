@@ -1,22 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Text;
-using System.Linq;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace TouristСenterLibrary.Entity
 {
-    public class CountableEquipment //Измеримое снаряжение 
-    {
-        private static ApplicationContext db = ContextManager.db;
+    public class CountableEquipment 
+    {      
         public int ID { get; set; }
         [Required] public string Name { get; set; }
-        [Required] public int Number { get; set; }
-        public virtual List<Hike> HikesList { get; set; } = new List<Hike>();
-
-        public static int GetEquipmentAmount(int cEquipId)
+        [Required] public int Number { get; set; }   
+        public CountableEquipment()
         {
-            return db.CountableEquipment.Where(ce => ce.ID == cEquipId).Select(e => e.Number).ToList()[0];
+
+        }
+
+        public CountableEquipment(string Name, int Number)
+        {
+            this.Name = Name;
+            this.Number = Number;
         }
     }
 }

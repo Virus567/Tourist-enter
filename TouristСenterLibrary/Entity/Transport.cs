@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Text;
 using System.Linq;
 
 namespace TouristСenterLibrary.Entity
@@ -14,6 +12,17 @@ namespace TouristСenterLibrary.Entity
         [Required] public string CarNumber { get; set; }
         [Required] public int SeatCount { get; set; }
         [Required] public virtual TransportCompany TransportCompany { get; set;}
+        public int TransportCompanyID { get; set; }
+
+        public Transport()
+        {
+
+        }
+        public Transport(string CarNumber, int SeatCount) 
+        {
+            this.CarNumber = CarNumber;
+            this.SeatCount = SeatCount;
+        }
 
         public class TransportView
         {

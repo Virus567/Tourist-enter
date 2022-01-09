@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Text;
 using System.Linq;
-using Microsoft.EntityFrameworkCore;
 using System.ComponentModel;
 using System.Reflection;
 
@@ -16,8 +14,8 @@ namespace TouristСenterLibrary.Entity
         [Required] public virtual Route Route { get; set; }
         [Required] public string Status { get; set; }
         [Required] public virtual List<Order> OrdersList { get; set; } = new List<Order>();
-        public virtual List<CountableEquipment> CountableEquipments { get; set; } = new List<CountableEquipment>();
-        public virtual List<Equipment> Equipments { get; set; } = new List<Equipment>();
+        public virtual List<CountableHikeEquipment> CountableHikeEquipList { get; set; } = new List<CountableHikeEquipment>();
+        public virtual List<Equipment> EquipmentsList { get; set; } = new List<Equipment>();
 
         public enum EnumStatus
         {
@@ -96,6 +94,24 @@ namespace TouristСenterLibrary.Entity
             public int IndividualTentAmount { get; set; }
         }
 
+        public static void SetEquipmentForHike(Hike hike)
+        {
+            int peopleAmount = GetPeopleAmountOfHike(hike.ID);
+            int individualTentsAmount = Hike.GetIndividualTentsAmount(hike);
+            int hermeticBagsAmount = Hike.GetHermeticBagsAmount(hike);
+            hike.EquipmentsList.AddRange(Equipment.GetDefaultEquipment(peopleAmount));
+            hike.CountableHikeEquipList.AddRange(CountableHikeEquipment.GetDefaultEquipment(peopleAmount, individualTentsAmount, hermeticBagsAmount));
+            if(hike.OrdersList.FirstOrDefault().WayToTravel == "Байдарки")
+            {
+                hike.EquipmentsList.AddRange(Equipment.GetKayaks(peopleAmount));
+            }
+            else
+            {
+                hike.EquipmentsList.AddRange(Equipment.GetRafts(peopleAmount));
+                hike.CountableHikeEquipList.Add(CountableHikeEquipment.GetPaddle(peopleAmount));
+            }
+        }
+
         public static List<HikeViewAll> GetViewAllByID(int hikeID)
         {
             List<HikeViewAll>list = db.Hike.Where(h=>h.ID == hikeID).Select(h => new HikeViewAll()
@@ -134,6 +150,25 @@ namespace TouristСenterLibrary.Entity
                     tmp += l.PeopleAmount;
                 }
             return tmp;
+        }
+
+        public static int GetIndividualTentsAmount(Hike hike)
+        {
+            int count = 0;
+            foreach(var order in hike.OrdersList)
+            {
+                count += order.IndividualTentAmount;
+            }
+            return count;
+        }
+        public static int GetHermeticBagsAmount(Hike hike)
+        {
+            int count = 0;
+            foreach (var order in hike.OrdersList)
+            {
+                count += order.HermeticBagAmount;
+            }
+            return count;
         }
         public static List<string> GetPossibleStatuses(string str)
         {

@@ -1,14 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 using TouristСenterLibrary.Entity;
 using System.Linq;
 
@@ -22,8 +16,10 @@ namespace tourCenter
         private List<Order.OrderView> _selectedOrders = new List<Order.OrderView>();
         private List<Instructor.InstructorView> _selectedInstructors = new List<Instructor.InstructorView>();
         private List<Transport.TransportView> _selectedTransport = new List<Transport.TransportView>();
-        public NewHike()
+        private Hikes _hikes;
+        public NewHike(Hikes hikes)
         {
+            _hikes = hikes;
             InitializeComponent();
             FillingDataGrid();
             GetRouteName();
@@ -74,40 +70,40 @@ namespace tourCenter
             if (CmBoxWayToTravel.Text == "Способ передвижения") CmBoxWayToTravel.Text = "";
             FillingDataGrid();
         }
-        private void Row_DoubleClick(object sender, MouseButtonEventArgs e)
-        {
-            RowOrder rowOrder = new RowOrder();
-            Order.OrderView selectedOrder = (Order.OrderView)dgOrders.SelectedValue;
-            rowOrder.Show();
-            rowOrder.AddSelectedOrder(selectedOrder.ID);
-        }
 
         private void addOrderBtn_Click(object sender, RoutedEventArgs e) //заявки могут быть объеденены только если все заявки семейные
         {
             try
             {
                 Order.OrderView selectedOrder = (Order.OrderView)dgOrders.SelectedValue;
-                if (txtBoxStartDate.Text == "")
-                    GetOrderData(selectedOrder);
-                if (!dgOrdersForHike.Items.Contains(selectedOrder) && IsСorrectOrder(selectedOrder) && !IsTeamOrder(selectedOrder))
+                if (selectedOrder.IsListParticipants)
                 {
-                    dgOrdersForHike.Items.Add(selectedOrder);
-                    _selectedOrders.Add(selectedOrder);
-                    int peopleAmount = int.Parse(txtBoxPeopleAmount.Text);
-                    peopleAmount += selectedOrder.PeopleAmount;                     
-                    txtBoxPeopleAmount.Text = peopleAmount.ToString();
-                    int childrenAmount = int.Parse(txtBoxChildrenAmount.Text);
-                    childrenAmount += selectedOrder.ChildrenAmount;
-                    txtBoxChildrenAmount.Text = childrenAmount.ToString();
+                    if (txtBoxStartDate.Text == "")
+                        GetOrderData(selectedOrder);
+                    if (!dgOrdersForHike.Items.Contains(selectedOrder) && IsСorrectOrder(selectedOrder) && !IsTeamOrder(selectedOrder))
+                    {
+                        dgOrdersForHike.Items.Add(selectedOrder);
+                        _selectedOrders.Add(selectedOrder);
+                        int peopleAmount = int.Parse(txtBoxPeopleAmount.Text);
+                        peopleAmount += selectedOrder.PeopleAmount;
+                        txtBoxPeopleAmount.Text = peopleAmount.ToString();
+                        int childrenAmount = int.Parse(txtBoxChildrenAmount.Text);
+                        childrenAmount += selectedOrder.ChildrenAmount;
+                        txtBoxChildrenAmount.Text = childrenAmount.ToString();
 
+                    }
+                    else if (IsTeamOrder(selectedOrder) && txtBoxPeopleAmount.Text == "0")
+                    {
+                        dgOrdersForHike.Items.Add(selectedOrder);
+                        _selectedOrders.Add(selectedOrder);
+                        txtBoxPeopleAmount.Text = selectedOrder.PeopleAmount.ToString();
+                        addOrderBtn.IsEnabled = false;
+                    }
                 }
-                else if (IsTeamOrder(selectedOrder) && txtBoxPeopleAmount.Text == "0")
+                else
                 {
-                    dgOrdersForHike.Items.Add(selectedOrder);
-                    _selectedOrders.Add(selectedOrder);
-                    txtBoxPeopleAmount.Text = selectedOrder.PeopleAmount.ToString();
-                    addOrderBtn.IsEnabled = false;
-                }
+                    MessageBox.Show("У выбранной заявки не добавлены участники");
+                }     
             }
             catch
             {
@@ -189,17 +185,18 @@ namespace tourCenter
                     {
                         Route = route,
                         Status = Hike.GetDescriptionByEnum(Hike.EnumStatus.inAssembly)
-                    };
+                    };                    
                     Hike.Add(hike);
 
                     foreach (var orderView in _selectedOrders)
                     {
                         Order order = Order.GetOrderByID(orderView.ID);
                         order.Hike = hike;
-                        order.Status = "В сборке";
+                        order.Status = Order.GetDescriptionByEnum(Order.EnumStatus.inAssembly);
                         Order.Update(order);
                     }
-
+                    Hike.SetEquipmentForHike(hike);
+                    Hike.Update(hike);
                     InstructorGroup instructorGroup = new InstructorGroup();
                     instructorGroup.Hike = hike;
                     foreach (var instructorView in _selectedInstructors)
@@ -237,6 +234,7 @@ namespace tourCenter
                     _selectedOrders.Clear();
                     dgOrdersForHike.Items.Clear();
                     ClearOrderData();
+                    _hikes.FillingDataGrid();
                     this.Close();
                 }
                 catch(Exception ex)

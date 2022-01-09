@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Text;
 using System.Linq;
 
 namespace TouristСenterLibrary.Entity
@@ -20,6 +18,19 @@ namespace TouristСenterLibrary.Entity
         [Required] public DateTime EmploymentDate { get; set; }
         [Required] public virtual List<InstructorGroup> InstructorGroups { get; set; } = new List<InstructorGroup>();
 
+        public Instructor()
+        {
+
+        }
+        public Instructor(string Surname,string Name,string Middlename, string PassportData,string InstructorTelefonNumber, DateTime EmploymentDate)
+        {
+            this.Surname = Surname;
+            this.Name = Name;
+            this.Middlename = Middlename;
+            this.PassportData = PassportData;
+            this.InstructorTelefonNumber = InstructorTelefonNumber;
+            this.EmploymentDate = EmploymentDate;
+        }
         public class InstructorView
         {
             public int ID { get; set; }

@@ -1,19 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using TouristСenterLibrary.Entity;
-using TouristСenterLibrary;
 using ExcelLibrary;
-using System.IO;
 using System.Text.RegularExpressions;
 
 namespace tourCenter
@@ -75,14 +66,21 @@ namespace tourCenter
                             object[,] newParticipantsObj = excel.GetParticipants();
                             for (int i = 1; i <= newParticipantsObj.GetLength(0); i++)
                             {
-                                Participant participant = new Participant()
+                                string Surname = newParticipantsObj[i, 1].ToString();
+                                string Name = newParticipantsObj[i, 2].ToString();
+                                string Middlename = newParticipantsObj[i, 3].ToString();
+                                string ClientTelefonNumber = newParticipantsObj[i, 4].ToString();
+
+                                if (Middlename != null)
                                 {
-                                    Surname = newParticipantsObj[i, 1].ToString(),
-                                    Name = newParticipantsObj[i, 2].ToString(),
-                                    Middlename = newParticipantsObj[i, 3].ToString(),
-                                    ClientTelefonNumber = newParticipantsObj[i, 4].ToString()
-                                };
-                                _newPartisipants.Add(participant);
+                                    Participant participant = new Participant(Surname, Name, Middlename, ClientTelefonNumber);
+                                    _newPartisipants.Add(participant);
+                                }
+                                else
+                                {
+                                    Participant participant = new Participant(Surname, Name, ClientTelefonNumber);
+                                    _newPartisipants.Add(participant);
+                                }
                             }
                         }
                     }
@@ -144,14 +142,16 @@ namespace tourCenter
 
         public bool IsCorrectData()
         {
-            return txtBoxNameOfCompany.Text != "" &&
-                   txtBoxFullName.Text != "" &&
+            return txtBoxFullName.Text != "" &&
                    numberPhone.Text != "" &&
                    peopleAmount.Text != "" &&
                    CmBoxRoutes.Text != "" &&
                    CmBoxWayToTravel.Text != "" &&
                    StartDate.Text != "" &&
-                   FinishDate.Text != "";
+                   FinishDate.Text != "" &&
+                   peopleAmount.Text != "0" &&
+                   (DateTime)StartDate.SelectedDate <= (DateTime)FinishDate.SelectedDate &&
+                   Convert.ToInt32(peopleAmount.Text) >= Convert.ToInt32(childrenAmount.Text);
         }
 
         private void StartDate_CalendarClosed(object sender, RoutedEventArgs e)
@@ -220,6 +220,7 @@ namespace tourCenter
             persTentAmount.Text = "";
             persHermeticBagAmount.Text = "";
             txtBoxFileName.Text = "";
+            txtBoxFileName.FontSize = 16;
         }
 
         private void AddOrderBtn_Click(object sender, RoutedEventArgs e)
@@ -261,7 +262,7 @@ namespace tourCenter
                         StartTime = (DateTime)StartDate.SelectedDate,
                         FinishTime = (DateTime)FinishDate.SelectedDate,
                         HermeticBagAmount = Convert.ToInt32(persHermeticBagAmount.Text),
-                        IndividualTentAmount = Convert.ToInt32(persTentAmount.Text),                     
+                        IndividualTentAmount = Convert.ToInt32(persTentAmount.Text),
                         Status = "Активна"
                     };
                     Client.Add(client);
@@ -269,7 +270,7 @@ namespace tourCenter
                     MessageBox.Show("Заявка добавлена!");
                     ClearFields();
                 }
-                catch(Exception ex) { MessageBox.Show("Ошибка добавления! " + ex.Message); }               
+                catch(Exception ex) { MessageBox.Show("Ошибка добавления! " + ex.Message); }
             }
             else
             {

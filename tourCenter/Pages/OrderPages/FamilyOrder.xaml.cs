@@ -1,18 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using TouristСenterLibrary.Entity;
-using TouristСenterLibrary;
-using System.IO;
 using ExcelLibrary;
 using System.Text.RegularExpressions;
 
@@ -52,10 +43,10 @@ namespace tourCenter
 
         private void NumberPhone_GotFocus(object sender, RoutedEventArgs e)
         {
-            if (numberPhone.Text.Length == 0)
+            if (NumberPhone.Text.Length == 0)
             {
-                numberPhone.Text = "+7";
-                numberPhone.SelectionStart = numberPhone.Text.Length;
+                NumberPhone.Text = "+7";
+                NumberPhone.SelectionStart = NumberPhone.Text.Length;
             }
 
         }
@@ -84,14 +75,25 @@ namespace tourCenter
         }
 
         public bool IsCorrectData()
-        {   
+        {
+            bool isCorrectPeopleAmount = true;
+            if(childrenAmount.Text != "")
+            {
+                isCorrectPeopleAmount = Convert.ToInt32(peopleAmount.Text) >= Convert.ToInt32(childrenAmount.Text);
+            }
+
             return txtBoxFullName.Text != "" &&
-                   numberPhone.Text != "" &&
+                   NumberPhone.Text != "" &&
                    peopleAmount.Text != "" &&
                    CmBoxRoutes.Text != "" &&
                    CmBoxWayToTravel.Text != "" &&
                    StartDate.Text != "" &&
-                   FinishDate.Text != "";
+                   FinishDate.Text != "" &&
+                   peopleAmount.Text != "0" &&
+                   (DateTime)StartDate.SelectedDate <= (DateTime)FinishDate.SelectedDate &&
+                   isCorrectPeopleAmount;
+            
+                   
         }
 
         private string GetStringFoodlFeatures()
@@ -147,28 +149,35 @@ namespace tourCenter
 
                             for (int i = 1; i <= newParticipantsObj.GetLength(0); i++)
                             {
-                                Participant participant = new Participant()
+                                string Surname = newParticipantsObj[i, 1].ToString();
+                                string Name = newParticipantsObj[i, 2].ToString();
+                                string Middlename = newParticipantsObj[i, 3].ToString();
+                                string ClientTelefonNumber = newParticipantsObj[i, 4].ToString();
+
+                                if (Middlename != null)
                                 {
-                                    Surname = newParticipantsObj[i, 1].ToString(),
-                                    Name = newParticipantsObj[i, 2].ToString(),
-                                    Middlename = newParticipantsObj[i, 3].ToString(),
-                                    ClientTelefonNumber = newParticipantsObj[i, 4].ToString()
-                                };
-                                _newPartisipants.Add(participant);
+                                    Participant participant = new Participant(Surname, Name, Middlename, ClientTelefonNumber);
+                                    _newPartisipants.Add(participant);
+                                }
+                                else
+                                {
+                                    Participant participant = new Participant(Surname, Name, ClientTelefonNumber);
+                                    _newPartisipants.Add(participant);
+                                }
                             }
                         }
                         
                     }
-                    catch (Exception ex) { MessageBox.Show(ex.Message); }
+                    catch (Exception ex) { MessageBox.Show("Некорректный файл!\n" + ex.Message); }
                 }
             }
         }
         private void numberPhone_PreviewTextInput(object sender, TextCompositionEventArgs e)
         {
-            string t = numberPhone.Text;
+            string t = NumberPhone.Text;
             if (t.Length == 0)
             {
-                numberPhone.SelectionStart = numberPhone.Text.Length; 
+                NumberPhone.SelectionStart = NumberPhone.Text.Length; 
             }
             if (t.Length >= 12)
             {
@@ -209,7 +218,7 @@ namespace tourCenter
         public void ClearFields()
         {
             txtBoxFullName.Text = "";
-            numberPhone.Text = "";
+            NumberPhone.Text = "";
             peopleAmount.Text = "";
             childrenAmount.Text = "";
             CheckMeat.IsChecked = false;
@@ -223,6 +232,7 @@ namespace tourCenter
             persTentAmount.Text = "";
             persHermeticBagAmount.Text = "";
             txtBoxFileName.Text = "";
+            txtBoxFileName.FontSize = 16;
         }
 
         private void AddOrderBtn_Click(object sender, RoutedEventArgs e)
@@ -232,14 +242,14 @@ namespace tourCenter
             {
                 try
                 {                   
-                    var fullName = GetSplitFullName(txtBoxFullName.Text);
+                    var fullName = GetSplitFullName(txtBoxFullName.Text.Trim());
                     CorrectNullFields();
                     Client client = new Client()
                     {
                         Surname = fullName[0],
                         Name = fullName[1],
                         Middlename = fullName[2],
-                        ClientTelefonNumber = numberPhone.Text,
+                        ClientTelefonNumber = NumberPhone.Text,
                         PeopleAmount = Convert.ToInt32(peopleAmount.Text),
                         ChildrenAmount = Convert.ToInt32(childrenAmount.Text)
                     };

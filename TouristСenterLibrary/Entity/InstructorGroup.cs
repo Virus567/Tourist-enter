@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Text;
-using TouristСenterLibrary.Entity;
 using System.Linq;
-using Microsoft.EntityFrameworkCore;
 
 namespace TouristСenterLibrary.Entity
 {

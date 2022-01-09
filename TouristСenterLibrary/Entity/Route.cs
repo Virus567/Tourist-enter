@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Text;
 using System.Linq;
 
 namespace TouristСenterLibrary.Entity
@@ -14,7 +12,20 @@ namespace TouristСenterLibrary.Entity
         [Required] public int NumberDays { get; set; }
         [Required] public string Description { get; set; }
         [Required] public virtual CheckpointRoute CheckpointStart { get; set; }
+        public int CheckpointStartID { get; set; }
         [Required] public virtual CheckpointRoute CheckpointFinish { get; set; }
+        public int CheckpointFinishID { get; set; }
+
+        public Route()
+        {
+
+        }
+        public Route(string Name, int NumberDays, string Description)
+        {
+            this.Name = Name;
+            this.NumberDays = NumberDays;
+            this.Description = Description;
+        }
         public static List<string> GetNameRoute()
         {
              return db.Route.Select(x => x.Name).ToList();

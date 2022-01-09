@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Text;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace TouristСenterLibrary.Entity
 {
@@ -10,6 +7,16 @@ namespace TouristСenterLibrary.Entity
         public int ID { get; set; }
         [Required] public string  Title { get; set; }
         [Required] public string Type { get; set; }
+
+        public CheckpointRoute()
+        {
+
+        }
+        public CheckpointRoute(string Title, string Type)
+        {
+            this.Title = Title;
+            this.Type = Type;
+        }
 
     }
 }

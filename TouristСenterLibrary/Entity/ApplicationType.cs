@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Text;
+﻿using System.ComponentModel.DataAnnotations;
 using System.Linq;
 
 namespace TouristСenterLibrary.Entity
@@ -11,6 +8,15 @@ namespace TouristСenterLibrary.Entity
         private static ApplicationContext db = ContextManager.db;
         public int ID { get; set; }
         [Required] public string Name { get; set; }
+
+        public ApplicationType()
+        {
+
+        }
+        public ApplicationType(string Name)
+        {
+            this.Name = Name;
+        }
 
         public static ApplicationType GetTeamType()
         {

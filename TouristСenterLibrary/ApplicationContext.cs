@@ -1,5 +1,4 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using TouristСenterLibrary.Entity;
 
 namespace TouristСenterLibrary
@@ -11,6 +10,7 @@ namespace TouristСenterLibrary
         public DbSet<CheckpointRoute> CheckpointRoute { get; set; }
         public DbSet<Client> Client { get; set; }
         public DbSet<CountableEquipment> CountableEquipment { get; set; }
+        public DbSet<CountableHikeEquipment> CountableHikeEquipment { get; set; }
         public DbSet<Employee> Employee { get; set; }
         public DbSet<Equipment> Equipment { get; set; }
         public DbSet<Hike> Hike { get; set; }
@@ -42,13 +42,16 @@ namespace TouristСenterLibrary
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Employee>().HasIndex(s => s.EmployeeTelefonNumber).IsUnique();
-            modelBuilder.Entity<Employee>().HasIndex(s => s.PassportData).IsUnique();
-            modelBuilder.Entity<Instructor>().HasIndex(s => s.InstructorTelefonNumber).IsUnique();
-            modelBuilder.Entity<Instructor>().HasIndex(s => s.PassportData).IsUnique();
-            modelBuilder.Entity<Transport>().HasIndex(s => s.CarNumber).IsUnique();
-            modelBuilder.Entity<TransportCompany>().HasIndex(s => s.CompanyTelefonNumber).IsUnique();
-
+            modelBuilder.Entity<Role>(EntityConfigure.RoleConfigure);
+            modelBuilder.Entity<ApplicationType>(EntityConfigure.ApplicationTypeConfigure);
+            modelBuilder.Entity<CheckpointRoute>(EntityConfigure.CheckpointRouteConfigure);
+            modelBuilder.Entity<Route>(EntityConfigure.RouteConfigure);
+            modelBuilder.Entity<Employee>(EntityConfigure.EmployeeConfigure);
+            modelBuilder.Entity<TransportCompany>(EntityConfigure.TransportCompanyConfigure);
+            modelBuilder.Entity<Transport>(EntityConfigure.TransportConfigure);
+            modelBuilder.Entity<Instructor>(EntityConfigure.InstructorConfigure);
+            modelBuilder.Entity<Equipment>(EntityConfigure.EquipmentConfigure);
+            modelBuilder.Entity<CountableEquipment>(EntityConfigure.CountableEquipmentConfigure);
         }
     }
 

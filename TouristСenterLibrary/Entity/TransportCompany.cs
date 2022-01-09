@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Text;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace TouristСenterLibrary.Entity
 {
@@ -11,5 +8,15 @@ namespace TouristСenterLibrary.Entity
         [Required] public string Name { get; set; }
         [MaxLength(15)]
         [Required] public string CompanyTelefonNumber { get; set; }
+
+        public TransportCompany()
+        {
+
+        }
+        public TransportCompany(string Name, string CompanyTelefonNumber)
+        {
+            this.Name = Name;
+            this.CompanyTelefonNumber = CompanyTelefonNumber;
+        }
     }
 }

@@ -1,18 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
 using TouristСenterLibrary.Entity;
 using System.IO;
 using ExcelLibrary;
-using TouristСenterLibrary;
-using System.Linq;
 
 namespace tourCenter
 {
@@ -26,10 +19,12 @@ namespace tourCenter
         private Order.OrderViewAll _orderView;
         private List<Participant> _newPartisipants = new List<Participant>();
         private int _childrenAmount;
+        private Orders _ordersPage;
 
-        public RowOrder()
+        public RowOrder(Orders orders)
         {
             InitializeComponent();
+            _ordersPage = orders;
         }
         public void AddSelectedOrder(int orderID)
         {
@@ -71,38 +66,55 @@ namespace tourCenter
             }
         }
 
+        public bool IsCorrectData()
+        {
+            int i;
+            return int.TryParse(txtBoxPeopleAmount.Text,out i) &&
+                   int.TryParse(txtBoxChildrenAmount.Text, out i) &&
+                   txtBoxPeopleAmount.Text!="0" &&
+                   Convert.ToInt32(txtBoxPeopleAmount.Text) >= Convert.ToInt32(txtBoxChildrenAmount.Text);
+        }
+
         private void ChangeDataBtn_Click(object sender, RoutedEventArgs e)
         {
             Order order = Order.GetOrderByID(_orderId);
             if (ChangeDataBtn.Content == "Сохранить Изменения")
             {
-                if (order.Route.Name != cmbBoxRoute.SelectedItem.ToString()
+                if (IsCorrectData())
+                {
+                    if (order.Route.Name != cmbBoxRoute.SelectedItem.ToString()
                     || order.WayToTravel != cmbBoxWayToTravel.SelectedItem.ToString()
                     || order.Client.ChildrenAmount != Convert.ToInt32(txtBoxChildrenAmount.Text)
                     || order.Client.PeopleAmount != Convert.ToInt32(txtBoxPeopleAmount.Text)
                     || txtBoxFileName.Text != "")
-                {
-                    var oldRoute = cmbBoxRoute.SelectedItem;
-                    var oldWayToTravel = cmbBoxWayToTravel.SelectedItem;
-                    order.Route = Route.GetRouteByRouteName(oldRoute.ToString());
-                    if (oldRoute != order.Route)
                     {
-                        order.FinishTime = order.StartTime.AddDays(Route.GetDaysAmountByRouteName(order.Route.Name) - 1);
-                    }
-                    order.WayToTravel = oldWayToTravel.ToString();
-                    order.Client.ChildrenAmount = Convert.ToInt32(txtBoxChildrenAmount.Text);
-                    order.Client.PeopleAmount = Convert.ToInt32(txtBoxPeopleAmount.Text);
-                    if(_newPartisipants.Count != 0)
-                    {
-                        order.Client.ParticipantsList.RemoveAll(p => p.Client == order.Client);
-                        foreach (var p in _newPartisipants)
+                        var oldRoute = cmbBoxRoute.SelectedItem;
+                        var oldWayToTravel = cmbBoxWayToTravel.SelectedItem;
+                        order.Route = Route.GetRouteByRouteName(oldRoute.ToString());
+                        if (oldRoute != order.Route)
                         {
-                            order.Client.ParticipantsList.Add(p);
+                            order.FinishTime = order.StartTime.AddDays(Route.GetDaysAmountByRouteName(order.Route.Name) - 1);
                         }
+                        order.WayToTravel = oldWayToTravel.ToString();
+                        order.Client.ChildrenAmount = Convert.ToInt32(txtBoxChildrenAmount.Text);
+                        order.Client.PeopleAmount = Convert.ToInt32(txtBoxPeopleAmount.Text);
+                        if (_newPartisipants.Count != 0)
+                        {
+                            order.Client.ParticipantsList.RemoveAll(p => p.Client == order.Client);
+                            foreach (var p in _newPartisipants)
+                            {
+                                order.Client.ParticipantsList.Add(p);
+                            }
+                        }
+                        Client.Update(order.Client);
+                        Order.Update(order);
+                        MessageBox.Show("Данные успешно изменены!");
+                        _ordersPage.FillingDataGrid();
                     }
-                    Client.Update(order.Client);
-                    Order.Update(order);
-                    MessageBox.Show("Данные успешно изменены!");
+                }
+                else
+                {
+                    MessageBox.Show("Заполните поля корректно");
                 }
                 ChangeDataBtn.Content = "Изменить данные";
                 cmbBoxRoute.Items.Clear();
@@ -179,14 +191,21 @@ namespace tourCenter
                             object[,] newParticipantsObj = excel.GetParticipants();
                             for (int i = 1; i <= newParticipantsObj.GetLength(0); i++)
                             {
-                                Participant participant = new Participant()
+                                string Surname = newParticipantsObj[i, 1].ToString();
+                                string Name = newParticipantsObj[i, 2].ToString();
+                                string ClientTelefonNumber = newParticipantsObj[i, 4].ToString();
+
+                                if (newParticipantsObj[i, 3] != null)
                                 {
-                                    Surname = newParticipantsObj[i, 1].ToString(),
-                                    Name = newParticipantsObj[i, 2].ToString(),
-                                    Middlename = newParticipantsObj[i, 3].ToString(),
-                                    ClientTelefonNumber = newParticipantsObj[i, 4].ToString()
-                                };
-                                _newPartisipants.Add(participant);
+                                    string Middlename = newParticipantsObj[i, 3].ToString();
+                                    Participant participant = new Participant(Surname, Name, Middlename, ClientTelefonNumber);
+                                    _newPartisipants.Add(participant);
+                                }
+                                else
+                                {
+                                    Participant participant = new Participant(Surname, Name, ClientTelefonNumber);
+                                    _newPartisipants.Add(participant);
+                                }
                             }
                         }
                     }

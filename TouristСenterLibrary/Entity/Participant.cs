@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Text;
 using System.Linq;
 
 
@@ -17,7 +15,24 @@ namespace TouristСenterLibrary.Entity
         [MaxLength(15)]
         [Required] public string ClientTelefonNumber { get; set; }
         [Required] public virtual Client Client { get; set; }
-        
+
+        public Participant()
+        {
+
+        }
+        public Participant(string Surname, string Name,string Middlename, string ClientTelefonNumber)
+        {
+            this.Surname = Surname;
+            this.Name = Name;
+            this.Middlename = Middlename;
+            this.ClientTelefonNumber = ClientTelefonNumber;
+        }
+        public Participant(string Surname, string Name, string ClientTelefonNumber)
+        {
+            this.Surname = Surname;
+            this.Name = Name;
+            this.ClientTelefonNumber = ClientTelefonNumber;
+        }
         public static void AddAll(List<Participant> participants)
         {
             foreach(Participant p in participants)

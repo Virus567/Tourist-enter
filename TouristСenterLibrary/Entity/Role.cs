@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Text;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace TouristСenterLibrary.Entity
 {
@@ -9,5 +6,13 @@ namespace TouristСenterLibrary.Entity
     {
         public int ID { get; set; }
         [Required] public string PositionName { get; set; }
+
+        public Role() 
+        { 
+        }
+        public Role(string PositionName)
+        {
+            this.PositionName = PositionName;
+        }
     }
 }

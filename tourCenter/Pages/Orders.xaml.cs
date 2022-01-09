@@ -1,15 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using TouristСenterLibrary.Entity;
 using System.Linq;
 
@@ -54,7 +47,7 @@ namespace tourCenter
             if (CmBoxWayToTravel.Text == "Способ передвижения") CmBoxWayToTravel.Text = "";
             FillingDataGrid();              
         }
-        private void FillingDataGrid()
+        public void FillingDataGrid()
         {
             List<Order.OrderView> list = Order.GetView();
             if (selectDate.Text != "")
@@ -87,7 +80,7 @@ namespace tourCenter
 
         private void Row_DoubleClick(object sender, MouseButtonEventArgs e)
         {
-            RowOrder rowOrder = new RowOrder();
+            RowOrder rowOrder = new RowOrder(this);
             Order.OrderView selectedOrder = (Order.OrderView)dgOrder.SelectedValue;
             rowOrder.Show();
             rowOrder.AddSelectedOrder(selectedOrder.ID);
