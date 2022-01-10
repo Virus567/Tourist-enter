@@ -189,23 +189,30 @@ namespace tourCenter
                         if (excel.OpenNewExcel(filename))
                         {
                             object[,] newParticipantsObj = excel.GetParticipants();
-                            for (int i = 1; i <= newParticipantsObj.GetLength(0); i++)
+                            if (newParticipantsObj.GetLength(0) == Convert.ToInt32(txtBoxPeopleAmount.Text))
                             {
-                                string Surname = newParticipantsObj[i, 1].ToString();
-                                string Name = newParticipantsObj[i, 2].ToString();
-                                string ClientTelefonNumber = newParticipantsObj[i, 4].ToString();
+                                for (int i = 1; i <= newParticipantsObj.GetLength(0); i++)
+                                {
+                                    string Surname = newParticipantsObj[i, 1].ToString();
+                                    string Name = newParticipantsObj[i, 2].ToString();
+                                    string ClientTelefonNumber = newParticipantsObj[i, 4].ToString();
 
-                                if (newParticipantsObj[i, 3] != null)
-                                {
-                                    string Middlename = newParticipantsObj[i, 3].ToString();
-                                    Participant participant = new Participant(Surname, Name, Middlename, ClientTelefonNumber);
-                                    _newPartisipants.Add(participant);
+                                    if (newParticipantsObj[i, 3] != null)
+                                    {
+                                        string Middlename = newParticipantsObj[i, 3].ToString();
+                                        Participant participant = new Participant(Surname, Name, Middlename, ClientTelefonNumber);
+                                        _newPartisipants.Add(participant);
+                                    }
+                                    else
+                                    {
+                                        Participant participant = new Participant(Surname, Name, ClientTelefonNumber);
+                                        _newPartisipants.Add(participant);
+                                    }
                                 }
-                                else
-                                {
-                                    Participant participant = new Participant(Surname, Name, ClientTelefonNumber);
-                                    _newPartisipants.Add(participant);
-                                }
+                            }
+                            else
+                            {
+                                MessageBox.Show("Количество людей не совпадает");
                             }
                         }
                     }

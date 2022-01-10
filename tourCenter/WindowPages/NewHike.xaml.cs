@@ -181,11 +181,7 @@ namespace tourCenter
                 try
                 {
                     Route route = Route.GetRouteByRouteName(_selectedOrders.FirstOrDefault().RouteName);
-                    Hike hike = new Hike()
-                    {
-                        Route = route,
-                        Status = Hike.GetDescriptionByEnum(Hike.EnumStatus.inAssembly)
-                    };                    
+                    Hike hike = new Hike(route, Hike.GetDescriptionByEnum(Hike.EnumStatus.inAssembly));                    
                     Hike.Add(hike);
 
                     foreach (var orderView in _selectedOrders)
@@ -220,13 +216,7 @@ namespace tourCenter
                     }
                     if(startTransport.CarNumber!=null && finishTransport.CarNumber != null)
                     {
-                        RouteHike routeHike = new RouteHike()
-                        {
-                            Route = route,
-                            StartBus = startTransport,
-                            FinishBus = finishTransport,
-                            Hike = hike
-                        };
+                        RouteHike routeHike = new RouteHike(route, startTransport, finishTransport, hike);
                         RouteHike.Add(routeHike);
                     }
 

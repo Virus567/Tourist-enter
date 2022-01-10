@@ -12,6 +12,19 @@ namespace TouristСenterLibrary.Entity
         [Required] public virtual Transport FinishBus { get; set;}
         [Required] public virtual Hike Hike { get; set; }
 
+        public RouteHike()
+        {
+
+        }
+
+        public RouteHike(Route Route, Transport StartBus, Transport FinishBus, Hike Hike)
+        {
+            this.Route = Route;
+            this.StartBus = StartBus;
+            this.FinishBus = FinishBus;
+            this.Hike = Hike;
+        }
+
 
         public static void Add(RouteHike routeHike)
         {
