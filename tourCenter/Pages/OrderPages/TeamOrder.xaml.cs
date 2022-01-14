@@ -142,6 +142,12 @@ namespace tourCenter
 
         public bool IsCorrectData()
         {
+            bool isCorrectPeopleAmount = true;
+            if (childrenAmount.Text != "")
+            {
+                isCorrectPeopleAmount = Convert.ToInt32(peopleAmount.Text) >= Convert.ToInt32(childrenAmount.Text);
+            }
+
             return txtBoxFullName.Text != "" &&
                    NumberPhone.Text != "" &&
                    peopleAmount.Text != "" &&
@@ -151,7 +157,8 @@ namespace tourCenter
                    FinishDate.Text != "" &&
                    peopleAmount.Text != "0" &&
                    (DateTime)StartDate.SelectedDate <= (DateTime)FinishDate.SelectedDate &&
-                   Convert.ToInt32(peopleAmount.Text) >= Convert.ToInt32(childrenAmount.Text);
+                   isCorrectPeopleAmount;
+
         }
 
         private void StartDate_CalendarClosed(object sender, RoutedEventArgs e)
@@ -246,17 +253,21 @@ namespace tourCenter
                                             peopleCount, childrenCount);
                     }
 
-                    if (_newPartisipants.Count == client.PeopleAmount)
+                    if(_newPartisipants.Count != 0)
                     {
-                        foreach (Participant p in _newPartisipants)
+                        if (_newPartisipants.Count == client.PeopleAmount)
                         {
-                            client.ParticipantsList.Add(p);
+                            foreach (Participant p in _newPartisipants)
+                            {
+                                client.ParticipantsList.Add(p);
+                            }
+                        }
+                        else
+                        {
+                            MessageBox.Show("Количество людей не совпадает!\n Заявка будет добавелна без участников!");
                         }
                     }
-                    else
-                    {
-                        MessageBox.Show("Количество людей не совпадает!\n Заявка будет добавелна без участников!");
-                    }
+                    
 
                     Order order = new Order()
                     {
