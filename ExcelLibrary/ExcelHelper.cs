@@ -57,7 +57,46 @@ namespace ExcelLibrary
             return false;
         }
 
-        public bool SetParticipant(List<Participant> participants, int childrenAmount)
+        public void SetParticipant(List<Participant> participants, int childrenAmount, Client client)
+        {
+            try
+            {
+                _worksheet1 = (Excel.Worksheet)_workbook.Worksheets.get_Item(1);
+                _worksheet1.Name = "Участники";
+                _worksheet1.PageSetup.Orientation = Excel.XlPageOrientation.xlLandscape;
+
+                List<Human> humans = new List<Human>();
+                humans.Add(client);
+                humans.AddRange(participants);
+                object[,] participantsExport = new object[humans.Count, 3];
+
+                for (int i = 0; i < humans.Count; i++)
+                {
+                    participantsExport[i, 1] = humans[i].GetFullName();
+                    participantsExport[i, 2] = $"'{humans[i].PhoneNumber}";
+                }
+                for (int i = 1; i < humans.Count; i++)
+                {
+                    participantsExport[i, 0] = i;
+                }
+                _excelRange = _worksheet1.get_Range("A2", Missing.Value);
+                _excelRange = _excelRange.get_Resize(humans.Count, 3);
+                _excelRange.set_Value(Missing.Value, participantsExport);
+                _excelRange.Columns.AutoFit();
+                _worksheet1.Cells[1, 1] = "№";
+                _worksheet1.Cells[1, 2] = "Фамилия Имя Отчество";
+                _worksheet1.Cells[1, 3] = "Телефон";
+                _worksheet1.Cells[2, 6] = "Количество человек:";
+                _worksheet1.Cells[3, 6] = "Количество детей:";
+                _worksheet1.Cells[2, 7] = participants.Count;
+                _worksheet1.Cells[3, 7] = childrenAmount;
+                _worksheet1.Columns.AutoFit();
+                _excel.Visible = true;
+            }
+            catch (Exception ex) { Console.WriteLine(ex.Message); }
+        }
+
+        public void SetParticipant(List<Participant> participants, int childrenAmount)
         {
             try
             {
@@ -89,10 +128,8 @@ namespace ExcelLibrary
                 _worksheet1.Cells[3, 7] = childrenAmount;
                 _worksheet1.Columns.AutoFit();
                 _excel.Visible = true;
-                return true;
             }
             catch (Exception ex) { Console.WriteLine(ex.Message); }
-            return false;
         }
         public bool SetEquipment(Hike hike)
         {

@@ -12,17 +12,18 @@ namespace TouristСenterLibrary.Entity
         [Required] public string Name { get; set; }
         [Required] public DateTime PurchaseDate { get; set; }
         [Required] public string Type { get; set; }
-        public virtual List<Hike> HikesList { get; set; } = new List<Hike>();
+        public virtual List<Hike> HikesList { get; set; }
 
         public Equipment()
         {
-
+            HikesList = new List<Hike>();
         }
         public Equipment(string Name, DateTime PurchaseDate, string Type)
         {
             this.Name = Name;
             this.PurchaseDate = PurchaseDate;
             this.Type = Type;
+            HikesList = new List<Hike>();
         }
 
         public static List<Equipment> GetDefaultEquipment(int peopleAmount)

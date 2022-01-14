@@ -13,17 +13,22 @@ namespace TouristСenterLibrary.Entity
         public int ID { get; set; }
         [Required] public virtual Route Route { get; set; }
         [Required] public string Status { get; set; }
-        public virtual List<Order> OrdersList { get; set; } = new List<Order>();
-        public virtual List<CountableHikeEquipment> CountableHikeEquipList { get; set; } = new List<CountableHikeEquipment>();
-        public virtual List<Equipment> EquipmentsList { get; set; } = new List<Equipment>();
+        public virtual List<Order> OrdersList { get; set; }
+        public virtual List<CountableHikeEquipment> CountableHikeEquipList { get; set; }
+        public virtual List<Equipment> EquipmentsList { get; set; }
         public Hike()
         {
-
+            OrdersList = new List<Order>();
+            CountableHikeEquipList = new List<CountableHikeEquipment>();
+            EquipmentsList = new List<Equipment>();
         }
         public Hike(Route Route,string Status)
         {
             this.Route = Route;
             this.Status = Status;
+            OrdersList = new List<Order>();
+            CountableHikeEquipList = new List<CountableHikeEquipment>();
+            EquipmentsList = new List<Equipment>();
         }
 
         public enum EnumStatus

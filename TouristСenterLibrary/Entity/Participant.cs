@@ -13,15 +13,12 @@ namespace TouristСenterLibrary.Entity
 
         public Participant()
         {
-
         }
         public Participant(string Surname, string Name,string Middlename, string PhoneNumber) : base(Surname, Name, Middlename, PhoneNumber)
         {
-
         }
         public Participant(string Surname, string Name, string PhoneNumber) : base(Surname, Name, PhoneNumber)
         {
-
         }
         public static List<Participant> GetParticipantsByHike(int hikeID)
         {

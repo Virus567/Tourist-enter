@@ -17,7 +17,7 @@ namespace TouristСenterLibrary.Entity
         {
 
         }
-        public Transport(string CarNumber, int SeatCount) 
+        public Transport(string CarNumber, int SeatCount)
         {
             this.CarNumber = CarNumber;
             this.SeatCount = SeatCount;

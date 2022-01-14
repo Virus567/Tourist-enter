@@ -11,11 +11,11 @@ namespace TouristСenterLibrary.Entity
         public string? NameOfCompany { get; set; }
         [Required] public int PeopleAmount { get; set; }
         [Required] public int ChildrenAmount { get; set; }
-        public virtual List<Participant> ParticipantsList { get; set; } = new List<Participant>();
+        public virtual List<Participant> ParticipantsList { get; set; }
 
         public Client()
         {
-
+            ParticipantsList = new List<Participant>();
         }
         public Client(string NameOfCompany,string Surname,string Name, string Middlename,
                       string PhoneNumber,int PeopleAmount,int ChildrenAmount) : base(Surname, Name,Middlename, PhoneNumber)
@@ -23,6 +23,7 @@ namespace TouristСenterLibrary.Entity
             this.NameOfCompany = NameOfCompany;
             this.PeopleAmount = PeopleAmount;
             this.ChildrenAmount = ChildrenAmount;
+            ParticipantsList = new List<Participant>();
         }
         public Client(string? NameOfCompany, string Surname, string Name,
                       string PhoneNumber, int PeopleAmount, int ChildrenAmount) : base(Surname, Name, PhoneNumber)
@@ -30,20 +31,24 @@ namespace TouristСenterLibrary.Entity
             this.NameOfCompany = NameOfCompany;
             this.PeopleAmount = PeopleAmount;
             this.ChildrenAmount = ChildrenAmount;
+            ParticipantsList = new List<Participant>();
         }
 
+        public override string GetFullName()
+        {
+            string fullName = "Представитель " + base.GetFullName();
+            return fullName;
+        }
         public static void Add(Client client)
         {
             db.Client.Add(client);
             db.SaveChanges();
         }
-
         public static void Update(Client client)
         {
             db.Client.Update(client);
             db.SaveChanges();
         }
-
         public string GetCompanyNameForHike()
         {
             string tmp;
@@ -67,9 +72,19 @@ namespace TouristСenterLibrary.Entity
             }
             return tmp;
         }
+       
+
         public static Client GetClientByID( int clientId)
         {
             return db.Client.Where(c => c.ID == clientId).FirstOrDefault();
+        }
+
+        public static Client GetClientByOrderId(int orderId)
+        {
+            return (from c in db.Client
+                    join o in db.Order on c.ID equals o.Client.ID
+                    where o.ID == orderId
+                    select c).FirstOrDefault();
         }
     }
 }

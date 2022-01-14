@@ -7,6 +7,7 @@ namespace TouristСenterLibrary.Entity
         public int ID { get; set; }
         [Required] public string  Title { get; set; }
         [Required] public string Type { get; set; }
+        private static ApplicationContext db = ContextManager.db;
 
         public CheckpointRoute()
         {
@@ -15,7 +16,7 @@ namespace TouristСenterLibrary.Entity
         public CheckpointRoute(string Title, string Type)
         {
             this.Title = Title;
-            this.Type = Type;
+            this.Type = Type;      
         }
 
     }

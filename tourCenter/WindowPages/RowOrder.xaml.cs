@@ -16,6 +16,7 @@ namespace tourCenter
     {
         private int _orderId;
         private List<Participant> _participants;
+        private Client _client;
         private Order.OrderViewAll _orderView;
         private List<Participant> _newPartisipants = new List<Participant>();
         private int _childrenAmount;
@@ -36,6 +37,7 @@ namespace tourCenter
         {
             _orderId = orderID;
             _orderView = ov;
+            _client = Client.GetClientByOrderId(_orderId);
             _childrenAmount = ov.ChildrenAmount;
             winRowOrder.Title = $"{ov.ApplicationType} заявка: {ov.Client} {ov.StartTime}  — {ov.FinishTime}";
             cmbBoxStatus.Items.Add(ov.Status);
@@ -161,7 +163,7 @@ namespace tourCenter
                 {
                     if (excel.Open(filePath: Path.Combine("D:\\Order", $"{_orderView.Client}{_orderView.StartTime}-{_orderView.FinishTime}.xlsx")))
                     {
-                        excel.SetParticipant(_participants,_childrenAmount);
+                        excel.SetParticipant(_participants,_childrenAmount,_client);
                         excel.Save();
                     }
 

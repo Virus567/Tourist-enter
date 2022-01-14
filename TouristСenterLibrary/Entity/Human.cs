@@ -4,7 +4,7 @@ using System.Text;
 
 namespace TouristСenterLibrary.Entity
 {
-    public abstract class Human
+    public class Human
     {
         public string Surname { get; set; }
         public string Name { get; set; }
@@ -27,6 +27,13 @@ namespace TouristСenterLibrary.Entity
             this.Name = Name;
             this.Middlename = Middlename;
             this.PhoneNumber = PhoneNumber;
+        }
+
+        public virtual string GetFullName()
+        {
+           string fullName = $"{Surname} {Name}";
+            if (Middlename != null) fullName += $" {Middlename}";
+            return fullName;
         }
     }
 }

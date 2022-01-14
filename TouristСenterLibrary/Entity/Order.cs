@@ -25,6 +25,10 @@ namespace TouristСenterLibrary.Entity
         [Required] public int HermeticBagAmount { get; set; }
         [Required] public int IndividualTentAmount { get; set; }
 
+        public Order()
+        {
+
+        }
         public enum EnumStatus
         {
             [Description("Активна")] active = 1,
@@ -32,7 +36,6 @@ namespace TouristСenterLibrary.Entity
             [Description("Завершена")] сompleted = 3,
             [Description("Отменена")] canceled = 4
         }
-
 
         public class OrderView
         {
@@ -48,7 +51,6 @@ namespace TouristСenterLibrary.Entity
             public string Status { get; set; }
             public bool IsListParticipants { get; set; }
         }
-
         public static List<OrderView> GetView()
         {
             List<OrderView> list = (from o in db.Order
@@ -92,13 +94,11 @@ namespace TouristСenterLibrary.Entity
             public bool IsListParticipants { get; set; }
 
         }
-
         public static void Add(Order order)
         {
             db.Order.Add(order);
             db.SaveChanges();
         }
-
         public static void Update(Order order)
         {
             db.Order.Update(order);
@@ -107,25 +107,25 @@ namespace TouristСenterLibrary.Entity
         public static OrderViewAll GetViewAllByID(int orderID)
         {
             OrderViewAll order = (from o in db.Order
-                                       where o.ID == orderID                    
-                                       select new OrderViewAll()
-                                       {
-                                            ID = orderID,
-                                            StartTime = o.StartTime.ToString("d"),
-                                            FinishTime = o.FinishTime.ToString("d"),
-                                            RouteName = o.Route.Name,
-                                            WayToTravel = o.WayToTravel,
-                                            Client = o.Client.GetCompanyNameForOrder(),
-                                            ClientID = o.Client.ID,
-                                            PeopleAmount = o.Client.PeopleAmount,
-                                            ApplicationType = o.ApplicationType.Name,
-                                            ChildrenAmount =o.Client.ChildrenAmount,
-                                            FoodlFeatures = o.FoodlFeatures,
-                                            EquipmentFeatures = o.EquipmentFeatures,
-                                            Status = o.Status,
-                                            HermeticBagAmount = o.HermeticBagAmount,
-                                            IndividualTentAmount =o.IndividualTentAmount
-                                       }).FirstOrDefault();
+                                where o.ID == orderID
+                                select new OrderViewAll()
+                                {
+                                    ID = orderID,
+                                    StartTime = o.StartTime.ToString("d"),
+                                    FinishTime = o.FinishTime.ToString("d"),
+                                    RouteName = o.Route.Name,
+                                    WayToTravel = o.WayToTravel,
+                                    Client = o.Client.GetCompanyNameForOrder(),
+                                    ClientID = o.Client.ID,
+                                    PeopleAmount = o.Client.PeopleAmount,
+                                    ApplicationType = o.ApplicationType.Name,
+                                    ChildrenAmount =o.Client.ChildrenAmount,
+                                    FoodlFeatures = o.FoodlFeatures,
+                                    EquipmentFeatures = o.EquipmentFeatures,
+                                    Status = o.Status,
+                                    HermeticBagAmount = o.HermeticBagAmount,
+                                    IndividualTentAmount =o.IndividualTentAmount
+                                }).FirstOrDefault();
             order.IsListParticipants = Participant.IsParticipantsForOrder(Client.GetClientByID(order.ClientID));
             return order;
         }
@@ -133,7 +133,6 @@ namespace TouristСenterLibrary.Entity
         {
             return db.Order.Where(o => o.ID == orderID).FirstOrDefault();
         }
-
         public static string GetDescriptionByEnum(Enum enumElement)
         {
             Type type = enumElement.GetType();
