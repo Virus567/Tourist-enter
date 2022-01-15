@@ -5,7 +5,7 @@ using TouristСenterLibrary.Entity;
 namespace tourCenter
 {
     /// <summary>
-    /// Логика взаимодействия для Instrucors.xaml
+    /// Класс реализует работу со страницей выбора инструкторов для похода
     /// </summary>
     public partial class Instrucors : Window
     {
@@ -66,7 +66,7 @@ namespace tourCenter
                     instructorGroup.InstructorsList.Add(instructor);
                 }
                 InstructorGroup.Update(instructorGroup);
-                _rowhike.AddInstructorsData(_hikeId);
+                _rowhike.LoadInstructorsData(_hikeId);
                 this.Close();
             }
             

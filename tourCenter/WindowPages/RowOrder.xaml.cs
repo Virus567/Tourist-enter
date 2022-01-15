@@ -10,7 +10,7 @@ using ExcelLibrary;
 namespace tourCenter
 {
     /// <summary>
-    /// Логика взаимодействия для RowOrder.xaml
+    /// Класс реализующий работу с окном заявки
     /// </summary>
     public partial class RowOrder : Window
     {

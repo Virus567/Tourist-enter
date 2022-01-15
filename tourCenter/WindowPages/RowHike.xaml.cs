@@ -9,7 +9,7 @@ using System.Linq;
 namespace tourCenter
 {
     /// <summary>
-    /// Логика взаимодействия для RowHike.xaml
+    /// Класс реализующий работу с  окном похода 
     /// </summary>
     public partial class RowHike : Window
     {
@@ -27,10 +27,10 @@ namespace tourCenter
         public void AddSelectedHike(int hikeId)
         {
             Hike.HikeViewAll hikeVeiw = Hike.GetViewAllByID(hikeId)[0];
-            AddHikeData(hikeVeiw, hikeId);          
+            LoadHikeData(hikeVeiw, hikeId);     
         }
 
-        public void AddHikeData(Hike.HikeViewAll hv,int hikeId)
+        public void LoadHikeData(Hike.HikeViewAll hv,int hikeId)
         {
             _hikeView = hv;
             _hikeId = hikeId;
@@ -45,8 +45,8 @@ namespace tourCenter
             txtBoxPeopleAmount.Text = $"{peopleAmount}";
             _childrenAmount = hv.ChildrenAmount;
             _participants = Participant.GetParticipantsByHike(hikeId);
-            AddInstructorsData(hikeId);
-            AddStartFinishBusesData(hikeId);
+            LoadInstructorsData(hikeId);
+            LoadStartFinishBusesData(hikeId);
         }
 
         private void ChangeInstructorsBtn_Click(object sender, RoutedEventArgs e)
@@ -164,11 +164,11 @@ namespace tourCenter
                 }
             }
         }
-        public void AddInstructorsData(int hikeId)
+        public void LoadInstructorsData(int hikeId)
         {
             listInstructors.ItemsSource = Instructor.GetFullNameInstructorsByHikeID(hikeId);
         }
-        public void AddStartFinishBusesData(int hikeId)
+        public void LoadStartFinishBusesData(int hikeId)
         {
             RouteHike routeHike = RouteHike.GetRouteHikeByHikeID(hikeId);
             var startBus = Transport.GetTransportViewByID(routeHike.StartBus.ID);
@@ -192,10 +192,7 @@ namespace tourCenter
                     }
                 }
                 catch (Exception ex) { MessageBox.Show(ex.Message); }
-            }
-           
-        }
-
-        
+            }      
+        }     
     }
 }

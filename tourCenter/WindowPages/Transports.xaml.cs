@@ -89,7 +89,7 @@ namespace tourCenter
                     routeHike.FinishBus = finishTransport;
                     RouteHike.Update(routeHike);
                 }
-                _rowhike.AddStartFinishBusesData(_hikeId);
+                _rowhike.LoadStartFinishBusesData(_hikeId);
                 this.Close();
             }
         }

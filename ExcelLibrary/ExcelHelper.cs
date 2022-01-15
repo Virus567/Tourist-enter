@@ -65,22 +65,22 @@ namespace ExcelLibrary
                 _worksheet1.Name = "Участники";
                 _worksheet1.PageSetup.Orientation = Excel.XlPageOrientation.xlLandscape;
 
-                List<Human> humans = new List<Human>();
-                humans.Add(client);
-                humans.AddRange(participants);
-                object[,] participantsExport = new object[humans.Count, 3];
+                List<Human> people = new List<Human>();
+                people.Add(client);
+                people.AddRange(participants);
+                object[,] participantsExport = new object[people.Count, 3];
 
-                for (int i = 0; i < humans.Count; i++)
+                for (int i = 0; i < people.Count; i++)
                 {
-                    participantsExport[i, 1] = humans[i].GetFullName();
-                    participantsExport[i, 2] = $"'{humans[i].PhoneNumber}";
+                    participantsExport[i, 1] = people[i].GetFullName();
+                    participantsExport[i, 2] = $"'{people[i].PhoneNumber}";
                 }
-                for (int i = 1; i < humans.Count; i++)
+                for (int i = 1; i < people.Count; i++)
                 {
                     participantsExport[i, 0] = i;
                 }
                 _excelRange = _worksheet1.get_Range("A2", Missing.Value);
-                _excelRange = _excelRange.get_Resize(humans.Count, 3);
+                _excelRange = _excelRange.get_Resize(people.Count, 3);
                 _excelRange.set_Value(Missing.Value, participantsExport);
                 _excelRange.Columns.AutoFit();
                 _worksheet1.Cells[1, 1] = "№";
