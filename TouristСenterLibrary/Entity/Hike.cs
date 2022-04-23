@@ -56,6 +56,7 @@ namespace TouristСenterLibrary.Entity
             return db.Hike.Where(h => h.ID == hikeId).First();
         }
 
+
         public class HikeView
         {
             public int ID { get; set; }
@@ -68,6 +69,7 @@ namespace TouristСenterLibrary.Entity
             public int PeopleAmount { get; set; }
             public string Status { get; set; }
         }
+
         public static List<HikeView> GetView()
         {
             var hikeList = db.Hike.Select(h => new HikeView()

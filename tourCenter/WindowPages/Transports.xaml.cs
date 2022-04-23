@@ -85,9 +85,10 @@ namespace tourCenter
                 }
                 if (startTransport.CarNumber != null && finishTransport.CarNumber != null)
                 {
-                    routeHike.StartBus = startTransport;
-                    routeHike.FinishBus = finishTransport;
-                    RouteHike.Update(routeHike);
+                   if(!RouteHike.UpdateTransport(routeHike, startTransport.ID, finishTransport.ID))
+                    {
+                        MessageBox.Show("Ошибка обновления!");
+                    }                    
                 }
                 _rowhike.LoadStartFinishBusesData(_hikeId);
                 this.Close();

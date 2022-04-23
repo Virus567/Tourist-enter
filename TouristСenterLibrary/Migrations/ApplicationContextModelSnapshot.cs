@@ -759,6 +759,10 @@ namespace TouristСenterLibrary.Migrations
                     b.Property<DateTime>("EmploymentDate")
                         .HasColumnType("timestamp without time zone");
 
+                    b.Property<string>("Login")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<string>("Middlename")
                         .HasColumnType("text");
 
@@ -767,6 +771,10 @@ namespace TouristСenterLibrary.Migrations
                         .HasColumnType("text");
 
                     b.Property<string>("PassportData")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Password")
                         .IsRequired()
                         .HasColumnType("text");
 
@@ -794,9 +802,11 @@ namespace TouristСenterLibrary.Migrations
                         {
                             ID = 1,
                             EmploymentDate = new DateTime(2019, 8, 7, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Login = "instr1",
                             Middlename = "Александровна",
                             Name = "Алиса",
                             PassportData = "3314 568475",
+                            Password = "a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3",
                             PhoneNumber = "+79222106611",
                             Surname = "Петрова"
                         },
@@ -804,9 +814,11 @@ namespace TouristСenterLibrary.Migrations
                         {
                             ID = 2,
                             EmploymentDate = new DateTime(2020, 6, 6, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Login = "instr2",
                             Middlename = "Арсентьевна",
                             Name = "Екатерина",
                             PassportData = "3315 264512",
+                            Password = "a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3",
                             PhoneNumber = "+79536523958",
                             Surname = "Зуева"
                         },
@@ -814,9 +826,11 @@ namespace TouristСenterLibrary.Migrations
                         {
                             ID = 3,
                             EmploymentDate = new DateTime(2021, 7, 8, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Login = "instr3",
                             Middlename = "Михайлович",
                             Name = "Артём",
                             PassportData = "3316 895123",
+                            Password = "a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3",
                             PhoneNumber = "+79122023227",
                             Surname = "Степанов"
                         },
@@ -824,9 +838,11 @@ namespace TouristСenterLibrary.Migrations
                         {
                             ID = 4,
                             EmploymentDate = new DateTime(2020, 8, 8, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Login = "instr4",
                             Middlename = "Романович",
                             Name = "Тимофей",
                             PassportData = "3316 564523",
+                            Password = "a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3",
                             PhoneNumber = "+79128029498",
                             Surname = "Горбунов"
                         },
@@ -834,9 +850,11 @@ namespace TouristСenterLibrary.Migrations
                         {
                             ID = 5,
                             EmploymentDate = new DateTime(2021, 5, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Login = "instr5",
                             Middlename = "Михайлович",
                             Name = "Даниил",
                             PassportData = "3315 258965",
+                            Password = "a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3",
                             PhoneNumber = "+79123687951",
                             Surname = "Новиков"
                         },
@@ -844,9 +862,11 @@ namespace TouristСenterLibrary.Migrations
                         {
                             ID = 6,
                             EmploymentDate = new DateTime(2020, 5, 6, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Login = "instr6",
                             Middlename = "Тимурович",
                             Name = "Фёдор",
                             PassportData = "3316 225485",
+                            Password = "a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3",
                             PhoneNumber = "+79225854707",
                             Surname = "Журавлев"
                         },
@@ -854,9 +874,11 @@ namespace TouristСenterLibrary.Migrations
                         {
                             ID = 7,
                             EmploymentDate = new DateTime(2021, 5, 7, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Login = "instr7",
                             Middlename = "Вадимировна",
                             Name = "Ангелина",
                             PassportData = "3314 552314",
+                            Password = "a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3",
                             PhoneNumber = "+79533402030",
                             Surname = "Лазарева"
                         },
@@ -864,9 +886,11 @@ namespace TouristСenterLibrary.Migrations
                         {
                             ID = 8,
                             EmploymentDate = new DateTime(2020, 7, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Login = "instr8",
                             Middlename = "Артёмович",
                             Name = "Марк",
                             PassportData = "3315 821423",
+                            Password = "a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3",
                             PhoneNumber = "+79129717101",
                             Surname = "Судаков"
                         },
@@ -874,9 +898,11 @@ namespace TouristСenterLibrary.Migrations
                         {
                             ID = 9,
                             EmploymentDate = new DateTime(2021, 6, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Login = "instr9",
                             Middlename = "Константинович",
                             Name = "Евгений",
                             PassportData = "3316 452301",
+                            Password = "a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3",
                             PhoneNumber = "+79539716504",
                             Surname = "Жилин"
                         },
@@ -884,9 +910,11 @@ namespace TouristСenterLibrary.Migrations
                         {
                             ID = 10,
                             EmploymentDate = new DateTime(2019, 5, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Login = "instr10",
                             Middlename = "Николаевна",
                             Name = "Анна",
                             PassportData = "3317 266312",
+                            Password = "a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3",
                             PhoneNumber = "+79122433993",
                             Surname = "Калугина"
                         });

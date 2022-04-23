@@ -24,6 +24,8 @@ namespace TouristСenterLibrary
         public DbSet<Transport> Transport { get; set; }
         public DbSet<TransportCompany> TransportCompany { get; set; }
 
+        public static string ConnectionString = "Host=localhost;Port=5432;Database=tourist_center;Username=postgres;Password=123";
+
         public ApplicationContext(DbContextOptions<ApplicationContext> options):base(options)
         {
             Database.Migrate();
@@ -31,7 +33,7 @@ namespace TouristСenterLibrary
         }
         public static DbContextOptions<ApplicationContext> GetDb()
         {
-            return new DbContextOptionsBuilder<ApplicationContext>().UseNpgsql("Host=localhost;Port=5432;Database=tourist_center;Username=postgres;Password=123").Options;
+            return new DbContextOptionsBuilder<ApplicationContext>().UseNpgsql(ConnectionString).Options;
         }
         public static void InitDb()
         {
@@ -39,7 +41,7 @@ namespace TouristСenterLibrary
         }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseNpgsql("Host=localhost;Port=5432;Database=tourist_center;Username=postgres;Password=123");
+            optionsBuilder.UseNpgsql(ConnectionString);
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

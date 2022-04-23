@@ -89,16 +89,16 @@ namespace TouristСenterLibrary
             builder.HasIndex(s => s.PhoneNumber).IsUnique();
             builder.HasIndex(s => s.PassportData).IsUnique();
             List<Instructor> instructors = new List<Instructor>();
-            instructors.Add(new Instructor("Петрова", "Алиса", "Александровна", "3314 568475", "+79222106611", DateTime.Parse("7/8/2019 00:00")) { ID = 1 });
-            instructors.Add(new Instructor("Зуева", "Екатерина", "Арсентьевна", "3315 264512", "+79536523958", DateTime.Parse("6/6/2020 00:00")) { ID = 2 });
-            instructors.Add(new Instructor("Степанов", "Артём", "Михайлович", "3316 895123", "+79122023227", DateTime.Parse("8/7/2021 00:00")) { ID = 3 });
-            instructors.Add(new Instructor("Горбунов", "Тимофей", "Романович", "3316 564523", "+79128029498", DateTime.Parse("8/8/2020 00:00")) { ID = 4 });
-            instructors.Add(new Instructor("Новиков", "Даниил", "Михайлович", "3315 258965", "+79123687951", DateTime.Parse("5/5/2021 00:00")) { ID = 5 });
-            instructors.Add(new Instructor("Журавлев", "Фёдор", "Тимурович", "3316 225485", "+79225854707", DateTime.Parse("6/5/2020 00:00")) { ID = 6 });
-            instructors.Add(new Instructor("Лазарева", "Ангелина", "Вадимировна", "3314 552314", "+79533402030", DateTime.Parse("7/5/2021 00:00")) { ID = 7 });
-            instructors.Add(new Instructor("Судаков", "Марк", "Артёмович", "3315 821423", "+79129717101", DateTime.Parse("5/7/2020 00:00")) { ID = 8 });
-            instructors.Add(new Instructor("Жилин", "Евгений", "Константинович", "3316 452301", "+79539716504", DateTime.Parse("5/6/2021 00:00")) { ID = 9 });
-            instructors.Add(new Instructor("Калугина", "Анна", "Николаевна", "3317 266312", "+79122433993", DateTime.Parse("5/5/2019 00:00")) { ID = 10 });
+            instructors.Add(new Instructor("Петрова", "Алиса", "Александровна", "3314 568475", "+79222106611", DateTime.Parse("7/8/2019 00:00")) { ID = 1, Login = "instr1", Password = "a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3" });
+            instructors.Add(new Instructor("Зуева", "Екатерина", "Арсентьевна", "3315 264512", "+79536523958", DateTime.Parse("6/6/2020 00:00")) { ID = 2, Login = "instr2", Password = "a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3" });
+            instructors.Add(new Instructor("Степанов", "Артём", "Михайлович", "3316 895123", "+79122023227", DateTime.Parse("8/7/2021 00:00")) { ID = 3, Login = "instr3", Password = "a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3" });
+            instructors.Add(new Instructor("Горбунов", "Тимофей", "Романович", "3316 564523", "+79128029498", DateTime.Parse("8/8/2020 00:00")) { ID = 4, Login = "instr4", Password = "a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3" });
+            instructors.Add(new Instructor("Новиков", "Даниил", "Михайлович", "3315 258965", "+79123687951", DateTime.Parse("5/5/2021 00:00")) { ID = 5, Login = "instr5", Password = "a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3" });
+            instructors.Add(new Instructor("Журавлев", "Фёдор", "Тимурович", "3316 225485", "+79225854707", DateTime.Parse("6/5/2020 00:00")) { ID = 6, Login = "instr6", Password = "a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3" });
+            instructors.Add(new Instructor("Лазарева", "Ангелина", "Вадимировна", "3314 552314", "+79533402030", DateTime.Parse("7/5/2021 00:00")) { ID = 7, Login = "instr7", Password = "a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3" });
+            instructors.Add(new Instructor("Судаков", "Марк", "Артёмович", "3315 821423", "+79129717101", DateTime.Parse("5/7/2020 00:00")) { ID = 8, Login = "instr8", Password = "a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3" });
+            instructors.Add(new Instructor("Жилин", "Евгений", "Константинович", "3316 452301", "+79539716504", DateTime.Parse("5/6/2021 00:00")) { ID = 9, Login = "instr9", Password = "a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3" });
+            instructors.Add(new Instructor("Калугина", "Анна", "Николаевна", "3317 266312", "+79122433993", DateTime.Parse("5/5/2019 00:00")) { ID = 10, Login = "instr10", Password = "a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3" });
             builder.HasData(instructors);
         }
         public static void EquipmentConfigure(EntityTypeBuilder<Equipment> builder)

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -11,6 +12,8 @@ namespace TouristСenterLibrary.Entity
         public int ID { get; set; }
         [Required] public string PassportData { get; set; }
         [Required] public DateTime EmploymentDate { get; set; }
+        [Required] public string Login { get; set; }
+        [Required] public string Password { get; set; }
         public List<InstructorGroup> InstructorGroups { get; set; } = new List<InstructorGroup>();
 
         public Instructor()
@@ -48,8 +51,9 @@ namespace TouristСenterLibrary.Entity
         
         public static Instructor GetInstructorByID(int id)
         {
-            return db.Instructor.Where(i => i.ID == id).FirstOrDefault();
+            return db.Instructor.Include(i => i.InstructorGroups).Where(i => i.ID == id).FirstOrDefault();
         }
+
         public static List<InstructorView> GetInstructorViewsByHikeID(int hikeId)
         {
             List<int> intList = new List<int>();

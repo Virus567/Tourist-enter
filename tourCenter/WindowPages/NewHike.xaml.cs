@@ -224,7 +224,10 @@ namespace tourCenter
                     if(startTransport.CarNumber!=null && finishTransport.CarNumber != null)
                     {
                         RouteHike routeHike = new RouteHike(route, startTransport, finishTransport, hike);
-                        RouteHike.Add(routeHike);
+                        if (!RouteHike.Add(routeHike))
+                        {
+                            MessageBox.Show("Ошибка добавления!");
+                        };
                     }
 
                     MessageBox.Show("Поход успешно добавлен!");

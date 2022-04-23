@@ -4,7 +4,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace TouristСenterLibrary.Migrations
 {
-    public partial class AddUser : Migration
+    public partial class addLoginAndPass : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -72,6 +72,8 @@ namespace TouristСenterLibrary.Migrations
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     PassportData = table.Column<string>(type: "text", nullable: false),
                     EmploymentDate = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
+                    Login = table.Column<string>(type: "text", nullable: false),
+                    Password = table.Column<string>(type: "text", nullable: false),
                     Surname = table.Column<string>(type: "text", nullable: false),
                     Name = table.Column<string>(type: "text", nullable: false),
                     Middlename = table.Column<string>(type: "text", nullable: true),
@@ -567,19 +569,19 @@ namespace TouristСenterLibrary.Migrations
 
             migrationBuilder.InsertData(
                 table: "Instructor",
-                columns: new[] { "ID", "EmploymentDate", "Middlename", "Name", "PassportData", "PhoneNumber", "Surname" },
+                columns: new[] { "ID", "EmploymentDate", "Login", "Middlename", "Name", "PassportData", "Password", "PhoneNumber", "Surname" },
                 values: new object[,]
                 {
-                    { 10, new DateTime(2019, 5, 5, 0, 0, 0, 0, DateTimeKind.Unspecified), "Николаевна", "Анна", "3317 266312", "+79122433993", "Калугина" },
-                    { 9, new DateTime(2021, 6, 5, 0, 0, 0, 0, DateTimeKind.Unspecified), "Константинович", "Евгений", "3316 452301", "+79539716504", "Жилин" },
-                    { 8, new DateTime(2020, 7, 5, 0, 0, 0, 0, DateTimeKind.Unspecified), "Артёмович", "Марк", "3315 821423", "+79129717101", "Судаков" },
-                    { 7, new DateTime(2021, 5, 7, 0, 0, 0, 0, DateTimeKind.Unspecified), "Вадимировна", "Ангелина", "3314 552314", "+79533402030", "Лазарева" },
-                    { 6, new DateTime(2020, 5, 6, 0, 0, 0, 0, DateTimeKind.Unspecified), "Тимурович", "Фёдор", "3316 225485", "+79225854707", "Журавлев" },
-                    { 1, new DateTime(2019, 8, 7, 0, 0, 0, 0, DateTimeKind.Unspecified), "Александровна", "Алиса", "3314 568475", "+79222106611", "Петрова" },
-                    { 4, new DateTime(2020, 8, 8, 0, 0, 0, 0, DateTimeKind.Unspecified), "Романович", "Тимофей", "3316 564523", "+79128029498", "Горбунов" },
-                    { 3, new DateTime(2021, 7, 8, 0, 0, 0, 0, DateTimeKind.Unspecified), "Михайлович", "Артём", "3316 895123", "+79122023227", "Степанов" },
-                    { 2, new DateTime(2020, 6, 6, 0, 0, 0, 0, DateTimeKind.Unspecified), "Арсентьевна", "Екатерина", "3315 264512", "+79536523958", "Зуева" },
-                    { 5, new DateTime(2021, 5, 5, 0, 0, 0, 0, DateTimeKind.Unspecified), "Михайлович", "Даниил", "3315 258965", "+79123687951", "Новиков" }
+                    { 10, new DateTime(2019, 5, 5, 0, 0, 0, 0, DateTimeKind.Unspecified), "instr10", "Николаевна", "Анна", "3317 266312", "a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3", "+79122433993", "Калугина" },
+                    { 9, new DateTime(2021, 6, 5, 0, 0, 0, 0, DateTimeKind.Unspecified), "instr9", "Константинович", "Евгений", "3316 452301", "a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3", "+79539716504", "Жилин" },
+                    { 8, new DateTime(2020, 7, 5, 0, 0, 0, 0, DateTimeKind.Unspecified), "instr8", "Артёмович", "Марк", "3315 821423", "a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3", "+79129717101", "Судаков" },
+                    { 7, new DateTime(2021, 5, 7, 0, 0, 0, 0, DateTimeKind.Unspecified), "instr7", "Вадимировна", "Ангелина", "3314 552314", "a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3", "+79533402030", "Лазарева" },
+                    { 6, new DateTime(2020, 5, 6, 0, 0, 0, 0, DateTimeKind.Unspecified), "instr6", "Тимурович", "Фёдор", "3316 225485", "a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3", "+79225854707", "Журавлев" },
+                    { 1, new DateTime(2019, 8, 7, 0, 0, 0, 0, DateTimeKind.Unspecified), "instr1", "Александровна", "Алиса", "3314 568475", "a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3", "+79222106611", "Петрова" },
+                    { 4, new DateTime(2020, 8, 8, 0, 0, 0, 0, DateTimeKind.Unspecified), "instr4", "Романович", "Тимофей", "3316 564523", "a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3", "+79128029498", "Горбунов" },
+                    { 3, new DateTime(2021, 7, 8, 0, 0, 0, 0, DateTimeKind.Unspecified), "instr3", "Михайлович", "Артём", "3316 895123", "a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3", "+79122023227", "Степанов" },
+                    { 2, new DateTime(2020, 6, 6, 0, 0, 0, 0, DateTimeKind.Unspecified), "instr2", "Арсентьевна", "Екатерина", "3315 264512", "a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3", "+79536523958", "Зуева" },
+                    { 5, new DateTime(2021, 5, 5, 0, 0, 0, 0, DateTimeKind.Unspecified), "instr5", "Михайлович", "Даниил", "3315 258965", "a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3", "+79123687951", "Новиков" }
                 });
 
             migrationBuilder.InsertData(
