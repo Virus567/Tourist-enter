@@ -12,7 +12,7 @@ namespace TouristСenterLibrary.Entity
         [Required] public string Name { get; set; }
         [Required] public DateTime PurchaseDate { get; set; }
         [Required] public string Type { get; set; }
-        public virtual List<Hike> HikesList { get; set; }
+        public List<Hike> HikesList { get; set; }
 
         public Equipment()
         {

@@ -8,7 +8,8 @@ namespace TouristСenterLibrary
         public DbSet<Order> Order { get; set; }
         public DbSet<ApplicationType> ApplicationType { get; set; }
         public DbSet<CheckpointRoute> CheckpointRoute { get; set; }
-        public DbSet<Client> Client { get; set; }
+        public DbSet<TouristGroup> TouristGroup { get; set; }
+        public DbSet<User> User { get; set; }
         public DbSet<CountableEquipment> CountableEquipment { get; set; }
         public DbSet<CountableHikeEquipment> CountableHikeEquipment { get; set; }
         public DbSet<Employee> Employee { get; set; }
@@ -38,7 +39,7 @@ namespace TouristСenterLibrary
         }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseLazyLoadingProxies().UseNpgsql("Host=localhost;Port=5432;Database=tourist_center;Username=postgres;Password=123");
+            optionsBuilder.UseNpgsql("Host=localhost;Port=5432;Database=tourist_center;Username=postgres;Password=123");
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -48,8 +49,7 @@ namespace TouristСenterLibrary
             modelBuilder.Entity<CheckpointRoute>(EntityConfigure.CheckpointRouteConfigure);
             modelBuilder.Entity<Route>(EntityConfigure.RouteConfigure);
             modelBuilder.Entity<Employee>(EntityConfigure.EmployeeConfigure);
-            modelBuilder.Entity<Client>(EntityConfigure.ClientConfigure);
-            modelBuilder.Entity<Participant>(EntityConfigure.ParticipantConfigure);
+            modelBuilder.Entity<User>(EntityConfigure.UserConfigure);
             modelBuilder.Entity<TransportCompany>(EntityConfigure.TransportCompanyConfigure);
             modelBuilder.Entity<Transport>(EntityConfigure.TransportConfigure);
             modelBuilder.Entity<Instructor>(EntityConfigure.InstructorConfigure);

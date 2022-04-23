@@ -73,7 +73,7 @@ namespace tourCenter
             }
             if(txtBoxSearch.Text != "")
             {
-                list = list.Where(l => l.Client.ToLower().Contains(txtBoxSearch.Text.ToLower())).ToList();
+                list = list.Where(l => l.TouristGroup.ToLower().Contains(txtBoxSearch.Text.ToLower())).ToList();
             }
             dgOrder.ItemsSource = list;
         }

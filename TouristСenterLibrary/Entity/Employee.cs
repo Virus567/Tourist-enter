@@ -9,7 +9,7 @@ namespace TouristСenterLibrary.Entity
         private static ApplicationContext db = ContextManager.db;
         public int ID { get; set; }
         [Required] public string PassportData { get; set; }
-        [Required] public virtual Role Role { get; set; }
+        [Required] public Role Role { get; set; }
         public int RoleID { get; set; }
         [Required] public DateTime EmploymentDate { get; set; }
 

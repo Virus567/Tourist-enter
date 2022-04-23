@@ -10,8 +10,8 @@ using TouristСenterLibrary;
 namespace TouristСenterLibrary.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    [Migration("20220109180008_MyLastMigrationPeredSnosom")]
-    partial class MyLastMigrationPeredSnosom
+    [Migration("20220423083739_AddUser")]
+    partial class AddUser
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -171,43 +171,6 @@ namespace TouristСenterLibrary.Migrations
                             Title = "г. Киров, Заречный парк",
                             Type = "Финиш"
                         });
-                });
-
-            modelBuilder.Entity("TouristСenterLibrary.Entity.Client", b =>
-                {
-                    b.Property<int>("ID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
-                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
-
-                    b.Property<int>("ChildrenAmount")
-                        .HasColumnType("integer");
-
-                    b.Property<string>("Middlename")
-                        .HasColumnType("text");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("NameOfCompany")
-                        .HasColumnType("text");
-
-                    b.Property<int>("PeopleAmount")
-                        .HasColumnType("integer");
-
-                    b.Property<string>("PhoneNumber")
-                        .IsRequired()
-                        .HasMaxLength(15)
-                        .HasColumnType("character varying(15)");
-
-                    b.Property<string>("Surname")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.HasKey("ID");
-
-                    b.ToTable("Client");
                 });
 
             modelBuilder.Entity("TouristСenterLibrary.Entity.CountableEquipment", b =>
@@ -958,9 +921,6 @@ namespace TouristСenterLibrary.Migrations
                     b.Property<int?>("ApplicationTypeID")
                         .HasColumnType("integer");
 
-                    b.Property<int?>("ClientID")
-                        .HasColumnType("integer");
-
                     b.Property<int?>("EmployeeID")
                         .HasColumnType("integer");
 
@@ -992,6 +952,9 @@ namespace TouristСenterLibrary.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<int?>("TouristGroupID")
+                        .HasColumnType("integer");
+
                     b.Property<string>("WayToTravel")
                         .IsRequired()
                         .HasColumnType("text");
@@ -1000,13 +963,13 @@ namespace TouristСenterLibrary.Migrations
 
                     b.HasIndex("ApplicationTypeID");
 
-                    b.HasIndex("ClientID");
-
                     b.HasIndex("EmployeeID");
 
                     b.HasIndex("HikeID");
 
                     b.HasIndex("RouteID");
+
+                    b.HasIndex("TouristGroupID");
 
                     b.ToTable("Order");
                 });
@@ -1018,28 +981,23 @@ namespace TouristСenterLibrary.Migrations
                         .HasColumnType("integer")
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
-                    b.Property<int>("ClientID")
+                    b.Property<bool>("InGroup")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("boolean");
+
+                    b.Property<int>("TouristGroupID")
                         .HasColumnType("integer");
 
-                    b.Property<string>("Middlename")
-                        .HasColumnType("text");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("PhoneNumber")
-                        .IsRequired()
-                        .HasMaxLength(15)
-                        .HasColumnType("character varying(15)");
-
-                    b.Property<string>("Surname")
-                        .IsRequired()
-                        .HasColumnType("text");
+                    b.Property<int?>("UserID")
+                        .HasColumnType("integer");
 
                     b.HasKey("ID");
 
-                    b.HasIndex("ClientID");
+                    b.HasIndex("TouristGroupID");
+
+                    b.HasIndex("UserID");
 
                     b.ToTable("Participant");
                 });
@@ -1188,6 +1146,29 @@ namespace TouristСenterLibrary.Migrations
                     b.ToTable("RouteHike");
                 });
 
+            modelBuilder.Entity("TouristСenterLibrary.Entity.TouristGroup", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+
+                    b.Property<int>("ChildrenAmount")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("PeopleAmount")
+                        .HasColumnType("integer");
+
+                    b.Property<int?>("UserID")
+                        .HasColumnType("integer");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("UserID");
+
+                    b.ToTable("TouristGroup");
+                });
+
             modelBuilder.Entity("TouristСenterLibrary.Entity.Transport", b =>
                 {
                     b.Property<int>("ID")
@@ -1298,6 +1279,46 @@ namespace TouristСenterLibrary.Migrations
                         });
                 });
 
+            modelBuilder.Entity("TouristСenterLibrary.Entity.User", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+
+                    b.Property<string>("Email")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Login")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Middlename")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("NameOfCompany")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Password")
+                        .HasColumnType("text");
+
+                    b.Property<string>("PhoneNumber")
+                        .IsRequired()
+                        .HasMaxLength(15)
+                        .HasColumnType("character varying(15)");
+
+                    b.Property<string>("Surname")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("ID");
+
+                    b.ToTable("User");
+                });
+
             modelBuilder.Entity("EquipmentHike", b =>
                 {
                     b.HasOne("TouristСenterLibrary.Entity.Equipment", null)
@@ -1380,10 +1401,6 @@ namespace TouristСenterLibrary.Migrations
                         .WithMany()
                         .HasForeignKey("ApplicationTypeID");
 
-                    b.HasOne("TouristСenterLibrary.Entity.Client", "Client")
-                        .WithMany()
-                        .HasForeignKey("ClientID");
-
                     b.HasOne("TouristСenterLibrary.Entity.Employee", "Employee")
                         .WithMany()
                         .HasForeignKey("EmployeeID");
@@ -1396,26 +1413,36 @@ namespace TouristСenterLibrary.Migrations
                         .WithMany()
                         .HasForeignKey("RouteID");
 
-                    b.Navigation("ApplicationType");
+                    b.HasOne("TouristСenterLibrary.Entity.TouristGroup", "TouristGroup")
+                        .WithMany()
+                        .HasForeignKey("TouristGroupID");
 
-                    b.Navigation("Client");
+                    b.Navigation("ApplicationType");
 
                     b.Navigation("Employee");
 
                     b.Navigation("Hike");
 
                     b.Navigation("Route");
+
+                    b.Navigation("TouristGroup");
                 });
 
             modelBuilder.Entity("TouristСenterLibrary.Entity.Participant", b =>
                 {
-                    b.HasOne("TouristСenterLibrary.Entity.Client", "Client")
+                    b.HasOne("TouristСenterLibrary.Entity.TouristGroup", "TouristGroup")
                         .WithMany("ParticipantsList")
-                        .HasForeignKey("ClientID")
+                        .HasForeignKey("TouristGroupID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Client");
+                    b.HasOne("TouristСenterLibrary.Entity.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserID");
+
+                    b.Navigation("TouristGroup");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("TouristСenterLibrary.Entity.Route", b =>
@@ -1464,6 +1491,15 @@ namespace TouristСenterLibrary.Migrations
                     b.Navigation("StartBus");
                 });
 
+            modelBuilder.Entity("TouristСenterLibrary.Entity.TouristGroup", b =>
+                {
+                    b.HasOne("TouristСenterLibrary.Entity.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserID");
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("TouristСenterLibrary.Entity.Transport", b =>
                 {
                     b.HasOne("TouristСenterLibrary.Entity.TransportCompany", "TransportCompany")
@@ -1475,16 +1511,16 @@ namespace TouristСenterLibrary.Migrations
                     b.Navigation("TransportCompany");
                 });
 
-            modelBuilder.Entity("TouristСenterLibrary.Entity.Client", b =>
-                {
-                    b.Navigation("ParticipantsList");
-                });
-
             modelBuilder.Entity("TouristСenterLibrary.Entity.Hike", b =>
                 {
                     b.Navigation("CountableHikeEquipList");
 
                     b.Navigation("OrdersList");
+                });
+
+            modelBuilder.Entity("TouristСenterLibrary.Entity.TouristGroup", b =>
+                {
+                    b.Navigation("ParticipantsList");
                 });
 #pragma warning restore 612, 618
         }

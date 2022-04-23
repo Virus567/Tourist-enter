@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.ComponentModel;
 using System.Reflection;
+using Microsoft.EntityFrameworkCore;
 
 namespace TouristСenterLibrary.Entity
 {
@@ -11,17 +12,17 @@ namespace TouristСenterLibrary.Entity
     {
         private static ApplicationContext db = ContextManager.db;
         public int ID { get; set; }
-        [Required] public virtual ApplicationType ApplicationType { get; set; }
-        [Required] public virtual Route Route { get; set; }
-        [Required] public virtual Employee Employee { get; set; }
-        [Required] public virtual Client Client { get; set; }
+        [Required] public ApplicationType ApplicationType { get; set; }
+        [Required] public Route Route { get; set; }
+        [Required] public Employee Employee { get; set; }
+        [Required] public TouristGroup TouristGroup { get; set; }
         [Required] public string WayToTravel { get; set; }
         public string? FoodlFeatures { get; set; }
         public string? EquipmentFeatures { get; set; }
         [Required] public DateTime StartTime { get; set; }
         [Required] public DateTime FinishTime { get; set; }
         [Required] public string Status { get; set; }
-        public virtual Hike Hike { get; set; }
+        public Hike? Hike { get; set; }
         [Required] public int HermeticBagAmount { get; set; }
         [Required] public int IndividualTentAmount { get; set; }
 
@@ -43,8 +44,8 @@ namespace TouristСenterLibrary.Entity
             public string DateTime { get; set; }
             public string RouteName { get; set; }
             public string WayToTravel { get; set; }
-            public string Client { get; set; }
-            public int ClientID { get; set;}
+            public string TouristGroup { get; set; }
+            public int TouristGroupID { get; set;}
             public int PeopleAmount { get; set; }
             public int ChildrenAmount { get; set; }
             public string ApplicationTypeName { get; set; }
@@ -60,17 +61,17 @@ namespace TouristСenterLibrary.Entity
                         DateTime = o.StartTime.ToString("d"),
                         RouteName = o.Route.Name,
                         WayToTravel = o.WayToTravel,
-                        Client = o.Client.GetCompanyNameForOrder(),
-                        ClientID = o.Client.ID,
-                        PeopleAmount = o.Client.PeopleAmount,
+                        TouristGroup = o.TouristGroup.User.GetCompanyNameForOrder(),
+                        TouristGroupID = o.TouristGroup.ID,
+                        PeopleAmount = o.TouristGroup.PeopleAmount,
                         ApplicationTypeName = o.ApplicationType.Name,
-                        ChildrenAmount = o.Client.ChildrenAmount,
+                        ChildrenAmount = o.TouristGroup.ChildrenAmount,
                         Status = o.Status,
                         IsListParticipants = false
                     }).ToList();
             foreach(var l in list)
             {
-                l.IsListParticipants = Participant.IsParticipantsForOrder(Client.GetClientByID(l.ClientID));
+                l.IsListParticipants = Participant.IsParticipantsForOrder(TouristGroup.GetGroupByID(l.TouristGroupID));
             }
             return list;
         }
@@ -81,8 +82,8 @@ namespace TouristСenterLibrary.Entity
             public string FinishTime { get; set; }
             public string RouteName { get; set; }
             public string WayToTravel { get; set; }
-            public string Client { get; set; }
-            public int ClientID { get; set; }
+            public string TouristGroup { get; set; }
+            public int TouristGroupID { get; set; }
             public int PeopleAmount { get; set; }
             public int ChildrenAmount { get; set; }
             public string ApplicationType { get; set; }
@@ -106,32 +107,41 @@ namespace TouristСenterLibrary.Entity
         }
         public static OrderViewAll GetViewAllByID(int orderID)
         {
-            OrderViewAll order = (from o in db.Order
-                                where o.ID == orderID
-                                select new OrderViewAll()
-                                {
-                                    ID = orderID,
-                                    StartTime = o.StartTime.ToString("d"),
-                                    FinishTime = o.FinishTime.ToString("d"),
-                                    RouteName = o.Route.Name,
-                                    WayToTravel = o.WayToTravel,
-                                    Client = o.Client.GetCompanyNameForOrder(),
-                                    ClientID = o.Client.ID,
-                                    PeopleAmount = o.Client.PeopleAmount,
-                                    ApplicationType = o.ApplicationType.Name,
-                                    ChildrenAmount =o.Client.ChildrenAmount,
-                                    FoodlFeatures = o.FoodlFeatures,
-                                    EquipmentFeatures = o.EquipmentFeatures,
-                                    Status = o.Status,
-                                    HermeticBagAmount = o.HermeticBagAmount,
-                                    IndividualTentAmount =o.IndividualTentAmount
-                                }).FirstOrDefault();
-            order.IsListParticipants = Participant.IsParticipantsForOrder(Client.GetClientByID(order.ClientID));
+            OrderViewAll order = db.Order.Include(o => o.TouristGroup)
+                                        .Include(o=>o.TouristGroup.User)
+                                        .Where(o => o.ID == orderID)
+                                        .Select(o =>  new OrderViewAll()
+                                        {
+                                            ID = orderID,
+                                            StartTime = o.StartTime.ToString("d"),
+                                            FinishTime = o.FinishTime.ToString("d"),
+                                            RouteName = o.Route.Name,
+                                            WayToTravel = o.WayToTravel,
+                                            TouristGroup = o.TouristGroup.GetCompanyNameForOrder(),
+                                            TouristGroupID = o.TouristGroup.ID,
+                                            PeopleAmount = o.TouristGroup.PeopleAmount,
+                                            ApplicationType = o.ApplicationType.Name,
+                                            ChildrenAmount =o.TouristGroup.ChildrenAmount,
+                                            FoodlFeatures = o.FoodlFeatures,
+                                            EquipmentFeatures = o.EquipmentFeatures,
+                                            Status = o.Status,
+                                            HermeticBagAmount = o.HermeticBagAmount,
+                                            IndividualTentAmount =o.IndividualTentAmount
+                                        }).FirstOrDefault();
+
+            order.IsListParticipants = Participant.IsParticipantsForOrder(TouristGroup.GetGroupByID(order.TouristGroupID));
             return order;
         }
         public static Order GetOrderByID(int orderID)
         {
-            return db.Order.Where(o => o.ID == orderID).FirstOrDefault();
+            var order = db.Order
+                .Include(o => o.TouristGroup)
+                .Include(o => o.Route)
+                .Include(o => o.ApplicationType)
+                .Include(o=>o.Hike)
+                .Where(o => o.ID == orderID).FirstOrDefault();
+            db.Participant.Where(p => p.TouristGroupID == order.TouristGroup.ID).Load();
+            return order;
         }
         public static string GetDescriptionByEnum(Enum enumElement)
         {

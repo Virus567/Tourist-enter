@@ -11,9 +11,9 @@ namespace TouristСenterLibrary.Entity
         [Required] public string Name { get; set; }
         [Required] public int NumberDays { get; set; }
         [Required] public string Description { get; set; }
-        [Required] public virtual CheckpointRoute CheckpointStart { get; set; }
+        [Required] public CheckpointRoute CheckpointStart { get; set; }
         public int CheckpointStartID { get; set; }
-        [Required] public virtual CheckpointRoute CheckpointFinish { get; set; }
+        [Required] public CheckpointRoute CheckpointFinish { get; set; }
         public int CheckpointFinishID { get; set; }
 
         public Route()

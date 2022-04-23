@@ -57,7 +57,7 @@ namespace ExcelLibrary
             return false;
         }
 
-        public void SetParticipant(List<Participant> participants, int childrenAmount, Client client)
+        public void SetParticipant(List<Participant> participants, int childrenAmount, TouristGroup group)
         {
             try
             {
@@ -66,8 +66,14 @@ namespace ExcelLibrary
                 _worksheet1.PageSetup.Orientation = Excel.XlPageOrientation.xlLandscape;
 
                 List<Human> people = new List<Human>();
-                people.Add(client);
-                people.AddRange(participants);
+                people.Add(group.User);
+                foreach (var participant in participants)
+                {
+                    if(participant.InGroup && participant.IsActive)
+                    {
+                        people.Add(participant.User);
+                    }               
+                }
                 object[,] participantsExport = new object[people.Count, 3];
 
                 for (int i = 0; i < people.Count; i++)
@@ -108,10 +114,10 @@ namespace ExcelLibrary
 
                 for (int i = 0; i < participants.Count; i++)
                 {
-                    participantsExport[i, 0] = participants[i].Surname;
-                    participantsExport[i, 1] = participants[i].Name;
-                    participantsExport[i, 2] = participants[i].Middlename;
-                    participantsExport[i, 3] = $"'{participants[i].PhoneNumber}";
+                    participantsExport[i, 0] = participants[i].User.Surname;
+                    participantsExport[i, 1] = participants[i].User.Name;
+                    participantsExport[i, 2] = participants[i].User.Middlename;
+                    participantsExport[i, 3] = $"'{participants[i].User.PhoneNumber}";
                 }
 
                 _excelRange = _worksheet1.get_Range("A2", Missing.Value);

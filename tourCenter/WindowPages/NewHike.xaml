@@ -72,7 +72,7 @@
 						</Style>
 					</DataGridTextColumn.ElementStyle>
 				</DataGridTextColumn>
-				<DataGridTextColumn Header="Клиент" Width="200" Binding="{Binding Path=Client }" />
+                <DataGridTextColumn Header="Клиент" Width="200" Binding="{Binding Path=TouristGroup }" />
 				<DataGridTextColumn Header="Кол-во человек" Width="160" Binding="{Binding Path=PeopleAmount }">
 					<DataGridTextColumn.ElementStyle>
 						<Style>
@@ -113,7 +113,7 @@
 				</Style>
 			</DataGrid.CellStyle>
 			<DataGrid.Columns>
-				<DataGridTextColumn Header="Заявка" Width="*" Binding="{Binding Path=Client }" />
+                <DataGridTextColumn Header="Заявка" Width="*" Binding="{Binding Path=TouristGroup }" />
 				<DataGridTextColumn Header="Кол-во человек" Width="*" Binding="{Binding Path=PeopleAmount }" />
 			</DataGrid.Columns>
 		</DataGrid>

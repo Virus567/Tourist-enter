@@ -76,34 +76,41 @@ namespace tourCenter
             try
             {
                 Order.OrderView selectedOrder = (Order.OrderView)dgOrders.SelectedValue;
-                if (selectedOrder.IsListParticipants)
+                if(selectedOrder != null)
                 {
-                    if (txtBoxStartDate.Text == "")
-                        GetOrderData(selectedOrder);
-                    if (!dgOrdersForHike.Items.Contains(selectedOrder) && IsСorrectOrder(selectedOrder) && !IsTeamOrder(selectedOrder))
+                    if (selectedOrder.IsListParticipants)
                     {
-                        dgOrdersForHike.Items.Add(selectedOrder);
-                        _selectedOrders.Add(selectedOrder);
-                        int peopleAmount = int.Parse(txtBoxPeopleAmount.Text);
-                        peopleAmount += selectedOrder.PeopleAmount;
-                        txtBoxPeopleAmount.Text = peopleAmount.ToString();
-                        int childrenAmount = int.Parse(txtBoxChildrenAmount.Text);
-                        childrenAmount += selectedOrder.ChildrenAmount;
-                        txtBoxChildrenAmount.Text = childrenAmount.ToString();
+                        if (txtBoxStartDate.Text == "")
+                            GetOrderData(selectedOrder);
+                        if (!dgOrdersForHike.Items.Contains(selectedOrder) && IsСorrectOrder(selectedOrder) && !IsTeamOrder(selectedOrder))
+                        {
+                            dgOrdersForHike.Items.Add(selectedOrder);
+                            _selectedOrders.Add(selectedOrder);
+                            int peopleAmount = int.Parse(txtBoxPeopleAmount.Text);
+                            peopleAmount += selectedOrder.PeopleAmount;
+                            txtBoxPeopleAmount.Text = peopleAmount.ToString();
+                            int childrenAmount = int.Parse(txtBoxChildrenAmount.Text);
+                            childrenAmount += selectedOrder.ChildrenAmount;
+                            txtBoxChildrenAmount.Text = childrenAmount.ToString();
 
+                        }
+                        else if (IsTeamOrder(selectedOrder) && txtBoxPeopleAmount.Text == "0")
+                        {
+                            dgOrdersForHike.Items.Add(selectedOrder);
+                            _selectedOrders.Add(selectedOrder);
+                            txtBoxPeopleAmount.Text = selectedOrder.PeopleAmount.ToString();
+                            addOrderBtn.IsEnabled = false;
+                        }
                     }
-                    else if (IsTeamOrder(selectedOrder) && txtBoxPeopleAmount.Text == "0")
+                    else
                     {
-                        dgOrdersForHike.Items.Add(selectedOrder);
-                        _selectedOrders.Add(selectedOrder);
-                        txtBoxPeopleAmount.Text = selectedOrder.PeopleAmount.ToString();
-                        addOrderBtn.IsEnabled = false;
+                        MessageBox.Show("У выбранной заявки не добавлены участники");
                     }
                 }
                 else
                 {
-                    MessageBox.Show("У выбранной заявки не добавлены участники");
-                }     
+                    MessageBox.Show("Вы не выбрали заявку!");
+                }       
             }
             catch
             {

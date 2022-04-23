@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 
 namespace TouristСenterLibrary.Entity
@@ -7,10 +8,10 @@ namespace TouristСenterLibrary.Entity
     {
         private static ApplicationContext db = ContextManager.db;
         public int ID { get; set; }
-        [Required] public virtual Route Route { get; set; }
-        [Required] public virtual Transport StartBus { get; set; }
-        [Required] public virtual Transport FinishBus { get; set;}
-        [Required] public virtual Hike Hike { get; set; }
+        [Required] public Route Route { get; set; }
+        [Required] public Transport StartBus { get; set; }
+        [Required] public Transport FinishBus { get; set;}
+        [Required] public Hike Hike { get; set; }
 
         public RouteHike()
         {
@@ -37,7 +38,13 @@ namespace TouristСenterLibrary.Entity
         }
         public static RouteHike GetRouteHikeByHikeID(int hikeID)
         {
-            return db.RouteHike.Where(rh => rh.Hike.ID == hikeID).FirstOrDefault();
+            var routeHike = db.RouteHike
+                .Include(r=>r.StartBus)
+                .Include(r => r.FinishBus)
+                .Include(r => r.Hike)
+                .Include(r => r.Route)
+                .Where(rh => rh.Hike.ID == hikeID).FirstOrDefault();
+            return routeHike;
         }
     }
 

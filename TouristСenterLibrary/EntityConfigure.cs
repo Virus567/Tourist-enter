@@ -45,17 +45,11 @@ namespace TouristСenterLibrary
             routes.Add(new Route("Город с воды", 1, "С воды раскрываются все красоты города Кирова") { ID = 6, CheckpointStartID = 11, CheckpointFinishID = 12 });
             builder.HasData(routes);
         }
-        public static void ClientConfigure(EntityTypeBuilder<Client> builder)
+        public static void UserConfigure(EntityTypeBuilder<User> builder)
         {
             builder.Property(e => e.Surname).IsRequired();
             builder.Property(e => e.Name).IsRequired();
             builder.Property(e => e.PhoneNumber).IsRequired().HasMaxLength(15);          
-        }
-        public static void ParticipantConfigure(EntityTypeBuilder<Participant> builder)
-        {
-            builder.Property(e => e.Surname).IsRequired();
-            builder.Property(e => e.Name).IsRequired();
-            builder.Property(e => e.PhoneNumber).IsRequired().HasMaxLength(15);
         }
 
         public static void EmployeeConfigure(EntityTypeBuilder<Employee> builder)

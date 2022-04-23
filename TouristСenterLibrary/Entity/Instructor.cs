@@ -11,7 +11,7 @@ namespace TouristСenterLibrary.Entity
         public int ID { get; set; }
         [Required] public string PassportData { get; set; }
         [Required] public DateTime EmploymentDate { get; set; }
-        public virtual List<InstructorGroup> InstructorGroups { get; set; } = new List<InstructorGroup>();
+        public List<InstructorGroup> InstructorGroups { get; set; } = new List<InstructorGroup>();
 
         public Instructor()
         {
@@ -64,7 +64,7 @@ namespace TouristСenterLibrary.Entity
 
         public static List<string> GetFullNameInstructorsByHikeID(int hikeId)
         {
-            List<InstructorView>list = Instructor.GetInstructorViewsByHikeID(hikeId);
+            List<InstructorView> list = Instructor.GetInstructorViewsByHikeID(hikeId);
             string str;
             List<string> strlist = new List<string>();
             foreach(InstructorView i in list)

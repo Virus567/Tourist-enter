@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.ComponentModel;
 using System.Reflection;
+using Microsoft.EntityFrameworkCore;
 
 namespace TouristСenterLibrary.Entity
 {
@@ -11,11 +12,11 @@ namespace TouristСenterLibrary.Entity
     {
         private static ApplicationContext db = ContextManager.db;
         public int ID { get; set; }
-        [Required] public virtual Route Route { get; set; }
+        [Required] public Route Route { get; set; }
         [Required] public string Status { get; set; }
-        public virtual List<Order> OrdersList { get; set; }
-        public virtual List<CountableHikeEquipment> CountableHikeEquipList { get; set; }
-        public virtual List<Equipment> EquipmentsList { get; set; }
+        public List<Order> OrdersList { get; set; }
+        public List<CountableHikeEquipment> CountableHikeEquipList { get; set; }
+        public List<Equipment> EquipmentsList { get; set; }
         public Hike()
         {
             OrdersList = new List<Order>();
@@ -69,13 +70,13 @@ namespace TouristСenterLibrary.Entity
         }
         public static List<HikeView> GetView()
         {
-            var hikeList = db.Hike.Select(h=> new HikeView()
+            var hikeList = db.Hike.Select(h => new HikeView()
             {
                 ID = h.ID,
                 OrdersList = h.OrdersList,
                 RouteName = h.Route.Name,
                 WayToTravel = h.OrdersList.FirstOrDefault().WayToTravel,
-                CompanyName = h.OrdersList.FirstOrDefault().Client.GetCompanyNameForHike(),
+                CompanyName = h.OrdersList.FirstOrDefault().TouristGroup.GetCompanyNameForHike(),
                 StartTime = h.OrdersList.FirstOrDefault().StartTime.ToString("d"),
                 FinishTime = h.OrdersList.FirstOrDefault().FinishTime.ToString("d"),
                 Status = h.Status
@@ -86,7 +87,7 @@ namespace TouristСenterLibrary.Entity
                 hike.PeopleAmount = 0;
                 foreach(var order in hike.OrdersList)
                 {
-                    hike.PeopleAmount += order.Client.PeopleAmount;
+                    hike.PeopleAmount += order.TouristGroup.PeopleAmount;
                 }
             }
             return hikeList;
@@ -128,7 +129,10 @@ namespace TouristСenterLibrary.Entity
 
         public static List<HikeViewAll> GetViewAllByID(int hikeID)
         {
-            List<HikeViewAll>list = db.Hike.Where(h=>h.ID == hikeID).Select(h => new HikeViewAll()
+            List<HikeViewAll>list = db.Hike
+                .Include(h => h.OrdersList)
+                .Include(h => h.Route)
+                .Where(h=>h.ID == hikeID).Select(h => new HikeViewAll()
             {
                 ID = hikeID,
                 OrdersList = h.OrdersList,
@@ -136,7 +140,7 @@ namespace TouristСenterLibrary.Entity
                 FinishTime = h.OrdersList.FirstOrDefault().FinishTime.ToString("d"),
                 RouteName = h.Route.Name,
                 WayToTravel = h.OrdersList.FirstOrDefault().WayToTravel,
-                CompanyName = h.OrdersList.FirstOrDefault().Client.GetCompanyNameForHike(),
+                CompanyName = h.OrdersList.FirstOrDefault().TouristGroup.GetCompanyNameForHike(),
                 Status = h.Status
             }).ToList();
             foreach (HikeViewAll hv in list)
@@ -147,10 +151,10 @@ namespace TouristСenterLibrary.Entity
                 hv.ChildrenAmount = 0;
                 foreach (var order in hv.OrdersList)
                 {
-                    hv.PeopleAmount += order.Client.PeopleAmount;
+                    hv.PeopleAmount += order.TouristGroup.PeopleAmount;
                     hv.HermeticBagAmount += order.HermeticBagAmount;
                     hv.IndividualTentAmount += order.IndividualTentAmount;
-                    hv.ChildrenAmount += order.Client.ChildrenAmount;
+                    hv.ChildrenAmount += order.TouristGroup.ChildrenAmount;
                 }
             }
             return list;

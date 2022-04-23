@@ -9,9 +9,9 @@ namespace TouristСenterLibrary.Entity
     {
         private static ApplicationContext db = ContextManager.db;
         public int ID { get; set; }
-        [Required] public virtual CountableEquipment CountableEquipment { get; set; }
+        [Required] public CountableEquipment CountableEquipment { get; set; }
         [Required] public int Number { get; set; }
-        [Required] public virtual Hike Hike { get; set; }
+        [Required] public Hike Hike { get; set; }
         public CountableHikeEquipment()
         {
         }

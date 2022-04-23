@@ -16,7 +16,7 @@ namespace tourCenter
     {
         private int _orderId;
         private List<Participant> _participants;
-        private Client _client;
+        private TouristGroup _client;
         private Order.OrderViewAll _orderView;
         private List<Participant> _newPartisipants = new List<Participant>();
         private int _childrenAmount;
@@ -37,9 +37,9 @@ namespace tourCenter
         {
             _orderId = orderID;
             _orderView = ov;
-            _client = Client.GetClientByOrderId(_orderId);
+            _client = TouristGroup.GetGroupByOrderId(_orderId);
             _childrenAmount = ov.ChildrenAmount;
-            winRowOrder.Title = $"{ov.ApplicationType} заявка: {ov.Client} {ov.StartTime}  — {ov.FinishTime}";
+            winRowOrder.Title = $"{ov.ApplicationType} заявка: {ov.TouristGroup} {ov.StartTime}  — {ov.FinishTime}";
             cmbBoxStatus.Items.Add(ov.Status);
             cmbBoxStatus.SelectedItem = ov.Status;
             cmbBoxRoute.Items.Add(ov.RouteName);
@@ -49,9 +49,9 @@ namespace tourCenter
             txtBoxPeopleAmount.Text = $"{ov.PeopleAmount}";
             txtBoxChildrenAmount.Text = $"{_childrenAmount}";             
             _participants = Participant.GetParticipantsByOrder(_orderId);
-            if(File.Exists(Path.Combine("D:\\Order", $"{ov.Client}{ov.StartTime}-{ov.FinishTime}.xlsx")))
+            if(File.Exists(Path.Combine("D:\\Order", $"{ov.TouristGroup}{ov.StartTime}-{ov.FinishTime}.xlsx")))
             {
-                txtBoxFileName.Text = Path.Combine("D:\\Order", $"{ov.Client}{ov.StartTime}-{ov.FinishTime}.xlsx");
+                txtBoxFileName.Text = Path.Combine("D:\\Order", $"{ov.TouristGroup}{ov.StartTime}-{ov.FinishTime}.xlsx");
                 BrowseBtn.Content = "Выбрать другой файл";
                 txtBoxFileName.FontSize = 12;
             }
@@ -63,7 +63,7 @@ namespace tourCenter
             if (ov.IsListParticipants)
             {
                 txtBoxFileName.FontSize = 12;
-                txtBoxFileName.Text = Path.Combine("D:\\Order", $"{ov.Client}{ov.StartTime}-{ov.FinishTime}.xlsx");
+                txtBoxFileName.Text = Path.Combine("D:\\Order", $"{ov.TouristGroup}{ov.StartTime}-{ov.FinishTime}.xlsx");
                 BrowseBtn.Content = "Выбрать другой Файл";
             }
         }
@@ -86,8 +86,8 @@ namespace tourCenter
                 {
                     if (order.Route.Name != cmbBoxRoute.SelectedItem.ToString()
                     || order.WayToTravel != cmbBoxWayToTravel.SelectedItem.ToString()
-                    || order.Client.ChildrenAmount != Convert.ToInt32(txtBoxChildrenAmount.Text)
-                    || order.Client.PeopleAmount != Convert.ToInt32(txtBoxPeopleAmount.Text)
+                    || order.TouristGroup.ChildrenAmount != Convert.ToInt32(txtBoxChildrenAmount.Text)
+                    || order.TouristGroup.PeopleAmount != Convert.ToInt32(txtBoxPeopleAmount.Text)
                     || txtBoxFileName.Text != "")
                     {
                         var oldRoute = cmbBoxRoute.SelectedItem;
@@ -98,17 +98,17 @@ namespace tourCenter
                             order.FinishTime = order.StartTime.AddDays(Route.GetDaysAmountByRouteName(order.Route.Name) - 1);
                         }
                         order.WayToTravel = oldWayToTravel.ToString();
-                        order.Client.ChildrenAmount = Convert.ToInt32(txtBoxChildrenAmount.Text);
-                        order.Client.PeopleAmount = Convert.ToInt32(txtBoxPeopleAmount.Text);
+                        order.TouristGroup.ChildrenAmount = Convert.ToInt32(txtBoxChildrenAmount.Text);
+                        order.TouristGroup.PeopleAmount = Convert.ToInt32(txtBoxPeopleAmount.Text);
                         if (_newPartisipants.Count != 0)
                         {
-                            order.Client.ParticipantsList.RemoveAll(p => p.Client == order.Client);
+                            order.TouristGroup.ParticipantsList.RemoveAll(p => p.TouristGroup == order.TouristGroup);
                             foreach (var p in _newPartisipants)
                             {
-                                order.Client.ParticipantsList.Add(p);
+                                order.TouristGroup.ParticipantsList.Add(p);
                             }
                         }
-                        Client.Update(order.Client);
+                        TouristGroup.Update(order.TouristGroup);
                         Order.Update(order);
                         MessageBox.Show("Данные успешно изменены!");
                         _ordersPage.FillingDataGrid();
@@ -161,7 +161,7 @@ namespace tourCenter
             {
                 try
                 {
-                    if (excel.Open(filePath: Path.Combine("D:\\Order", $"{_orderView.Client}{_orderView.StartTime}-{_orderView.FinishTime}.xlsx")))
+                    if (excel.Open(filePath: Path.Combine("D:\\Order", $"{_orderView.TouristGroup}{_orderView.StartTime}-{_orderView.FinishTime}.xlsx")))
                     {
                         excel.SetParticipant(_participants,_childrenAmount,_client);
                         excel.Save();
@@ -202,12 +202,14 @@ namespace tourCenter
                                     if (newParticipantsObj[i, 3] != null)
                                     {
                                         string Middlename = newParticipantsObj[i, 3].ToString();
-                                        Participant participant = new Participant(Surname, Name, Middlename, ClientTelefonNumber);
+                                        User user = new User(null, Surname, Name, Middlename, ClientTelefonNumber);
+                                        Participant participant = new Participant(user,true,true);
                                         _newPartisipants.Add(participant);
                                     }
                                     else
                                     {
-                                        Participant participant = new Participant(Surname, Name, ClientTelefonNumber);
+                                        User user = new User(null, Surname, Name, ClientTelefonNumber);
+                                        Participant participant = new Participant(user,true,true);
                                         _newPartisipants.Add(participant);
                                     }
                                 }

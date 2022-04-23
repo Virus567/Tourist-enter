@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 
@@ -8,7 +9,7 @@ namespace TouristСenterLibrary.Entity
     {
         private static ApplicationContext db = ContextManager.db;
         public int ID { get; set; }
-        public virtual List<Instructor> InstructorsList { get; set; }
+        public List<Instructor> InstructorsList { get; set; }
         [Required] public virtual Hike Hike { get; set; }
 
         public InstructorGroup()
@@ -29,9 +30,11 @@ namespace TouristСenterLibrary.Entity
 
         public static InstructorGroup GetInstructorGroupByHikeID(int hikeId)
         {
-            return (from i in db.InstructorGroup
-                    where i.Hike.ID == hikeId
-                    select i).FirstOrDefault();
+            var instructorGroup = db.InstructorGroup
+                .Include(i => i.Hike)
+                .Include(i => i.InstructorsList)
+                .Where(i => i.Hike.ID == hikeId).FirstOrDefault();
+            return instructorGroup;
         }
     }
     

@@ -95,7 +95,7 @@
 							</Style>
 						</DataGridTextColumn.ElementStyle>
 					</DataGridTextColumn>
-					<DataGridTextColumn Header="Клиент" Width="230" Binding="{Binding Path=Client }" />
+                    <DataGridTextColumn Header="Клиент" Width="230" Binding="{Binding Path=TouristGroup }" />
 					<DataGridTextColumn Header="Тип заявки" Width="143" Binding="{Binding Path=ApplicationTypeName }" />
 					<DataGridCheckBoxColumn x:Name="checkInstructor" Header="Список участников" Width="197"  Binding="{Binding Path=IsListParticipants}"/>
 				</DataGrid.Columns>

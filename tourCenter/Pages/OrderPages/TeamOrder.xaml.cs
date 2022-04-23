@@ -73,12 +73,14 @@ namespace tourCenter
 
                                 if (Middlename != null)
                                 {
-                                    Participant participant = new Participant(Surname, Name, Middlename, ClientTelefonNumber);
+                                    User user = new User(null, Surname, Name, Middlename, ClientTelefonNumber);
+                                    Participant participant = new Participant(user,true,true);
                                     _newPartisipants.Add(participant);
                                 }
                                 else
                                 {
-                                    Participant participant = new Participant(Surname, Name, ClientTelefonNumber);
+                                    User user = new User(null, Surname, Name, ClientTelefonNumber);
+                                    Participant participant = new Participant(user,true,true);
                                     _newPartisipants.Add(participant);
                                 }
                             }
@@ -241,25 +243,24 @@ namespace tourCenter
                     CorrectNullFields();
                     int peopleCount = Convert.ToInt32(peopleAmount.Text);
                     int childrenCount = Convert.ToInt32(childrenAmount.Text);
-                    Client client;                   
+                    User user;                  
                     if (fullName.Length > 2)
                     {
-                        client = new Client(txtBoxNameOfCompany.Text, fullName[0], fullName[1], fullName[2], NumberPhone.Text,
-                                            peopleCount, childrenCount);
+                        user = new User(txtBoxNameOfCompany.Text, fullName[0], fullName[1], fullName[2], NumberPhone.Text);
                     }
                     else
                     {
-                        client = new Client(txtBoxNameOfCompany.Text, fullName[0], fullName[1], NumberPhone.Text,
-                                            peopleCount, childrenCount);
+                        user = new User(txtBoxNameOfCompany.Text, fullName[0], fullName[1], NumberPhone.Text);
                     }
+                    TouristGroup group = new TouristGroup(user, peopleCount, childrenCount);
 
-                    if(_newPartisipants.Count != 0)
+                    if (_newPartisipants.Count != 0)
                     {
-                        if (_newPartisipants.Count == client.PeopleAmount)
+                        if (_newPartisipants.Count == group.PeopleAmount)
                         {
                             foreach (Participant p in _newPartisipants)
                             {
-                                client.ParticipantsList.Add(p);
+                                group.ParticipantsList.Add(p);
                             }
                         }
                         else
@@ -274,7 +275,7 @@ namespace tourCenter
                         ApplicationType = ApplicationType.GetTeamType(),
                         Route = Route.GetRouteByRouteName(CmBoxRoutes.Text),
                         Employee = Employee.GetEmployeeById(1),
-                        Client = client,
+                        TouristGroup = group,
                         WayToTravel = CmBoxWayToTravel.Text,
                         FoodlFeatures = GetStringFoodlFeatures(),
                         EquipmentFeatures = txtBoxEquipment.Text,
@@ -284,7 +285,7 @@ namespace tourCenter
                         IndividualTentAmount = Convert.ToInt32(persTentAmount.Text),
                         Status = "Активна"
                     };
-                    Client.Add(client);
+                    TouristСenterLibrary.Entity.TouristGroup.Add(group);
                     Order.Add(order);
                     MessageBox.Show("Заявка добавлена!");
                     ClearFields();

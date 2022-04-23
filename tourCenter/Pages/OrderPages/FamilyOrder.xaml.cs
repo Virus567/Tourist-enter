@@ -152,12 +152,14 @@ namespace tourCenter
 
                                 if (Middlename != null)
                                 {
-                                    Participant participant = new Participant(Surname, Name, Middlename, ClientTelefonNumber);
+                                    User user = new User(null ,Surname, Name, Middlename, ClientTelefonNumber);
+                                    Participant participant = new Participant(user, true, true);
                                     _newPartisipants.Add(participant);
                                 }
                                 else
                                 {
-                                    Participant participant = new Participant(Surname, Name, ClientTelefonNumber);
+                                    User user = new User(null, Surname, Name, ClientTelefonNumber);
+                                    Participant participant = new Participant(user,true, true);
                                     _newPartisipants.Add(participant);
                                 }
                             }
@@ -242,31 +244,39 @@ namespace tourCenter
                     CorrectNullFields();
                     int peopleCount = Convert.ToInt32(peopleAmount.Text);
                     int childrenCount = Convert.ToInt32(childrenAmount.Text);
-                    Client client;
+                    User user;
                     if (fullName.Length > 2)
                     {
-                        client = new Client(null, fullName[0], fullName[1], fullName[2], NumberPhone.Text,
-                                                   peopleCount, childrenCount);
+                        user = new User(null, fullName[0], fullName[1], fullName[2], NumberPhone.Text);                    
                     }
                     else
                     {
-                        client = new Client(null, fullName[0], fullName[1], NumberPhone.Text,
-                                                   peopleCount, childrenCount);
+                        user = new User(null, fullName[0], fullName[1], NumberPhone.Text);
                     }
-                    
-                    if (_newPartisipants.Count == client.PeopleAmount)
+
+                    TouristGroup group = new TouristGroup(user, peopleCount, childrenCount);
+
+                    if (_newPartisipants.Count != 0)
                     {
-                        foreach (Participant p in _newPartisipants)
+                        if (_newPartisipants.Count == group.PeopleAmount)
                         {
-                            client.ParticipantsList.Add(p);
+                            foreach (Participant p in _newPartisipants)
+                            {
+                                group.ParticipantsList.Add(p);
+                            }
                         }
-                    }          
+                        else
+                        {
+                            MessageBox.Show("Количество людей не совпадает!\n Заявка будет добавелна без участников!");
+                        }
+                    }
+
                     Order order = new Order()
                     {
                         ApplicationType = ApplicationType.GetFamilyType(),
                         Route = Route.GetRouteByRouteName(CmBoxRoutes.Text),
                         Employee = Employee.GetEmployeeById(1),
-                        Client = client,
+                        TouristGroup = group,
                         WayToTravel = CmBoxWayToTravel.Text,
                         FoodlFeatures = GetStringFoodlFeatures(),
                         EquipmentFeatures = txtBoxEquipment.Text,
@@ -276,7 +286,7 @@ namespace tourCenter
                         IndividualTentAmount = Convert.ToInt32(persTentAmount.Text),
                         Status = "Активна"
                     };
-                    Client.Add(client);                  
+                    TouristСenterLibrary.Entity.TouristGroup.Add(group);                  
                     Order.Add(order);
                     MessageBox.Show("Заявка добавлена!");
                     ClearFields();
