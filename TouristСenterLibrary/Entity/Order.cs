@@ -108,7 +108,7 @@ namespace TouristСenterLibrary.Entity
         public static OrderViewAll GetViewAllByID(int orderID)
         {
             OrderViewAll order = db.Order.Include(o => o.TouristGroup)
-                                        .Include(o=>o.TouristGroup.User)
+                                        .ThenInclude(o=>o.User)
                                         .Where(o => o.ID == orderID)
                                         .Select(o =>  new OrderViewAll()
                                         {

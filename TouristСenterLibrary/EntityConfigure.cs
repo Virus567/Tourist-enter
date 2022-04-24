@@ -49,7 +49,8 @@ namespace TouristСenterLibrary
         {
             builder.Property(e => e.Surname).IsRequired();
             builder.Property(e => e.Name).IsRequired();
-            builder.Property(e => e.PhoneNumber).IsRequired().HasMaxLength(15);          
+            builder.Property(e => e.PhoneNumber).IsRequired().HasMaxLength(15);
+            builder.HasIndex(e => e.PhoneNumber).IsUnique();
         }
 
         public static void EmployeeConfigure(EntityTypeBuilder<Employee> builder)

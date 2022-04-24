@@ -55,6 +55,16 @@ namespace TouristСenterLibrary.Entity
             }
             return tmp;
         }
+        
+        public static bool IsHasUser(string phoneNumber)
+        {
+            return db.User.Any(u => u.PhoneNumber == phoneNumber);
+        }
+
+        public static User? GetUserByPhoneNumber(string phoneNumber)
+        {
+            return db.User.Where(u => u.PhoneNumber == phoneNumber).FirstOrDefault();
+        }
 
     }
 }

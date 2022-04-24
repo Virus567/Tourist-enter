@@ -150,18 +150,27 @@ namespace tourCenter
                                 string Middlename = newParticipantsObj[i, 3].ToString();
                                 string ClientTelefonNumber = newParticipantsObj[i, 4].ToString();
 
-                                if (Middlename != null)
+                                User user;
+                                if (User.IsHasUser(ClientTelefonNumber))
                                 {
-                                    User user = new User(null ,Surname, Name, Middlename, ClientTelefonNumber);
-                                    Participant participant = new Participant(user, true, true);
-                                    _newPartisipants.Add(participant);
+                                    user = User.GetUserByPhoneNumber(ClientTelefonNumber);
                                 }
                                 else
                                 {
-                                    User user = new User(null, Surname, Name, ClientTelefonNumber);
-                                    Participant participant = new Participant(user,true, true);
-                                    _newPartisipants.Add(participant);
+                                    if (Middlename != null)
+                                    {
+                                        user = new User(null, Surname, Name, Middlename, ClientTelefonNumber);
+                                    }
+                                    else
+                                    {
+                                        user = new User(null, Surname, Name, ClientTelefonNumber);
+                                    }                                   
                                 }
+
+                                Participant participant = new Participant(user, true, true);
+                                _newPartisipants.Add(participant);
+
+
                             }
                         }
                         
@@ -245,14 +254,22 @@ namespace tourCenter
                     int peopleCount = Convert.ToInt32(peopleAmount.Text);
                     int childrenCount = Convert.ToInt32(childrenAmount.Text);
                     User user;
-                    if (fullName.Length > 2)
+                    if (User.IsHasUser(NumberPhone.Text))
                     {
-                        user = new User(null, fullName[0], fullName[1], fullName[2], NumberPhone.Text);                    
+                        user = User.GetUserByPhoneNumber(NumberPhone.Text);
                     }
                     else
                     {
-                        user = new User(null, fullName[0], fullName[1], NumberPhone.Text);
+                        if (fullName.Length > 2)
+                        {
+                            user = new User(null, fullName[0], fullName[1], fullName[2], NumberPhone.Text);
+                        }
+                        else
+                        {
+                            user = new User(null, fullName[0], fullName[1], NumberPhone.Text);
+                        }
                     }
+                    
 
                     TouristGroup group = new TouristGroup(user, peopleCount, childrenCount);
 

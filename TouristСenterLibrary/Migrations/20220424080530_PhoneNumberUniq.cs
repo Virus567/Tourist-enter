@@ -4,7 +4,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace TouristСenterLibrary.Migrations
 {
-    public partial class addLoginAndPass : Migration
+    public partial class PhoneNumberUniq : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -776,6 +776,12 @@ namespace TouristСenterLibrary.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_TransportCompany_PhoneNumber",
                 table: "TransportCompany",
+                column: "PhoneNumber",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_User_PhoneNumber",
+                table: "User",
                 column: "PhoneNumber",
                 unique: true);
         }

@@ -10,8 +10,8 @@ using TouristСenterLibrary;
 namespace TouristСenterLibrary.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    [Migration("20220423101039_addLoginAndPass")]
-    partial class addLoginAndPass
+    [Migration("20220424080530_PhoneNumberUniq")]
+    partial class PhoneNumberUniq
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -1343,6 +1343,9 @@ namespace TouristСenterLibrary.Migrations
                         .HasColumnType("text");
 
                     b.HasKey("ID");
+
+                    b.HasIndex("PhoneNumber")
+                        .IsUnique();
 
                     b.ToTable("User");
                 });

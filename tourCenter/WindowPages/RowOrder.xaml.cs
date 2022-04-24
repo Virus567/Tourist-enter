@@ -193,24 +193,41 @@ namespace tourCenter
                             object[,] newParticipantsObj = excel.GetParticipants();
                             if (newParticipantsObj.GetLength(0) == Convert.ToInt32(txtBoxPeopleAmount.Text))
                             {
+                                List<string> phoneNumbers = new List<string>();
                                 for (int i = 1; i <= newParticipantsObj.GetLength(0); i++)
                                 {
                                     string Surname = newParticipantsObj[i, 1].ToString();
                                     string Name = newParticipantsObj[i, 2].ToString();
                                     string ClientTelefonNumber = newParticipantsObj[i, 4].ToString();
-
-                                    if (newParticipantsObj[i, 3] != null)
+                                    if(!phoneNumbers.Contains(ClientTelefonNumber))
                                     {
-                                        string Middlename = newParticipantsObj[i, 3].ToString();
-                                        User user = new User(null, Surname, Name, Middlename, ClientTelefonNumber);
-                                        Participant participant = new Participant(user,true,true);
+                                        User user;
+                                        if (User.IsHasUser(ClientTelefonNumber))
+                                        {
+                                            user = User.GetUserByPhoneNumber(ClientTelefonNumber);
+                                        }
+                                        else
+                                        {
+                                            if (newParticipantsObj[i, 3] != null)
+                                            {
+                                                string Middlename = newParticipantsObj[i, 3].ToString();
+                                                user = new User(null, Surname, Name, Middlename, ClientTelefonNumber);
+                                            }
+                                            else
+                                            {
+                                                user = new User(null, Surname, Name, ClientTelefonNumber);
+                                            }
+                                        }
+
+                                        Participant participant = new Participant(user, true, true);
+                                        phoneNumbers.Add(ClientTelefonNumber);
                                         _newPartisipants.Add(participant);
                                     }
                                     else
                                     {
-                                        User user = new User(null, Surname, Name, ClientTelefonNumber);
-                                        Participant participant = new Participant(user,true,true);
-                                        _newPartisipants.Add(participant);
+                                        _newPartisipants.RemoveAll(p => p.User != null);
+                                        MessageBox.Show("Нельзя добавить одного и того же человека 2 раза");
+                                        break;
                                     }
                                 }
                             }
@@ -223,7 +240,11 @@ namespace tourCenter
                     catch (Exception ex) { MessageBox.Show(ex.Message); }
                 }
             }
-            ChangeDataBtn.Content = "Сохранить Изменения";
+            if(_newPartisipants.Count != 0)
+            {
+                ChangeDataBtn.Content = "Сохранить Изменения";
+            }
+               
         }
 
         private void CheckSpaceDown_PreviewKeyDown(object sender, KeyEventArgs e)

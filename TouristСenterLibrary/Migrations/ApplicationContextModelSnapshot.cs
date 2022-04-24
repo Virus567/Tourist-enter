@@ -1342,6 +1342,9 @@ namespace TouristСenterLibrary.Migrations
 
                     b.HasKey("ID");
 
+                    b.HasIndex("PhoneNumber")
+                        .IsUnique();
+
                     b.ToTable("User");
                 });
 
