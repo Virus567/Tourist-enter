@@ -37,7 +37,6 @@
 			<RowDefinition/>
 		</Grid.RowDefinitions>
 		<Button x:Name="FindBtn" Click="FindBtn_Click" Grid.Column="6" Grid.Row="0" Margin="2 0 10 0" Content="Найти" Background="Teal" Foreground ="White" Cursor="Hand"/>
-        <Button x:Name="ReportBtn" Click="ReportBtn_Click" Grid.Column="6" Grid.Row="2" Margin="2 0 10 0" FontSize="14" Content="Сформировать отчет" Background="Teal" Foreground ="White" Cursor="Hand"/>
 		<ComboBox  materialDesign:HintAssist.Hint="Выберите Маршрут" x:Name="CmBoxRoutes" Grid.Row="0" Grid.Column="1" 
 				  Background="#ffdadada" Margin="15 0 3 0" MaxHeight="27" LostMouseCapture="CmBoxRoutes_LostMouseCapture"/>
 		<TextBox x:Name="txtBoxSearch" Grid.Row="0" Grid.Column="5" Background="#ffdadada" materialDesign:HintAssist.Hint="Поиск по клиенту"
