@@ -37,12 +37,12 @@ namespace TouristСenterLibrary
         public static void RouteConfigure(EntityTypeBuilder<Route> builder)
         {
             List<Route> routes = new List<Route>();
-            routes.Add(new Route("Любимая Немда", 3, "Красавица река НЕМДА является жемчужиной Вятского края") { ID = 1, CheckpointStartID = 1, CheckpointFinishID = 2 });
-            routes.Add(new Route("Затерянный мир", 3, "Затерянный мир На Вятке") { ID = 2, CheckpointStartID = 3, CheckpointFinishID = 4 });
-            routes.Add(new Route("Родные просторы", 3, "Великолепный маршрут Родные просторы по берегам реки Вятки") { ID = 3, CheckpointStartID = 5, CheckpointFinishID = 6 });
-            routes.Add(new Route("Поющие пески Вятки", 3, "Поющие пески Вятки ") { ID = 4, CheckpointStartID = 7, CheckpointFinishID = 8 });
-            routes.Add(new Route("Быстрая вода", 3, "Очень красивые и живописные места, на очень быстрой и стремительной реке Быстрице") { ID = 5, CheckpointStartID = 9, CheckpointFinishID = 10 });
-            routes.Add(new Route("Город с воды", 1, "С воды раскрываются все красоты города Кирова") { ID = 6, CheckpointStartID = 11, CheckpointFinishID = 12 });
+            routes.Add(new Route("Любимая Немда", 3, "Красавица река НЕМДА является жемчужиной Вятского края") { ID = 1, CheckpointStartID = 1, CheckpointFinishID = 2, River ="Немда" });
+            routes.Add(new Route("Затерянный мир", 3, "Затерянный мир На Вятке") { ID = 2, CheckpointStartID = 3, CheckpointFinishID = 4, River = "Вятка" });
+            routes.Add(new Route("Родные просторы", 3, "Великолепный маршрут Родные просторы по берегам реки Вятки") { ID = 3, CheckpointStartID = 5, CheckpointFinishID = 6, River = "Вятка" });
+            routes.Add(new Route("Поющие пески Вятки", 3, "Поющие пески Вятки ") { ID = 4, CheckpointStartID = 7, CheckpointFinishID = 8, River = "Вятка" });
+            routes.Add(new Route("Быстрая вода", 3, "Очень красивые и живописные места, на очень быстрой и стремительной реке Быстрице") { ID = 5, CheckpointStartID = 9, CheckpointFinishID = 10, River = "Быстрица" });
+            routes.Add(new Route("Город с воды", 1, "С воды раскрываются все красоты города Кирова") { ID = 6, CheckpointStartID = 11, CheckpointFinishID = 12, River = "Вятка" });
             builder.HasData(routes);
         }
         public static void UserConfigure(EntityTypeBuilder<User> builder)
