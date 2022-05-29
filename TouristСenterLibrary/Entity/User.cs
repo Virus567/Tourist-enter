@@ -21,36 +21,10 @@ namespace TouristСenterLibrary.Entity
 
         }
 
-        public User(string Surname, string Name, string PhoneNumber)
-        {
-            this.Surname = Surname;
-            this.Name = Name;
-            this.PhoneNumber = PhoneNumber;
-        }
-
         public User(string NameOfCompany, string Surname, string Name, string Middlename,
             string PhoneNumber) : base(Surname, Name, Middlename, PhoneNumber)
         {
             this.NameOfCompany = NameOfCompany;
-        }
-        public bool Add()
-        {
-            try
-            {
-                db.User.Add(this);
-                db.SaveChanges();
-                return true;
-            }
-            catch (Exception ex)
-            {
-                return false;
-            }
-            
-        }
-
-        public static User GeUserAuth(string login, string password)
-        {
-            return db.User.FirstOrDefault(x => x.Login == login && x.Password == password);
         }
 
         public User(string? NameOfCompany, string Surname, string Name, string PhoneNumber) : base(Surname, Name, PhoneNumber)

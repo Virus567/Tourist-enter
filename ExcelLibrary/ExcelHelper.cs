@@ -102,52 +102,6 @@ namespace ExcelLibrary
             catch (Exception ex) { Console.WriteLine(ex.Message); }
         }
 
-
-
-        public void SetHikes(List<Hike.HikeView> hikes)
-        {
-            try
-            {
-                _worksheet1 = (Excel.Worksheet)_workbook.Worksheets.get_Item(1);
-                _worksheet1.Name = "Отчет по походам";
-                _worksheet1.PageSetup.Orientation = Excel.XlPageOrientation.xlLandscape;
-                int peopleAmount = 0;
-
-                object[,] hikesExport = new object[hikes.Count, 6];
-
-                for (int i = 0; i < hikes.Count; i++)
-                {
-                    hikesExport[i, 1] = hikes[i].StartTime;
-                    hikesExport[i, 2] = hikes[i].Status;
-                    hikesExport[i, 3] = hikes[i].PeopleAmount;
-                    hikesExport[i, 4] = hikes[i].RouteName;
-                    hikesExport[i, 5] = hikes[i].WayToTravel;
-                    peopleAmount += hikes[i].PeopleAmount;
-                }
-                for (int i = 0; i < hikes.Count; i++)
-                {
-                    hikesExport[i, 0] = i;
-                }
-                _excelRange = _worksheet1.get_Range("A2", Missing.Value);
-                _excelRange = _excelRange.get_Resize(hikes.Count, 6);
-                _excelRange.set_Value(Missing.Value, hikesExport);
-                _excelRange.Columns.AutoFit();
-                _worksheet1.Cells[1, 1] = "№";
-                _worksheet1.Cells[1, 2] = "Дата";
-                _worksheet1.Cells[1, 3] = "Статус";
-                _worksheet1.Cells[1, 4] = "Количество человек";
-                _worksheet1.Cells[1, 5] = "Маршрут";
-                _worksheet1.Cells[1, 6] = "Способ передвижения";
-                _worksheet1.Cells[2, 7] = "Всего походов:";
-                _worksheet1.Cells[3, 7] = "Всего человек:";
-                _worksheet1.Cells[2, 8] = hikes.Count;
-                _worksheet1.Cells[3, 8] = peopleAmount;
-                _worksheet1.Columns.AutoFit();
-                _excel.Visible = true;
-            }
-            catch (Exception ex) { Console.WriteLine(ex.Message); }
-        }
-
         public void SetParticipant(List<Participant> participants, int childrenAmount)
         {
             try
