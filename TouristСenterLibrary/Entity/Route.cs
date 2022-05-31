@@ -15,6 +15,7 @@ namespace TouristСenterLibrary.Entity
         public int CheckpointStartID { get; set; }
         [Required] public CheckpointRoute CheckpointFinish { get; set; }
         public int CheckpointFinishID { get; set; }
+        [Required] public string River { get; set; }
 
         public Route()
         {
@@ -26,6 +27,11 @@ namespace TouristСenterLibrary.Entity
             this.NumberDays = NumberDays;
             this.Description = Description;
         }
+        public static List<Route> GetRouters()
+        {
+            return db.Route.ToList();
+        }
+
         public static List<string> GetNameRoute()
         {
              return db.Route.Select(x => x.Name).ToList();

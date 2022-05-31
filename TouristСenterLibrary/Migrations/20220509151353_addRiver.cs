@@ -4,7 +4,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace TouristСenterLibrary.Migrations
 {
-    public partial class PhoneNumberUniq : Migration
+    public partial class addRiver : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -141,7 +141,8 @@ namespace TouristСenterLibrary.Migrations
                     NumberDays = table.Column<int>(type: "integer", nullable: false),
                     Description = table.Column<string>(type: "text", nullable: false),
                     CheckpointStartID = table.Column<int>(type: "integer", nullable: false),
-                    CheckpointFinishID = table.Column<int>(type: "integer", nullable: false)
+                    CheckpointFinishID = table.Column<int>(type: "integer", nullable: false),
+                    River = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -609,15 +610,15 @@ namespace TouristСenterLibrary.Migrations
 
             migrationBuilder.InsertData(
                 table: "Route",
-                columns: new[] { "ID", "CheckpointFinishID", "CheckpointStartID", "Description", "Name", "NumberDays" },
+                columns: new[] { "ID", "CheckpointFinishID", "CheckpointStartID", "Description", "Name", "NumberDays", "River" },
                 values: new object[,]
                 {
-                    { 1, 2, 1, "Красавица река НЕМДА является жемчужиной Вятского края", "Любимая Немда", 3 },
-                    { 2, 4, 3, "Затерянный мир На Вятке", "Затерянный мир", 3 },
-                    { 3, 6, 5, "Великолепный маршрут Родные просторы по берегам реки Вятки", "Родные просторы", 3 },
-                    { 4, 8, 7, "Поющие пески Вятки ", "Поющие пески Вятки", 3 },
-                    { 5, 10, 9, "Очень красивые и живописные места, на очень быстрой и стремительной реке Быстрице", "Быстрая вода", 3 },
-                    { 6, 12, 11, "С воды раскрываются все красоты города Кирова", "Город с воды", 1 }
+                    { 1, 2, 1, "Красавица река НЕМДА является жемчужиной Вятского края", "Любимая Немда", 3, "Немда" },
+                    { 2, 4, 3, "Затерянный мир На Вятке", "Затерянный мир", 3, "Вятка" },
+                    { 3, 6, 5, "Великолепный маршрут Родные просторы по берегам реки Вятки", "Родные просторы", 3, "Вятка" },
+                    { 4, 8, 7, "Поющие пески Вятки ", "Поющие пески Вятки", 3, "Вятка" },
+                    { 5, 10, 9, "Очень красивые и живописные места, на очень быстрой и стремительной реке Быстрице", "Быстрая вода", 3, "Быстрица" },
+                    { 6, 12, 11, "С воды раскрываются все красоты города Кирова", "Город с воды", 1, "Вятка" }
                 });
 
             migrationBuilder.InsertData(

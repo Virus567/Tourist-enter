@@ -1075,6 +1075,10 @@ namespace TouristСenterLibrary.Migrations
                     b.Property<int>("NumberDays")
                         .HasColumnType("integer");
 
+                    b.Property<string>("River")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.HasKey("ID");
 
                     b.HasIndex("CheckpointFinishID");
@@ -1091,7 +1095,8 @@ namespace TouristСenterLibrary.Migrations
                             CheckpointStartID = 1,
                             Description = "Красавица река НЕМДА является жемчужиной Вятского края",
                             Name = "Любимая Немда",
-                            NumberDays = 3
+                            NumberDays = 3,
+                            River = "Немда"
                         },
                         new
                         {
@@ -1100,7 +1105,8 @@ namespace TouristСenterLibrary.Migrations
                             CheckpointStartID = 3,
                             Description = "Затерянный мир На Вятке",
                             Name = "Затерянный мир",
-                            NumberDays = 3
+                            NumberDays = 3,
+                            River = "Вятка"
                         },
                         new
                         {
@@ -1109,7 +1115,8 @@ namespace TouristСenterLibrary.Migrations
                             CheckpointStartID = 5,
                             Description = "Великолепный маршрут Родные просторы по берегам реки Вятки",
                             Name = "Родные просторы",
-                            NumberDays = 3
+                            NumberDays = 3,
+                            River = "Вятка"
                         },
                         new
                         {
@@ -1118,7 +1125,8 @@ namespace TouristСenterLibrary.Migrations
                             CheckpointStartID = 7,
                             Description = "Поющие пески Вятки ",
                             Name = "Поющие пески Вятки",
-                            NumberDays = 3
+                            NumberDays = 3,
+                            River = "Вятка"
                         },
                         new
                         {
@@ -1127,7 +1135,8 @@ namespace TouristСenterLibrary.Migrations
                             CheckpointStartID = 9,
                             Description = "Очень красивые и живописные места, на очень быстрой и стремительной реке Быстрице",
                             Name = "Быстрая вода",
-                            NumberDays = 3
+                            NumberDays = 3,
+                            River = "Быстрица"
                         },
                         new
                         {
@@ -1136,7 +1145,8 @@ namespace TouristСenterLibrary.Migrations
                             CheckpointStartID = 11,
                             Description = "С воды раскрываются все красоты города Кирова",
                             Name = "Город с воды",
-                            NumberDays = 1
+                            NumberDays = 1,
+                            River = "Вятка"
                         });
                 });
 
