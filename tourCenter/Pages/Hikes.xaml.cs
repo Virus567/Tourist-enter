@@ -5,6 +5,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Linq;
 using TouristСenterLibrary.Entity;
+using tourCenter.WindowPages;
 
 namespace tourCenter
 {
@@ -129,6 +130,11 @@ namespace tourCenter
         private void FindBtn_Click(object sender, RoutedEventArgs e)
         {
             FillingDataGrid();
+        }
+        private void ReportBtn_Click(object sender, RoutedEventArgs e)
+        {
+            Report report = new Report();
+            report.Show();
         }
     }
 }
