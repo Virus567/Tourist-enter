@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using TouristСenterLibrary;
@@ -9,9 +10,10 @@ using TouristСenterLibrary;
 namespace TouristСenterLibrary.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    partial class ApplicationContextModelSnapshot : ModelSnapshot
+    [Migration("20220525182602_adddfulldesc1")]
+    partial class adddfulldesc1
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1083,9 +1085,6 @@ namespace TouristСenterLibrary.Migrations
                     b.Property<int>("NumberDays")
                         .HasColumnType("integer");
 
-                    b.Property<int>("Popularity")
-                        .HasColumnType("integer");
-
                     b.Property<string>("River")
                         .IsRequired()
                         .HasColumnType("text");
@@ -1109,7 +1108,6 @@ namespace TouristСenterLibrary.Migrations
                             Images = new[] { "1", "2", "3" },
                             Name = "Любимая Немда",
                             NumberDays = 3,
-                            Popularity = 1,
                             River = "Немда"
                         },
                         new
@@ -1122,7 +1120,6 @@ namespace TouristСenterLibrary.Migrations
                             Images = new[] { "1", "2", "3" },
                             Name = "Затерянный мир",
                             NumberDays = 3,
-                            Popularity = 1,
                             River = "Вятка"
                         },
                         new
@@ -1135,7 +1132,6 @@ namespace TouristСenterLibrary.Migrations
                             Images = new[] { "1", "2", "3" },
                             Name = "Родные просторы",
                             NumberDays = 3,
-                            Popularity = 1,
                             River = "Вятка"
                         },
                         new
@@ -1148,7 +1144,6 @@ namespace TouristСenterLibrary.Migrations
                             Images = new[] { "1", "2", "3" },
                             Name = "Поющие пески Вятки",
                             NumberDays = 3,
-                            Popularity = 1,
                             River = "Вятка"
                         },
                         new
@@ -1161,7 +1156,6 @@ namespace TouristСenterLibrary.Migrations
                             Images = new[] { "1", "2", "3" },
                             Name = "Быстрая вода",
                             NumberDays = 3,
-                            Popularity = 1,
                             River = "Быстрица"
                         },
                         new
@@ -1174,7 +1168,6 @@ namespace TouristСenterLibrary.Migrations
                             Images = new[] { "1", "2", "3" },
                             Name = "Город с воды",
                             NumberDays = 1,
-                            Popularity = 1,
                             River = "Вятка"
                         });
                 });

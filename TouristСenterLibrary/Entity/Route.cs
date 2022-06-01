@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 
@@ -11,11 +12,14 @@ namespace TouristСenterLibrary.Entity
         [Required] public string Name { get; set; }
         [Required] public int NumberDays { get; set; }
         [Required] public string Description { get; set; }
+        public string FullDescription { get; set; }
         [Required] public CheckpointRoute CheckpointStart { get; set; }
         public int CheckpointStartID { get; set; }
         [Required] public CheckpointRoute CheckpointFinish { get; set; }
         public int CheckpointFinishID { get; set; }
         [Required] public string River { get; set; }
+        [Required] public string[] Images { get; set; }
+        [Required] public int Popularity { get; set; }
 
         public Route()
         {
@@ -29,7 +33,12 @@ namespace TouristСenterLibrary.Entity
         }
         public static List<Route> GetRouters()
         {
-            return db.Route.ToList();
+            return db.Route.Include(r => r.CheckpointStart).Include(r => r.CheckpointFinish).ToList();
+        }
+
+        public static Route? GetRouteByID(int id)
+        {
+            return db.Route.Include(r => r.CheckpointStart).Include(r => r.CheckpointFinish).FirstOrDefault(r => r.ID == id);
         }
 
         public static List<string> GetNameRoute()

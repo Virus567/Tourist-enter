@@ -61,6 +61,7 @@ namespace TouristСenterLibrary.Entity
         {
             public int ID { get; set; }
             public List<Order> OrdersList { get; set; }
+            public List<User> Users { get; set; }
             public string StartTime { get; set; }
             public string FinishTime { get; set; }
             public string RouteName { get; set; }
@@ -92,6 +93,38 @@ namespace TouristСenterLibrary.Entity
                     hike.PeopleAmount += order.TouristGroup.PeopleAmount;
                 }
             }
+            
+            return hikeList;
+        }
+
+        public static List<HikeView> GetViewByUserID(int userId)
+        {
+            var hikeList = db.Hike.Select(h => new HikeView()
+            {
+                ID = h.ID,
+                OrdersList = h.OrdersList,
+                RouteName = h.Route.Name,
+                WayToTravel = h.OrdersList.FirstOrDefault().WayToTravel,
+                CompanyName = h.OrdersList.FirstOrDefault().TouristGroup.GetCompanyNameForHike(),
+                StartTime = h.OrdersList.FirstOrDefault().StartTime.ToString("d"),
+                FinishTime = h.OrdersList.FirstOrDefault().FinishTime.ToString("d"),
+                Status = h.Status
+            }).ToList();
+
+            foreach (HikeView hike in hikeList)
+            {
+                hike.PeopleAmount = 0;
+                foreach (var order in hike.OrdersList)
+                {
+                    hike.PeopleAmount += order.TouristGroup.PeopleAmount;
+                    hike.Users.Add(order.TouristGroup.User);
+                    foreach (var participant in order.TouristGroup.ParticipantsList)
+                    {
+                        hike.Users.Add(participant.User);
+                    }
+                }
+            }
+            hikeList = hikeList.Where(h => h.Users.Contains(User.GetUserByID(userId))).ToList();
             return hikeList;
         }
 

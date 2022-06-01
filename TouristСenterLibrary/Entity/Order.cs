@@ -41,6 +41,7 @@ namespace TouristСenterLibrary.Entity
         public class OrderView
         {
             public int ID { get; set; }
+            public List<User> Users { get; set; }
             public string DateTime { get; set; }
             public string RouteName { get; set; }
             public string WayToTravel { get; set; }
@@ -72,9 +73,42 @@ namespace TouristСenterLibrary.Entity
             foreach(var l in list)
             {
                 l.IsListParticipants = Participant.IsParticipantsForOrder(TouristGroup.GetGroupByID(l.TouristGroupID));
+               
             }
             return list;
         }
+
+        public static List<OrderView> GetViewByUserId(int userId)
+        {
+            List<OrderView> list = (from o in db.Order
+                                    select new OrderView()
+                                    {
+                                        ID = o.ID,
+                                        DateTime = o.StartTime.ToString("d"),
+                                        RouteName = o.Route.Name,
+                                        WayToTravel = o.WayToTravel,
+                                        TouristGroup = o.TouristGroup.User.GetCompanyNameForOrder(),
+                                        TouristGroupID = o.TouristGroup.ID,
+                                        PeopleAmount = o.TouristGroup.PeopleAmount,
+                                        ApplicationTypeName = o.ApplicationType.Name,
+                                        ChildrenAmount = o.TouristGroup.ChildrenAmount,
+                                        Status = o.Status,
+                                        IsListParticipants = false
+                                    }).ToList();
+            foreach (var l in list)
+            {
+                l.IsListParticipants = Participant.IsParticipantsForOrder(TouristGroup.GetGroupByID(l.TouristGroupID));
+                var touristGroup = TouristGroup.GetGroupByID(l.ID);
+                l.Users.Add(touristGroup.User);
+                foreach (var participant in touristGroup.ParticipantsList)
+                {
+                    l.Users.Add(participant.User);
+                }
+            }
+            list = list.Where(o => o.Users.Contains(User.GetUserByID(userId)) && o.Status == "Активна").ToList();
+            return list;
+        }
+
         public class OrderViewAll
         {
             public int ID { get; set; }

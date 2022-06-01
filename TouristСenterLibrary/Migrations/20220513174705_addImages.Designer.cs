@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using TouristСenterLibrary;
@@ -9,9 +10,10 @@ using TouristСenterLibrary;
 namespace TouristСenterLibrary.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    partial class ApplicationContextModelSnapshot : ModelSnapshot
+    [Migration("20220513174705_addImages")]
+    partial class addImages
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1068,10 +1070,6 @@ namespace TouristСenterLibrary.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<string>("FullDescription")
-                        .IsRequired()
-                        .HasColumnType("text");
-
                     b.Property<string[]>("Images")
                         .IsRequired()
                         .HasColumnType("text[]");
@@ -1081,9 +1079,6 @@ namespace TouristСenterLibrary.Migrations
                         .HasColumnType("text");
 
                     b.Property<int>("NumberDays")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("Popularity")
                         .HasColumnType("integer");
 
                     b.Property<string>("River")
@@ -1105,11 +1100,9 @@ namespace TouristСenterLibrary.Migrations
                             CheckpointFinishID = 2,
                             CheckpointStartID = 1,
                             Description = "Красавица река НЕМДА является жемчужиной Вятского края",
-                            FullDescription = "1",
                             Images = new[] { "1", "2", "3" },
                             Name = "Любимая Немда",
                             NumberDays = 3,
-                            Popularity = 1,
                             River = "Немда"
                         },
                         new
@@ -1118,11 +1111,9 @@ namespace TouristСenterLibrary.Migrations
                             CheckpointFinishID = 4,
                             CheckpointStartID = 3,
                             Description = "Затерянный мир На Вятке",
-                            FullDescription = "1",
                             Images = new[] { "1", "2", "3" },
                             Name = "Затерянный мир",
                             NumberDays = 3,
-                            Popularity = 1,
                             River = "Вятка"
                         },
                         new
@@ -1131,11 +1122,9 @@ namespace TouristСenterLibrary.Migrations
                             CheckpointFinishID = 6,
                             CheckpointStartID = 5,
                             Description = "Великолепный маршрут Родные просторы по берегам реки Вятки",
-                            FullDescription = "1",
                             Images = new[] { "1", "2", "3" },
                             Name = "Родные просторы",
                             NumberDays = 3,
-                            Popularity = 1,
                             River = "Вятка"
                         },
                         new
@@ -1144,11 +1133,9 @@ namespace TouristСenterLibrary.Migrations
                             CheckpointFinishID = 8,
                             CheckpointStartID = 7,
                             Description = "Поющие пески Вятки ",
-                            FullDescription = "1",
                             Images = new[] { "1", "2", "3" },
                             Name = "Поющие пески Вятки",
                             NumberDays = 3,
-                            Popularity = 1,
                             River = "Вятка"
                         },
                         new
@@ -1157,11 +1144,9 @@ namespace TouristСenterLibrary.Migrations
                             CheckpointFinishID = 10,
                             CheckpointStartID = 9,
                             Description = "Очень красивые и живописные места, на очень быстрой и стремительной реке Быстрице",
-                            FullDescription = "1",
                             Images = new[] { "1", "2", "3" },
                             Name = "Быстрая вода",
                             NumberDays = 3,
-                            Popularity = 1,
                             River = "Быстрица"
                         },
                         new
@@ -1170,11 +1155,9 @@ namespace TouristСenterLibrary.Migrations
                             CheckpointFinishID = 12,
                             CheckpointStartID = 11,
                             Description = "С воды раскрываются все красоты города Кирова",
-                            FullDescription = "1",
                             Images = new[] { "1", "2", "3" },
                             Name = "Город с воды",
                             NumberDays = 1,
-                            Popularity = 1,
                             River = "Вятка"
                         });
                 });
