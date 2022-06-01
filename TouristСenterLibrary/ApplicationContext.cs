@@ -22,6 +22,8 @@ namespace TouristСenterLibrary
         public DbSet<Route> Route { get; set; }
         public DbSet<RouteHike> RouteHike { get; set; }
         public DbSet<Transport> Transport { get; set; }
+        public DbSet<Team> Team { get; set; }
+        public DbSet<Teammate> Teammate { get; set; }
         public DbSet<TransportCompany> TransportCompany { get; set; }
 
         public static string ConnectionString = "Host=localhost;Port=5432;Database=tourist_center;Username=postgres;Password=123";

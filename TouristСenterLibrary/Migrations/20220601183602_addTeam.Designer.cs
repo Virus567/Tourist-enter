@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using TouristСenterLibrary;
@@ -9,9 +10,10 @@ using TouristСenterLibrary;
 namespace TouristСenterLibrary.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    partial class ApplicationContextModelSnapshot : ModelSnapshot
+    [Migration("20220601183602_addTeam")]
+    partial class addTeam
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1211,55 +1213,6 @@ namespace TouristСenterLibrary.Migrations
                     b.ToTable("RouteHike");
                 });
 
-            modelBuilder.Entity("TouristСenterLibrary.Entity.Team", b =>
-                {
-                    b.Property<int>("ID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
-                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
-
-                    b.Property<int?>("MainUserID")
-                        .HasColumnType("integer");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.HasKey("ID");
-
-                    b.HasIndex("MainUserID");
-
-                    b.ToTable("Team");
-                });
-
-            modelBuilder.Entity("TouristСenterLibrary.Entity.Teammate", b =>
-                {
-                    b.Property<int>("ID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
-                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
-
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("boolean");
-
-                    b.Property<bool>("IsTeammate")
-                        .HasColumnType("boolean");
-
-                    b.Property<int>("TeamID")
-                        .HasColumnType("integer");
-
-                    b.Property<int?>("UserID")
-                        .HasColumnType("integer");
-
-                    b.HasKey("ID");
-
-                    b.HasIndex("TeamID");
-
-                    b.HasIndex("UserID");
-
-                    b.ToTable("Teammate");
-                });
-
             modelBuilder.Entity("TouristСenterLibrary.Entity.TouristGroup", b =>
                 {
                     b.Property<int>("ID")
@@ -1608,32 +1561,6 @@ namespace TouristСenterLibrary.Migrations
                     b.Navigation("StartBus");
                 });
 
-            modelBuilder.Entity("TouristСenterLibrary.Entity.Team", b =>
-                {
-                    b.HasOne("TouristСenterLibrary.Entity.User", "MainUser")
-                        .WithMany()
-                        .HasForeignKey("MainUserID");
-
-                    b.Navigation("MainUser");
-                });
-
-            modelBuilder.Entity("TouristСenterLibrary.Entity.Teammate", b =>
-                {
-                    b.HasOne("TouristСenterLibrary.Entity.Team", "Team")
-                        .WithMany("Teammates")
-                        .HasForeignKey("TeamID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("TouristСenterLibrary.Entity.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserID");
-
-                    b.Navigation("Team");
-
-                    b.Navigation("User");
-                });
-
             modelBuilder.Entity("TouristСenterLibrary.Entity.TouristGroup", b =>
                 {
                     b.HasOne("TouristСenterLibrary.Entity.User", "User")
@@ -1659,11 +1586,6 @@ namespace TouristСenterLibrary.Migrations
                     b.Navigation("CountableHikeEquipList");
 
                     b.Navigation("OrdersList");
-                });
-
-            modelBuilder.Entity("TouristСenterLibrary.Entity.Team", b =>
-                {
-                    b.Navigation("Teammates");
                 });
 
             modelBuilder.Entity("TouristСenterLibrary.Entity.TouristGroup", b =>

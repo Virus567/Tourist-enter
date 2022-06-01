@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -33,7 +34,15 @@ namespace TouristСenterLibrary.Entity
         }
         public static List<Route> GetRouters()
         {
-            return db.Route.Include(r => r.CheckpointStart).Include(r => r.CheckpointFinish).ToList();
+            try
+            {
+                return db.Route.Include(r => r.CheckpointStart).Include(r => r.CheckpointFinish).ToList();
+            }
+            catch (Exception ex)
+            {
+                return new List<Route>();
+            }
+            
         }
 
         public static Route? GetRouteByID(int id)
