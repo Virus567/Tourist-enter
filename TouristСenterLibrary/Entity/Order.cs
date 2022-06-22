@@ -25,6 +25,8 @@ namespace TouristСenterLibrary.Entity
         public Hike? Hike { get; set; }
         [Required] public int HermeticBagAmount { get; set; }
         [Required] public int IndividualTentAmount { get; set; }
+        public Instructor? Instructor { get; set; }
+        public bool IsPhotograph { get; set; }
 
         public Order()
         {
@@ -43,6 +45,7 @@ namespace TouristСenterLibrary.Entity
             public int ID { get; set; }
             public List<User> Users { get; set; } = new List<User>();
             public string DateTime { get; set; }
+            public string FinishTime { get; set; }
             public string RouteName { get; set; }
             public string WayToTravel { get; set; }
             public string TouristGroup { get; set; }
@@ -52,6 +55,7 @@ namespace TouristСenterLibrary.Entity
             public string ApplicationTypeName { get; set; }
             public string Status { get; set; }
             public bool IsListParticipants { get; set; }
+            public bool IsPhotograph { get; set; }
         }
         public static List<OrderView> GetView()
         {
@@ -60,6 +64,7 @@ namespace TouristСenterLibrary.Entity
                     {
                         ID = o.ID,
                         DateTime = o.StartTime.ToString("d"),
+                        FinishTime = o.FinishTime.ToString("d"),
                         RouteName = o.Route.Name,
                         WayToTravel = o.WayToTravel,
                         TouristGroup = o.TouristGroup.User.GetCompanyNameForOrder(),
@@ -68,6 +73,7 @@ namespace TouristСenterLibrary.Entity
                         ApplicationTypeName = o.ApplicationType.Name,
                         ChildrenAmount = o.TouristGroup.ChildrenAmount,
                         Status = o.Status,
+                        IsPhotograph = o.IsPhotograph,
                         IsListParticipants = false
                     }).ToList();
             foreach(var l in list)
@@ -87,10 +93,12 @@ namespace TouristСenterLibrary.Entity
                                     .ThenInclude(o => o.User)
                                     .Include(o => o.TouristGroup)
                                     .ThenInclude(o => o.ParticipantsList)
+                                    .ThenInclude(o =>o.User)
                                         select new OrderView()
                                         {
                                             ID = o.ID,
                                             DateTime = o.StartTime.ToString("d"),
+                                            FinishTime = o.StartTime.ToString("d"),
                                             RouteName = o.Route.Name,
                                             WayToTravel = o.WayToTravel,
                                             TouristGroup = o.TouristGroup.User.GetCompanyNameForOrder(),
@@ -118,6 +126,51 @@ namespace TouristСenterLibrary.Entity
                 return new List<OrderView>();
             }
             
+        }
+
+        public static OrderView? GetViewById(int orderId)
+        {
+            try
+            {
+                OrderView? order = (from o in db.Order
+                                    .Include(o => o.TouristGroup)
+                                    .ThenInclude(o => o.User)
+                                    .Include(o => o.TouristGroup)
+                                    .ThenInclude(o => o.ParticipantsList)
+                                    .ThenInclude(o => o.User)
+                                    .Where(o=>o.ID == orderId)
+                                        select new OrderView()
+                                        {
+                                            ID = o.ID,
+                                            DateTime = o.StartTime.ToString("d"),
+                                            FinishTime = o.FinishTime.ToString("d"),
+                                            RouteName = o.Route.Name,
+                                            WayToTravel = o.WayToTravel,
+                                            TouristGroup = o.TouristGroup.User.GetCompanyNameForOrder(),
+                                            TouristGroupID = o.TouristGroup.ID,
+                                            PeopleAmount = o.TouristGroup.PeopleAmount,
+                                            ApplicationTypeName = o.ApplicationType.Name,
+                                            ChildrenAmount = o.TouristGroup.ChildrenAmount,
+                                            Status = o.Status,
+                                            IsListParticipants = false
+                                        }).FirstOrDefault();
+                if(order != null)
+                {
+                    var touristGroup = TouristGroup.GetGroupByID(order.ID);
+                    order.Users.Add(touristGroup.User);
+                    foreach (var participant in touristGroup.ParticipantsList)
+                    {
+                        order.Users.Add(participant.User);
+                    }
+                }
+                    
+                return order;
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+
         }
 
         public class OrderViewAll

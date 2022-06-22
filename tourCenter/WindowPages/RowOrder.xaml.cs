@@ -219,7 +219,7 @@ namespace tourCenter
                                             }
                                         }
 
-                                        Participant participant = new Participant(user, true, true);
+                                        Participant participant = new Participant(user);
                                         phoneNumbers.Add(ClientTelefonNumber);
                                         _newPartisipants.Add(participant);
                                     }

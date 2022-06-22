@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using TouristСenterLibrary;
@@ -9,9 +10,10 @@ using TouristСenterLibrary;
 namespace TouristСenterLibrary.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    partial class ApplicationContextModelSnapshot : ModelSnapshot
+    [Migration("20220612124514_fixInstructor")]
+    partial class fixInstructor
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -809,7 +811,7 @@ namespace TouristСenterLibrary.Migrations
                         new
                         {
                             ID = 1,
-                            Discription = "Профессиональный повар. Могу приготовить на костре все что угодно от вкусной и наваристой ухи до блинов на завтрак.",
+                            Discription = "",
                             EmploymentDate = new DateTime(2019, 8, 7, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Image = "",
                             Login = "instr1",
@@ -823,7 +825,7 @@ namespace TouristСenterLibrary.Migrations
                         new
                         {
                             ID = 2,
-                            Discription = "Веселый Аниматор. Закончила цироковое училище, вожу в походы уже 7 лет.",
+                            Discription = "",
                             EmploymentDate = new DateTime(2020, 6, 6, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Image = "",
                             Login = "instr2",
@@ -837,7 +839,7 @@ namespace TouristСenterLibrary.Migrations
                         new
                         {
                             ID = 3,
-                            Discription = "Старший инструктор. Мастер в своем деле. С детства увлекаюсь походами, охотой и рыбалкой.Со мной не пропадете.",
+                            Discription = "",
                             EmploymentDate = new DateTime(2021, 7, 8, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Image = "",
                             Login = "instr3",
@@ -851,7 +853,7 @@ namespace TouristСenterLibrary.Migrations
                         new
                         {
                             ID = 4,
-                            Discription = "Мастер спорта по гребле. Байдарка для меня — смысл жизни. С самого детства в ней, со мной не пропадете.",
+                            Discription = "",
                             EmploymentDate = new DateTime(2020, 8, 8, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Image = "",
                             Login = "instr4",
@@ -865,7 +867,7 @@ namespace TouristСenterLibrary.Migrations
                         new
                         {
                             ID = 5,
-                            Discription = "Старший инструктор. Вожу в походы уже 15 лет. Знаю все маршруты вдоль и поперек.",
+                            Discription = "",
                             EmploymentDate = new DateTime(2021, 5, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Image = "",
                             Login = "instr5",
@@ -879,7 +881,7 @@ namespace TouristСenterLibrary.Migrations
                         new
                         {
                             ID = 6,
-                            Discription = "Душа компании. Со мной не соскучитесь. Со мной можно поговорить в любое время и на любые темы.",
+                            Discription = "",
                             EmploymentDate = new DateTime(2020, 5, 6, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Image = "",
                             Login = "instr6",
@@ -893,7 +895,7 @@ namespace TouristСenterLibrary.Migrations
                         new
                         {
                             ID = 7,
-                            Discription = "А вы пробовали когда-нибудь яичницу, приготовленную на костре или аппетитные оладьи на свежем воздухе? Со мной обязательно попробуете!",
+                            Discription = "",
                             EmploymentDate = new DateTime(2021, 5, 7, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Image = "",
                             Login = "instr7",
@@ -907,7 +909,7 @@ namespace TouristСenterLibrary.Migrations
                         new
                         {
                             ID = 8,
-                            Discription = "Мастер на все руки. Сколотить деревянный помост? Сделать скамейки, чтобы посидеть у костра? Это все ко мне.",
+                            Discription = "",
                             EmploymentDate = new DateTime(2020, 7, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Image = "",
                             Login = "instr8",
@@ -921,7 +923,7 @@ namespace TouristСenterLibrary.Migrations
                         new
                         {
                             ID = 9,
-                            Discription = "Профессиональный экскурсовод. Проведу увлекательную экскурсию на любом маршруте, расскажу про все интересные места.",
+                            Discription = "",
                             EmploymentDate = new DateTime(2021, 6, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Image = "",
                             Login = "instr9",
@@ -935,7 +937,7 @@ namespace TouristСenterLibrary.Migrations
                         new
                         {
                             ID = 10,
-                            Discription = "Хорошо играю на гитаре. Вечером у костра со мной не заскучаете. ",
+                            Discription = "",
                             EmploymentDate = new DateTime(2019, 5, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Image = "",
                             Login = "instr10",
@@ -996,12 +998,6 @@ namespace TouristСenterLibrary.Migrations
                     b.Property<int>("IndividualTentAmount")
                         .HasColumnType("integer");
 
-                    b.Property<int?>("InstructorID")
-                        .HasColumnType("integer");
-
-                    b.Property<bool>("IsPhotograph")
-                        .HasColumnType("boolean");
-
                     b.Property<int?>("RouteID")
                         .HasColumnType("integer");
 
@@ -1027,8 +1023,6 @@ namespace TouristСenterLibrary.Migrations
 
                     b.HasIndex("HikeID");
 
-                    b.HasIndex("InstructorID");
-
                     b.HasIndex("RouteID");
 
                     b.HasIndex("TouristGroupID");
@@ -1042,6 +1036,12 @@ namespace TouristСenterLibrary.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer")
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+
+                    b.Property<bool>("InGroup")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("boolean");
 
                     b.Property<int>("TouristGroupID")
                         .HasColumnType("integer");
@@ -1135,12 +1135,12 @@ namespace TouristСenterLibrary.Migrations
                             CheckpointFinishID = 2,
                             CheckpointStartID = 1,
                             Description = "Красавица река НЕМДА является жемчужиной Вятского края",
-                            FullDescription = "Красавица река НЕМДА является жемчужиной Вятского края. Природа этих мест уникальна: выходы известняковых скал, рельефные берега, бурлящие перекаты, самый высокий водопад Кировской области, чистая родниковая вода, отсутствие комаров, живописные пейзажи",
+                            FullDescription = "1",
                             Images = new[] { "1", "2", "3" },
                             Name = "Любимая Немда",
                             NumberDays = 3,
                             Popularity = 1,
-                            River = "Nemda"
+                            River = "Немда"
                         },
                         new
                         {
@@ -1148,12 +1148,12 @@ namespace TouristСenterLibrary.Migrations
                             CheckpointFinishID = 4,
                             CheckpointStartID = 3,
                             Description = "Затерянный мир На Вятке",
-                            FullDescription = "Затерянный мир На Вятке. Маршрут, где можно насладиться по настоящему дикой природой, редкими расстениями и ощутить настоящее единение с природой. ",
+                            FullDescription = "1",
                             Images = new[] { "1", "2", "3" },
                             Name = "Затерянный мир",
                             NumberDays = 3,
                             Popularity = 1,
-                            River = "Vyatka"
+                            River = "Вятка"
                         },
                         new
                         {
@@ -1161,12 +1161,12 @@ namespace TouristСenterLibrary.Migrations
                             CheckpointFinishID = 6,
                             CheckpointStartID = 5,
                             Description = "Великолепный маршрут Родные просторы по берегам реки Вятки",
-                            FullDescription = "Великолепный маршрут Родные просторы по берегам реки Вятки подарит огромное количество позитивных эмоций и незабываемых впечатлений.",
+                            FullDescription = "1",
                             Images = new[] { "1", "2", "3" },
                             Name = "Родные просторы",
                             NumberDays = 3,
                             Popularity = 1,
-                            River = "Vyatka"
+                            River = "Вятка"
                         },
                         new
                         {
@@ -1174,12 +1174,12 @@ namespace TouristСenterLibrary.Migrations
                             CheckpointFinishID = 8,
                             CheckpointStartID = 7,
                             Description = "Поющие пески Вятки ",
-                            FullDescription = "У заброшенной деревни Атары в Кировской области, где Вятка делает крутой поворот, находится трехкилометровая отмель с белым песком из горного хрусталя и молочного кварца. ",
+                            FullDescription = "1",
                             Images = new[] { "1", "2", "3" },
-                            Name = "Поющие пески",
+                            Name = "Поющие пески Вятки",
                             NumberDays = 3,
                             Popularity = 1,
-                            River = "Vyatka"
+                            River = "Вятка"
                         },
                         new
                         {
@@ -1187,12 +1187,12 @@ namespace TouristСenterLibrary.Migrations
                             CheckpointFinishID = 10,
                             CheckpointStartID = 9,
                             Description = "Очень красивые и живописные места, на очень быстрой и стремительной реке Быстрице",
-                            FullDescription = "Очень красивые и живописные места, на очень быстрой и стремительной реке Быстрице откроются перед вами если вы посетите этот маршрут",
+                            FullDescription = "1",
                             Images = new[] { "1", "2", "3" },
                             Name = "Быстрая вода",
-                            NumberDays = 2,
+                            NumberDays = 3,
                             Popularity = 1,
-                            River = "Bystrica"
+                            River = "Быстрица"
                         },
                         new
                         {
@@ -1200,12 +1200,12 @@ namespace TouristСenterLibrary.Migrations
                             CheckpointFinishID = 12,
                             CheckpointStartID = 11,
                             Description = "С воды раскрываются все красоты города Кирова",
-                            FullDescription = "С воды раскрываются все красоты города Кирова. Появляется возможность насладиться ими прямо с водной глаяди реки Вятки.",
+                            FullDescription = "1",
                             Images = new[] { "1", "2", "3" },
                             Name = "Город с воды",
                             NumberDays = 1,
                             Popularity = 1,
-                            River = "Vyatka"
+                            River = "Вятка"
                         });
                 });
 
@@ -1278,7 +1278,7 @@ namespace TouristСenterLibrary.Migrations
                     b.Property<int>("TeamID")
                         .HasColumnType("integer");
 
-                    b.Property<int>("UserID")
+                    b.Property<int?>("UserID")
                         .HasColumnType("integer");
 
                     b.HasKey("ID");
@@ -1556,10 +1556,6 @@ namespace TouristСenterLibrary.Migrations
                         .WithMany("OrdersList")
                         .HasForeignKey("HikeID");
 
-                    b.HasOne("TouristСenterLibrary.Entity.Instructor", "Instructor")
-                        .WithMany()
-                        .HasForeignKey("InstructorID");
-
                     b.HasOne("TouristСenterLibrary.Entity.Route", "Route")
                         .WithMany()
                         .HasForeignKey("RouteID");
@@ -1573,8 +1569,6 @@ namespace TouristСenterLibrary.Migrations
                     b.Navigation("Employee");
 
                     b.Navigation("Hike");
-
-                    b.Navigation("Instructor");
 
                     b.Navigation("Route");
 
@@ -1662,10 +1656,8 @@ namespace TouristСenterLibrary.Migrations
                         .IsRequired();
 
                     b.HasOne("TouristСenterLibrary.Entity.User", "User")
-                        .WithMany("TeammateList")
-                        .HasForeignKey("UserID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .WithMany()
+                        .HasForeignKey("UserID");
 
                     b.Navigation("Team");
 
@@ -1707,11 +1699,6 @@ namespace TouristСenterLibrary.Migrations
             modelBuilder.Entity("TouristСenterLibrary.Entity.TouristGroup", b =>
                 {
                     b.Navigation("ParticipantsList");
-                });
-
-            modelBuilder.Entity("TouristСenterLibrary.Entity.User", b =>
-                {
-                    b.Navigation("TeammateList");
                 });
 #pragma warning restore 612, 618
         }

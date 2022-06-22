@@ -32,6 +32,20 @@ namespace TouristСenterLibrary.Entity
             this.NumberDays = NumberDays;
             this.Description = Description;
         }
+
+        public bool Update()
+        {
+            try
+            {
+                db.SaveChanges();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+
+        }
         public static List<Route> GetRouters()
         {
             try
@@ -47,7 +61,15 @@ namespace TouristСenterLibrary.Entity
 
         public static Route? GetRouteByID(int id)
         {
-            return db.Route.Include(r => r.CheckpointStart).Include(r => r.CheckpointFinish).FirstOrDefault(r => r.ID == id);
+            try
+            {
+                return db.Route.Include(r => r.CheckpointStart).Include(r => r.CheckpointFinish).FirstOrDefault(r => r.ID == id);
+            }
+            catch(Exception ex)
+            {
+                return null;
+            }
+            
         }
 
         public static List<string> GetNameRoute()

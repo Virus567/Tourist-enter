@@ -43,11 +43,25 @@ namespace TouristСenterLibrary.Entity
 
         }
 
-        public List<Teammate> GetTeammatesByTeam(Team team)
+        public bool Update()
         {
             try
             {
-                return db.Teammate.Where(t => t.Team == team).ToList();
+                db.SaveChanges();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+
+        }
+
+        public static List<Teammate> GetTeammatesByTeam(Team team)
+        {
+            try
+            {
+                return db.Teammate.Include(t=>t.User).Where(t => t.Team == team).ToList();
             }
             catch(Exception ex)
             {

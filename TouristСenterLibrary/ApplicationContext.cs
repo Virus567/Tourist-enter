@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.IO;
 using TouristСenterLibrary.Entity;
 
 namespace TouristСenterLibrary
@@ -33,9 +34,13 @@ namespace TouristСenterLibrary
             Database.Migrate();
             new ContextManager(this);
         }
+
+        readonly static StreamWriter stream = new StreamWriter("log.txt", true);
         public static DbContextOptions<ApplicationContext> GetDb()
         {
-            return new DbContextOptionsBuilder<ApplicationContext>().UseNpgsql(ConnectionString).Options;
+            var optionsBuilder = new DbContextOptionsBuilder<ApplicationContext>().UseNpgsql(ConnectionString);
+            optionsBuilder.LogTo(stream.WriteLine);
+            return optionsBuilder.Options;
         }
         public static void InitDb()
         {
@@ -54,12 +59,14 @@ namespace TouristСenterLibrary
             modelBuilder.Entity<Route>(EntityConfigure.RouteConfigure);
             modelBuilder.Entity<Employee>(EntityConfigure.EmployeeConfigure);
             modelBuilder.Entity<User>(EntityConfigure.UserConfigure);
+            modelBuilder.Entity<Team>().HasMany(x => x.Teammates).WithOne(x=>x.Team);
             modelBuilder.Entity<TransportCompany>(EntityConfigure.TransportCompanyConfigure);
             modelBuilder.Entity<Transport>(EntityConfigure.TransportConfigure);
             modelBuilder.Entity<Instructor>(EntityConfigure.InstructorConfigure);
             modelBuilder.Entity<Equipment>(EntityConfigure.EquipmentConfigure);
             modelBuilder.Entity<CountableEquipment>(EntityConfigure.CountableEquipmentConfigure);
         }
+        
     }
 
 }

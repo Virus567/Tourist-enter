@@ -15,10 +15,11 @@ namespace TouristСenterLibrary.Entity
         public string? Password { get; set; }
         public string? Email { get; set; }
         public string? NameOfCompany { get; set; }
+        public List<Teammate> TeammateList { get; set; }
 
         public User()
         {
-
+            TeammateList = new List<Teammate>();
         }
 
         public User(string Surname, string Name, string PhoneNumber)
@@ -26,6 +27,7 @@ namespace TouristСenterLibrary.Entity
             this.Surname = Surname;
             this.Name = Name;
             this.PhoneNumber = PhoneNumber;
+            TeammateList = new List<Teammate>();
         }
 
         public User(string NameOfCompany, string Surname, string Name, string Middlename,
@@ -48,6 +50,20 @@ namespace TouristСenterLibrary.Entity
             
         }
 
+        public bool Update()
+        {
+            try
+            {
+                db.SaveChanges();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+
+        }
+
         public static User GeUserAuth(string login, string password)
         {
             return db.User.FirstOrDefault(x => x.Login == login && x.Password == password);
@@ -57,7 +73,7 @@ namespace TouristСenterLibrary.Entity
         {
             return db.User.FirstOrDefault(u => u.Login == login);
         }
-        public static User GetUserByID(int id)
+        public static User? GetUserByID(int id)
         {
             return db.User.FirstOrDefault(u => u.ID == id);
         }

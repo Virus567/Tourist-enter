@@ -13,17 +13,13 @@ namespace TouristСenterLibrary.Entity
         [Required] public  TouristGroup TouristGroup { get; set; }
         [Required] public int TouristGroupID { get; set; }
         [Required] public User User { get; set; }
-        [Required] public bool InGroup { get; set; }
-        [Required] public bool IsActive { get; set; }
 
         public Participant()
         {
         }
-        public Participant(User User, bool InGroup, bool IsActive)
+        public Participant(User User)
         {
             this.User = User;
-            this.InGroup = InGroup;
-            this.IsActive = IsActive;
         }
         public static List<Participant> GetParticipantsByHike(int hikeID)
         {

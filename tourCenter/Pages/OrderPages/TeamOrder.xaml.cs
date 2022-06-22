@@ -87,7 +87,7 @@ namespace tourCenter
                                     }
                                 }
 
-                                Participant participant = new Participant(user, true, true);
+                                Participant participant = new Participant(user);
                                 _newPartisipants.Add(participant);
                             }
                         }

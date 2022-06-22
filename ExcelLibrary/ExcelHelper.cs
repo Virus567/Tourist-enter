@@ -69,10 +69,7 @@ namespace ExcelLibrary
                 people.Add(group.User);
                 foreach (var participant in participants)
                 {
-                    if(participant.InGroup && participant.IsActive)
-                    {
-                        people.Add(participant.User);
-                    }               
+                    people.Add(participant.User);              
                 }
                 object[,] participantsExport = new object[people.Count, 3];
 

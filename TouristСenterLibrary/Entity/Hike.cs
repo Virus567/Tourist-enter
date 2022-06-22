@@ -69,6 +69,7 @@ namespace TouristСenterLibrary.Entity
             public string CompanyName { get; set; }
             public int PeopleAmount { get; set; }
             public string Status { get; set; }
+            public bool IsPhotograph { get; set; }
         }
 
         public static List<HikeView> GetView()
@@ -107,6 +108,7 @@ namespace TouristСenterLibrary.Entity
                             .Include(h => h.OrdersList)
                             .ThenInclude(h => h.TouristGroup)
                             .ThenInclude(h => h.ParticipantsList) 
+                            .ThenInclude(h=>h.User)
                             .Select(h => new HikeView()
                         {
                             ID = h.ID,
@@ -128,8 +130,9 @@ namespace TouristСenterLibrary.Entity
                                 hike.Users.Add(order.TouristGroup.User);
                                 foreach (var participant in order.TouristGroup.ParticipantsList)
                                 {
-                                    participant.TouristGroup = null;
-                                    hike.Users.Add(participant.User);
+                                    var p = participant;
+                                    p.TouristGroup = null;
+                                    hike.Users.Add(p.User);
                                 }
                             }
                         }
@@ -141,6 +144,51 @@ namespace TouristСenterLibrary.Entity
                 return new List<HikeView>();
             }
            
+        }
+
+        public static HikeView? GetViewByID(int hikeId)
+        {
+            try
+            {
+                var hike = db.Hike.Include(h => h.OrdersList)
+                            .ThenInclude(h => h.TouristGroup)
+                            .ThenInclude(h => h.User)
+                            .Include(h => h.OrdersList)
+                            .ThenInclude(h => h.TouristGroup)
+                            .ThenInclude(h => h.ParticipantsList)
+                            .ThenInclude(h=>h.User)
+                            .Where(h=>h.ID == hikeId)
+                            .Select(h => new HikeView()
+                            {
+                                ID = h.ID,
+                                OrdersList = h.OrdersList,
+                                RouteName = h.Route.Name,
+                                WayToTravel = h.OrdersList.FirstOrDefault().WayToTravel,
+                                CompanyName = h.OrdersList.FirstOrDefault().TouristGroup.GetCompanyNameForHike(),
+                                StartTime = h.OrdersList.FirstOrDefault().StartTime.ToString("d"),
+                                FinishTime = h.OrdersList.FirstOrDefault().FinishTime.ToString("d"),
+                                Status = h.Status
+                            }).FirstOrDefault();
+                    if (hike != null)
+                    {
+                        hike.PeopleAmount = 0;
+                        foreach (var order in hike.OrdersList)
+                        {
+                            hike.PeopleAmount += order.TouristGroup.PeopleAmount;
+                            foreach (var participant in order.TouristGroup.ParticipantsList)
+                            {
+                                participant.TouristGroup = null;
+                                hike.Users.Add(participant.User);
+                            }
+                        }
+                    }            
+                return hike;
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+
         }
 
         public class HikeViewAll
